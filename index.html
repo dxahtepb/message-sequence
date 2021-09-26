@@ -23,8 +23,6 @@
     div.tooltip {
         position: absolute;
         text-align: center;
-        width: 120px;
-        height: 80px;
         padding: 2px;
         font: 12px sans-serif;
         background: lightsteelblue;
@@ -45,7 +43,8 @@
      * @param {Object[]} data
      * @param {string} data.sender
      * @param {string} data.receiver
-     * @param {string} data.message
+     * @param {string} data.label
+     * @param {string} data.tooltipMessage
      * @param {string} data.startTs
      * @param {string} data.endTs
      */
@@ -140,6 +139,33 @@
                 .attr("dy", "16px");
         });
 
+        const onClickClosure = (message) => {
+            return () => {
+                if (tooltipDiv.attr("show") === "true") {
+                    tooltipDiv.attr("show", false)
+                        .style("pointer-events", "none")
+                        .transition()
+                        .duration(300)
+                        .style("opacity", 0)
+                } else {
+                    tooltipDiv.attr("show", true)
+                        .style("pointer-events", "auto")
+                        .html(
+                            "from: " + message.sender
+                            + "<br/>to: " + message.receiver
+                            + "<br/>" + message.tooltipMessage
+                            + "<br/>started: " + message.startTs
+                            + "<br/>finished: " + message.endTs
+                        )
+                        .style("left", (d3.event.pageX) + "px")
+                        .style("top", (d3.event.pageY - 28) + "px")
+                        .transition()
+                        .duration(200)
+                        .style("opacity", 1)
+                }
+            }
+        }
+
         // Draw message arrows
         data.forEach((m, i) => {
             const yStart = MESSAGE_ARROW_Y_OFFSET + m.startTs;
@@ -150,7 +176,8 @@
                 .attr("y1", yStart)
                 .attr("x2", X_PAD + classes.indexOf(m.receiver) * VERT_SPACE)
                 .attr("y2", yEnd)
-                .attr("marker-end", "url(#end)");
+                .attr("marker-end", "url(#end)")
+                .on("click", onClickClosure(m));
 
             svg.append("g")
                 .attr("transform", "translate(" + (X_PAD + classes.indexOf(m.sender) * VERT_SPACE) + "," + yStart + ")")
@@ -159,31 +186,8 @@
                 .attr("dy", "-2px")
                 .attr("text-anchor", "begin")
                 .style("font-size", "12px")
-                .text(() => m.message)
-                .on("click", () => {
-                    if (tooltipDiv.attr("show") === "true") {
-                        tooltipDiv.attr("show", false)
-                            .style("pointer-events", "none")
-                            .transition()
-                            .duration(500)
-                            .style("opacity", 0)
-                    } else {
-                        tooltipDiv.attr("show", true)
-                            .style("pointer-events", "auto")
-                            .html(
-                                m.sender
-                                + "<br/>" + m.receiver
-                                + "<br/>" + m.message
-                                + "<br/>" + m.startTs
-                                + "<br/>" + m.endTs
-                            )
-                            .style("left", (d3.event.pageX) + "px")
-                            .style("top", (d3.event.pageY - 28) + "px")
-                            .transition()
-                            .duration(200)
-                            .style("opacity", 1)
-                    }
-                });
+                .text(() => m.label)
+                .on("click", onClickClosure(m));
         });
 
         // Draw message timestamps

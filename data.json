@@ -2,42 +2,48 @@
   {
     "sender": "Mario",
     "receiver": "World 1",
-    "message": "Start world 1",
+    "label": "Start world 1",
+    "tooltipMessage": "Start world 1",
     "startTs": 10,
     "endTs": 70
   },
   {
     "sender": "Mario",
     "receiver": "World 1-1",
-    "message": "Move to World 1-1",
+    "label": "Move to World 1-1",
+    "tooltipMessage": "Move to World 1-1",
     "startTs": 100,
     "endTs": 200
   },
   {
     "sender": "World 1-1",
     "receiver": "Mario",
-    "message": "Received Mushroom",
+    "label": "Received Mushroom",
+    "tooltipMessage": "Received Mushroom",
     "startTs": 250,
     "endTs": 300
   },
   {
     "sender": "Mario",
     "receiver": "World 1-2",
-    "message": "Move to World 1-2",
+    "label": "Move to World 1-2",
+    "tooltipMessage": "Move to World 1-2",
     "startTs": 350,
     "endTs": 385
   },
   {
     "sender": "World 1-2",
     "receiver": "Mario",
-    "message": "Received Fire flower",
+    "label": "Received Fire flower",
+    "tooltipMessage": "Received Fire flower",
     "startTs": 420,
     "endTs": 480
   },
   {
     "sender": "Mario",
     "receiver": "World 1-3",
-    "message": "Move to World 1-3",
+    "label": "Move to World 1-3",
+    "tooltipMessage": "Move to World 1-3",
     "startTs": 512,
     "endTs": 600
   }
