@@ -19,7 +19,7 @@
         stroke: black;
     }
 
-    .tooltip {
+    div.tooltip {
         position: absolute;
         text-align: center;
         width: 120px;
@@ -40,7 +40,7 @@
 <script>
     console.log(d3.version)
     // Get data attach to window
-    d3.csv("data.csv").then(function (data)
+    d3.json("data.json").then(function (data)
     {
         const svg = d3.select('svg#chart1'),
             margin = {top: 20, right: 50, bottom: 100, left: 80},
