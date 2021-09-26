@@ -105,7 +105,7 @@
                 .attr("x1", X_PAD + i * VERT_SPACE)
                 .attr("y1", Y_PAD)
                 .attr("x2", X_PAD + i * VERT_SPACE)
-                .attr("y2", MESSAGE_ARROW_Y_OFFSET + maxTs + 100);
+                .attr("y2", MESSAGE_ARROW_Y_OFFSET + maxTs + 40);
         });
 
         // Draw classes
@@ -173,19 +173,27 @@
                 });
         });
 
-        // // Draw message timestamps
-        // data.forEach((m, i) => {
-        //     const xPos = X_PAD + MESSAGE_LABEL_X_OFFSET;
-        //     const yPos = MESSAGE_LABEL_Y_OFFSET + m.startTs;
-        //
-        //     svg.append("g")
-        //         .attr("transform", "translate(" + xPos + "," + yPos + ")")
-        //         .attr("class", "first")
-        //         .attr("text-anchor", "middle")
-        //         .append("text")
-        //         .style("font-size", "8px")
-        //         .text(() => formatTime(m._time));
-        // });
+        // Draw message timestamps
+        data.forEach((m, i) => {
+            const xPos = X_PAD + MESSAGE_LABEL_X_OFFSET;
+            const yPosStart = MESSAGE_ARROW_Y_OFFSET + m.startTs;
+            const yPosEnd = MESSAGE_ARROW_Y_OFFSET + m.endTs;
+
+            svg.append("g")
+                .attr("transform", "translate(" + xPos + "," + yPosStart + ")")
+                .attr("class", "first")
+                .attr("text-anchor", "middle")
+                .append("text")
+                .style("font-size", "8px")
+                .text(() => m.startTs);
+            svg.append("g")
+                .attr("transform", "translate(" + xPos + "," + yPosEnd + ")")
+                .attr("class", "first")
+                .attr("text-anchor", "middle")
+                .append("text")
+                .style("font-size", "8px")
+                .text(() => m.endTs);
+        });
 
         // Arrow style
         svg.append("svg:defs").selectAll("marker")
