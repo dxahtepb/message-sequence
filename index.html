@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+    .class-rect {
+        border: 4px;
+        fill: white;
+        stroke-width: 1px;
+        stroke: black;
+    }
+
+    .class-label {
+        font-size: x-small;
+        font-weight: bold;
+    }
+
+    .message-rect {
+        fill: green;
+        stroke-width: 1px;
+        stroke: black;
+    }
+
+    .tooltip {
+        position: absolute;
+        text-align: center;
+        width: 120px;
+        height: 80px;
+        padding: 2px;
+        font: 24px sans-serif;
+        background: lightsteelblue;
+        border: 0;
+        border-radius: 8px;
+    }
+
+</style>
+<body>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+<svg id="chart1" width="960" height="600"></svg>
+
+<script>
+    console.log(d3.version)
+    // Get data attach to window
+    d3.csv("data.csv").then(function (data) {
+        const svg = d3.select('svg#chart1'),
+            margin = {top: 20, right: 50, bottom: 100, left: 80},
+            width = +svg.attr('width') - margin.left - margin.right,
+            height = +svg.attr('height') - margin.top - margin.bottom,
+            g = svg.append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+        const tooltipDiv = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .attr("show", false)
+            .style("opacity", 0);
+
+        // Graph title
+        g.append('text')
+            .attr('x', (width / 2))
+            .attr('y', 0 - (margin.top / 3))
+            .attr('text-anchor', 'middle')
+            .style('font-size', '16px')
+            .text('Sequence diagram');
+        // Function to convert a string into a time
+        const parseTime = d3.timeParse('%Y-%m-%d %H:%M');
+        const formatTime = d3.timeFormat('%e %B %H:%M:%S');
+        // Set data
+        data.forEach(function (d) {
+            d._time = parseTime(d._time);
+        });
+        console.log(data);
+
+        const senders = d3.set(data.map(function (d) {
+            return d.sender;
+        })).values();
+        const receivers = d3.set(data.map(function (d) {
+            return d.receiver;
+        })).values();
+        const classes = _.union(senders, receivers);
+        console.log(senders);
+        console.log(classes);
+
+        const XPAD = 100;
+        const YPAD = 30;
+        console.log(classes.length);
+        const VERT_SPACE = parseInt(width / classes.length);
+        const VERT_PAD = 20;
+
+        const MESSAGE_SPACE = 30;
+        console.log(data.length * MESSAGE_SPACE);
+        svg.attr("height", (data.length + 2) * MESSAGE_SPACE);
+
+        const MESSAGE_LABEL_X_OFFSET = -40;
+        const MESSAGE_LABEL_Y_OFFSET = 75;
+        var MESSAGE_ARROW_Y_OFFSET = 80;
+
+        const CLASS_WIDTH = VERT_SPACE - 10;
+        const CLASS_LABEL_X_OFFSET = -30;
+        const CLASS_LABEL_Y_OFFSET = 25;
+
+        // Draw vertical lines
+        classes.forEach(function (c, i) {
+            var line = svg.append("line")
+                .style("stroke", "#888")
+                .attr("x1", XPAD + i * VERT_SPACE)
+                .attr("y1", YPAD)
+                .attr("x2", XPAD + i * VERT_SPACE)
+                .attr("y2", YPAD + VERT_PAD + data.length * (MESSAGE_SPACE + 5));
+        });
+
+        // Draw classes
+        classes.forEach(function (c, i) {
+            var x = XPAD + i * VERT_SPACE;
+            var g1 = svg.append("g")
+                .attr("transform", "translate(" + x + "," + YPAD + ")")
+                .attr("class", "class-rect")
+                .append("rect")
+                .attr({x: -CLASS_WIDTH / 2, y: 0, width: CLASS_WIDTH, height: "24px"});
+        });
+
+        // Draw class labels
+        classes.forEach(function (c, i) {
+            var x = XPAD + i * VERT_SPACE;
+            var g1 = svg.append("g")
+                .attr("transform", "translate(" + x + "," + YPAD + ")")
+                .append("text")
+                .attr("class", "class-label")
+                .attr("text-anchor", "middle")
+                .text(function (d) {
+                    return c;
+                })
+                .attr("dy", "16px");
+        });
+
+        // Draw message arrows
+        data.forEach(function (m, i) {
+            var y = MESSAGE_ARROW_Y_OFFSET + (i) * MESSAGE_SPACE;
+            var line = svg.append("line")
+                .style("stroke", "black")
+                .attr("x1", XPAD + classes.indexOf(m.sender) * VERT_SPACE)
+                .attr("y1", y)
+                .attr("x2", XPAD + classes.indexOf(m.receiver) * VERT_SPACE)
+                .attr("y2", y)
+                .attr("marker-end", "url(#end)")
+                .append("text")
+                .text(function (d) {
+                    return m.sourcetype;
+                });
+        });
+
+        // Draw message timestamps
+        data.forEach(function (m, i) {
+            var xPos = XPAD + MESSAGE_LABEL_X_OFFSET;
+            var yPos = MESSAGE_LABEL_Y_OFFSET + i * MESSAGE_SPACE;
+
+            var g1 = svg.append("g")
+                .attr("transform", "translate(" + xPos + "," + yPos + ")")
+                .attr("class", "first")
+                .attr("text-anchor", "middle")
+                .append("text")
+                .style("font-size", "8px")
+                .text(function (d) {
+                    return formatTime(m._time);
+                });
+        });
+
+        // Draw message labels
+        data.forEach(function (m, i) {
+            var xPos = XPAD + MESSAGE_LABEL_X_OFFSET + (((classes.indexOf(m.receiver) - classes.indexOf(m.sender)) * VERT_SPACE) / 2) + (classes.indexOf(m.sender) * VERT_SPACE);
+            var yPos = MESSAGE_LABEL_Y_OFFSET + i * MESSAGE_SPACE;
+
+            var g1 = svg.append("g")
+                .attr("transform", "translate(" + xPos + "," + yPos + ")")
+                .append("text")
+                .attr("dx", "5px")
+                .attr("dy", "-2px")
+                .attr("text-anchor", "begin")
+                .style("font-size", "8px")
+                .text(function (d) {
+                    return m.message;
+                })
+                .on("click", function(d) {
+                    if (tooltipDiv.attr("show") === "true") {
+                        tooltipDiv.attr("show", false)
+                            .transition()
+                            .duration(500)
+                            .style("opacity", 0)
+                    } else {
+                        tooltipDiv.attr("show", true)
+                            .html("<text>" + d.sender + "<br/>" + d.receiver + "<br/>" + d.message + "</text>")
+                            .style("left", (d3.event.pageX) + "px")
+                            .style("top", (d3.event.pageY - 28) + "px")
+                            .transition()
+                            .duration(200)
+                            .style("opacity", 1)
+                    }
+                });
+        });
+
+        // Arrow style
+        svg.append("svg:defs").selectAll("marker")
+            .data(["end"])
+            .enter().append("svg:marker")
+            .attr("id", String)
+            .attr("viewBox", "0 -5 10 10")
+            .attr("refX", 10)
+            .attr("refY", 0)
+            .attr("markerWidth", 10)
+            .attr("markerHeight", 10)
+            .attr("orient", "auto")
+            .append("svg:path")
+            .attr("d", "M0,-5L10,0L0,5");
+    });
+</script>
