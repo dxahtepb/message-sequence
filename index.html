@@ -2,7 +2,7 @@
 <meta charset="utf-8">
 <style>
     .class-rect {
-        border: 4px;
+        border: 1px;
         fill: white;
         stroke-width: 1px;
         stroke: black;
@@ -14,6 +14,7 @@
     }
 
     .message-rect {
+        border: 1px;
         fill: green;
         stroke-width: 1px;
         stroke: black;
@@ -25,7 +26,7 @@
         width: 120px;
         height: 80px;
         padding: 2px;
-        font: 24px sans-serif;
+        font: 12px sans-serif;
         background: lightsteelblue;
         border: 0;
         border-radius: 8px;
@@ -95,8 +96,8 @@
         const MESSAGE_ARROW_Y_OFFSET = 80;
 
         const CLASS_WIDTH = VERT_SPACE - 10;
-        // const CLASS_LABEL_X_OFFSET = -30;
-        // const CLASS_LABEL_Y_OFFSET = 25;
+        const CLASS_LABEL_X_OFFSET = -30;
+        const CLASS_LABEL_Y_OFFSET = 25;
 
         // Draw vertical lines
         classes.forEach(function (c, i) {
@@ -170,7 +171,25 @@
                 .attr("dy", "-2px")
                 .attr("text-anchor", "begin")
                 .style("font-size", "8px")
-                .text(() => m.message);
+                .text(() => m.message)
+                .on("click", () => {
+                    if (tooltipDiv.attr("show") === "true") {
+                        tooltipDiv.attr("show", false)
+                            .style("pointer-events", "none")
+                            .transition()
+                            .duration(500)
+                            .style("opacity", 0)
+                    } else {
+                        tooltipDiv.attr("show", true)
+                            .style("pointer-events", "auto")
+                            .html(m.sender + "<br/>" + m.receiver + "<br/>" + m.message)
+                            .style("left", (d3.event.pageX) + "px")
+                            .style("top", (d3.event.pageY - 28) + "px")
+                            .transition()
+                            .duration(200)
+                            .style("opacity", 1)
+                    }
+                });
         });
 
         // Arrow style
