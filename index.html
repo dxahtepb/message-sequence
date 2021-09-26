@@ -40,9 +40,9 @@
 
 <script>
     console.log(d3.version)
+
     // Get data attach to window
-    d3.json("data.json").then(function (data)
-    {
+    d3.json("data.json").then(data => {
         const svg = d3.select('svg#chart1'),
             margin = {top: 20, right: 50, bottom: 100, left: 80},
             width = +svg.attr('width') - margin.left - margin.right,
@@ -65,17 +65,13 @@
         const parseTime = d3.timeParse('%Y-%m-%d %H:%M');
         const formatTime = d3.timeFormat('%e %B %H:%M:%S');
         // Set data
-        data.forEach(function (d) {
+        data.forEach(d => {
             d._time = parseTime(d._time);
         });
         console.log(data);
 
-        const senders = d3.set(data.map(function (d) {
-            return d.sender;
-        })).values();
-        const receivers = d3.set(data.map(function (d) {
-            return d.receiver;
-        })).values();
+        const senders = d3.set(data.map(d => d.sender)).values();
+        const receivers = d3.set(data.map(d => d.receiver)).values();
         const classes = _.union(senders, receivers);
         console.log(senders);
         console.log(classes);
@@ -100,7 +96,7 @@
         // const CLASS_LABEL_Y_OFFSET = 25;
 
         // Draw vertical lines
-        classes.forEach(function (c, i) {
+        classes.forEach((c, i) => {
             svg.append("line")
                 .style("stroke", "#888")
                 .attr("x1", X_PAD + i * VERT_SPACE)
@@ -110,7 +106,7 @@
         });
 
         // Draw classes
-        classes.forEach(function (c, i) {
+        classes.forEach((c, i) => {
             const x = X_PAD + i * VERT_SPACE;
             const g = svg.append("g")
                 .attr("transform", "translate(" + x + "," + Y_PAD + ")")
@@ -123,7 +119,7 @@
         });
 
         // Draw class labels
-        classes.forEach(function (c, i) {
+        classes.forEach((c, i) => {
             const x = X_PAD + i * VERT_SPACE;
             svg.append("g")
                 .attr("transform", "translate(" + x + "," + Y_PAD + ")")
@@ -135,7 +131,7 @@
         });
 
         // Draw message arrows
-        data.forEach(function (m, i) {
+        data.forEach((m, i) => {
             const y = MESSAGE_ARROW_Y_OFFSET + (i) * MESSAGE_SPACE;
             svg.append("line")
                 .style("stroke", "black")
@@ -149,7 +145,7 @@
         });
 
         // Draw message timestamps
-        data.forEach(function (m, i) {
+        data.forEach((m, i) => {
             const xPos = X_PAD + MESSAGE_LABEL_X_OFFSET;
             const yPos = MESSAGE_LABEL_Y_OFFSET + i * MESSAGE_SPACE;
 
@@ -163,7 +159,7 @@
         });
 
         // Draw message labels
-        data.forEach(function (m, i) {
+        data.forEach((m, i) => {
             const xPos = X_PAD + MESSAGE_LABEL_X_OFFSET + (((classes.indexOf(m.receiver) - classes.indexOf(m.sender)) * VERT_SPACE) / 2) + (classes.indexOf(m.sender) * VERT_SPACE);
             const yPos = MESSAGE_LABEL_Y_OFFSET + i * MESSAGE_SPACE;
 
@@ -208,6 +204,6 @@
             .attr("orient", "auto")
             .append("svg:path")
             .attr("d", "M0,-5L10,0L0,5");
-    }
-);
+        }
+    );
 </script>
