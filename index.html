@@ -33,6 +33,7 @@
 </style>
 <body>
 <script src="https://d3js.org/d3.v5.min.js"></script>
+<!--<script src="https://cdn.jsdelivr.net/npm/d3-path@3"></script>-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
 <svg id="chart1" width="960" height="600"></svg>
 
@@ -55,11 +56,6 @@
             // height = +svg.attr('height') - margin.top - margin.bottom,
             g = svg.append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-        const tooltipDiv = d3.select("body").append("div")
-            .attr("class", "tooltip")
-            .attr("show", false)
-            .style("opacity", 0);
-
         // Graph title
         g.append('text')
             .attr('x', (width / 2))
@@ -67,19 +63,13 @@
             .attr('text-anchor', 'middle')
             .style('font-size', '16px')
             .text('Sequence diagram');
-        // Function to convert a string into a time
-        const parseTime = d3.timeParse('%Y-%m-%d %H:%M');
-        const formatTime = d3.timeFormat('%e %B %H:%M:%S');
-        // Set data
-        data.forEach(d => {
-            d._time = parseTime(d._time);
-        });
-        console.log(data);
+
+        // console.log(data);
 
         const senders = d3.set(data.map(d => d.sender)).values();
         const receivers = d3.set(data.map(d => d.receiver)).values();
         const classes = _.union(senders, receivers);
-        console.log(senders);
+        // console.log(senders);
         console.log(classes);
 
         const X_PAD = 100;
@@ -139,6 +129,22 @@
                 .attr("dy", "16px");
         });
 
+        function makeArc(xStart, yStart, xEnd, yEnd, context) {
+            const xMid = xStart + VERT_SPACE / 2,
+                  yMid = (yEnd + yStart) / 2,
+                  radius = (yEnd - yStart) / 2;
+            context.moveTo(xStart, yStart);
+            context.arcTo(xMid, yMid, xEnd, yEnd, radius);
+            context.lineTo(xEnd, yEnd);
+            return context;
+        }
+
+        // Append div with tooltip
+        const tooltipDiv = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .attr("show", false)
+            .style("opacity", 0);
+
         const onClickClosure = (message) => {
             return () => {
                 if (tooltipDiv.attr("show") === "true") {
@@ -168,19 +174,31 @@
 
         // Draw message arrows
         data.forEach((m, i) => {
+            const xStart = X_PAD + classes.indexOf(m.sender) * VERT_SPACE
+            const xEnd = X_PAD + classes.indexOf(m.receiver) * VERT_SPACE
             const yStart = MESSAGE_ARROW_Y_OFFSET + m.startTs;
             const yEnd = MESSAGE_ARROW_Y_OFFSET + m.endTs;
-            svg.append("line")
-                .style("stroke", "black")
-                .attr("x1", X_PAD + classes.indexOf(m.sender) * VERT_SPACE)
-                .attr("y1", yStart)
-                .attr("x2", X_PAD + classes.indexOf(m.receiver) * VERT_SPACE)
-                .attr("y2", yEnd)
-                .attr("marker-end", "url(#end)")
-                .on("click", onClickClosure(m));
+
+            if (m.sender === m.receiver) {
+                svg.append("path")
+                    .style("stroke", "black")
+                    .attr("marker-end", "url(#end)")
+                    .attr("fill", "none")
+                    .attr("d", makeArc(xStart, yStart, xEnd, yEnd, d3.path()))
+                    .on("click", onClickClosure(m));
+            } else {
+                svg.append("line")
+                    .style("stroke", "black")
+                    .attr("x1", xStart)
+                    .attr("y1", yStart)
+                    .attr("x2", xEnd)
+                    .attr("y2", yEnd)
+                    .attr("marker-end", "url(#end)")
+                    .on("click", onClickClosure(m));
+            }
 
             svg.append("g")
-                .attr("transform", "translate(" + (X_PAD + classes.indexOf(m.sender) * VERT_SPACE) + "," + yStart + ")")
+                .attr("transform", "translate(" + xStart + "," + yStart + ")")
                 .append("text")
                 .attr("dx", "5px")
                 .attr("dy", "-2px")

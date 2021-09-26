@@ -21,15 +21,23 @@
     "label": "Received Mushroom",
     "tooltipMessage": "Received Mushroom",
     "startTs": 250,
-    "endTs": 300
+    "endTs": 270
+  },
+  {
+    "sender": "Mario",
+    "receiver": "Mario",
+    "label": "Eat shroom",
+    "tooltipMessage": "Eat Received Mushroom",
+    "startTs": 300,
+    "endTs": 350
   },
   {
     "sender": "Mario",
     "receiver": "World 1-2",
     "label": "Move to World 1-2",
     "tooltipMessage": "Move to World 1-2",
-    "startTs": 350,
-    "endTs": 385
+    "startTs": 360,
+    "endTs": 390
   },
   {
     "sender": "World 1-2",
