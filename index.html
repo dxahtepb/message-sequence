@@ -158,7 +158,7 @@
                 .attr("dx", "5px")
                 .attr("dy", "-2px")
                 .attr("text-anchor", "begin")
-                .style("font-size", "8px")
+                .style("font-size", "12px")
                 .text(() => m.message)
                 .on("click", () => {
                     if (tooltipDiv.attr("show") === "true") {
@@ -170,7 +170,13 @@
                     } else {
                         tooltipDiv.attr("show", true)
                             .style("pointer-events", "auto")
-                            .html(m.sender + "<br/>" + m.receiver + "<br/>" + m.message)
+                            .html(
+                                m.sender
+                                + "<br/>" + m.receiver
+                                + "<br/>" + m.message
+                                + "<br/>" + m.startTs
+                                + "<br/>" + m.endTs
+                            )
                             .style("left", (d3.event.pageX) + "px")
                             .style("top", (d3.event.pageY - 28) + "px")
                             .transition()
