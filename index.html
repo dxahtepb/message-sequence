@@ -83,9 +83,12 @@
         const VERT_SPACE = parseInt(width / classes.length);
         const VERT_PAD = 20;
 
+        const maxTs = data.reduce((currentMax, value) =>
+            (currentMax.endTs > value.endTs) ? currentMax : value
+        ).endTs
         const MESSAGE_SPACE = 30;
-        console.log(data.length * MESSAGE_SPACE);
-        svg.attr("height", (data.length + 2) * MESSAGE_SPACE);
+        console.log(maxTs + 100);
+        svg.attr("height", Y_PAD + maxTs + 200);
 
         const MESSAGE_LABEL_X_OFFSET = -40;
         const MESSAGE_LABEL_Y_OFFSET = 75;
@@ -102,7 +105,7 @@
                 .attr("x1", X_PAD + i * VERT_SPACE)
                 .attr("y1", Y_PAD)
                 .attr("x2", X_PAD + i * VERT_SPACE)
-                .attr("y2", Y_PAD + VERT_PAD + data.length * (MESSAGE_SPACE + 5));
+                .attr("y2", MESSAGE_ARROW_Y_OFFSET + maxTs + 100);
         });
 
         // Draw classes
@@ -132,39 +135,18 @@
 
         // Draw message arrows
         data.forEach((m, i) => {
-            const y = MESSAGE_ARROW_Y_OFFSET + (i) * MESSAGE_SPACE;
+            const yStart = MESSAGE_ARROW_Y_OFFSET + m.startTs;
+            const yEnd = MESSAGE_ARROW_Y_OFFSET + m.endTs;
             svg.append("line")
                 .style("stroke", "black")
                 .attr("x1", X_PAD + classes.indexOf(m.sender) * VERT_SPACE)
-                .attr("y1", y)
+                .attr("y1", yStart)
                 .attr("x2", X_PAD + classes.indexOf(m.receiver) * VERT_SPACE)
-                .attr("y2", y)
-                .attr("marker-end", "url(#end)")
-                .append("text")
-                .text(() => m.sourcetype);
-        });
-
-        // Draw message timestamps
-        data.forEach((m, i) => {
-            const xPos = X_PAD + MESSAGE_LABEL_X_OFFSET;
-            const yPos = MESSAGE_LABEL_Y_OFFSET + i * MESSAGE_SPACE;
+                .attr("y2", yEnd)
+                .attr("marker-end", "url(#end)");
 
             svg.append("g")
-                .attr("transform", "translate(" + xPos + "," + yPos + ")")
-                .attr("class", "first")
-                .attr("text-anchor", "middle")
-                .append("text")
-                .style("font-size", "8px")
-                .text(() => formatTime(m._time));
-        });
-
-        // Draw message labels
-        data.forEach((m, i) => {
-            const xPos = X_PAD + MESSAGE_LABEL_X_OFFSET + (((classes.indexOf(m.receiver) - classes.indexOf(m.sender)) * VERT_SPACE) / 2) + (classes.indexOf(m.sender) * VERT_SPACE);
-            const yPos = MESSAGE_LABEL_Y_OFFSET + i * MESSAGE_SPACE;
-
-            svg.append("g")
-                .attr("transform", "translate(" + xPos + "," + yPos + ")")
+                .attr("transform", "translate(" + (X_PAD + classes.indexOf(m.sender) * VERT_SPACE) + "," + yStart + ")")
                 .append("text")
                 .attr("dx", "5px")
                 .attr("dy", "-2px")
@@ -190,6 +172,20 @@
                     }
                 });
         });
+
+        // // Draw message timestamps
+        // data.forEach((m, i) => {
+        //     const xPos = X_PAD + MESSAGE_LABEL_X_OFFSET;
+        //     const yPos = MESSAGE_LABEL_Y_OFFSET + m.startTs;
+        //
+        //     svg.append("g")
+        //         .attr("transform", "translate(" + xPos + "," + yPos + ")")
+        //         .attr("class", "first")
+        //         .attr("text-anchor", "middle")
+        //         .append("text")
+        //         .style("font-size", "8px")
+        //         .text(() => formatTime(m._time));
+        // });
 
         // Arrow style
         svg.append("svg:defs").selectAll("marker")
