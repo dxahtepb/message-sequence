@@ -96,8 +96,8 @@
         const MESSAGE_ARROW_Y_OFFSET = 80;
 
         const CLASS_WIDTH = VERT_SPACE - 10;
-        const CLASS_LABEL_X_OFFSET = -30;
-        const CLASS_LABEL_Y_OFFSET = 25;
+        // const CLASS_LABEL_X_OFFSET = -30;
+        // const CLASS_LABEL_Y_OFFSET = 25;
 
         // Draw vertical lines
         classes.forEach(function (c, i) {
@@ -112,11 +112,14 @@
         // Draw classes
         classes.forEach(function (c, i) {
             const x = X_PAD + i * VERT_SPACE;
-            svg.append("g")
+            const g = svg.append("g")
                 .attr("transform", "translate(" + x + "," + Y_PAD + ")")
-                .attr("class", "class-rect")
-                .append("rect")
-                .attr({x: -CLASS_WIDTH / 2, y: 0, width: CLASS_WIDTH, height: "24px"});
+                .attr("class", "class-rect");
+            g.append("rect")
+                .attr("x", -CLASS_WIDTH / 2)
+                .attr("y", 0)
+                .attr("width", CLASS_WIDTH)
+                .attr("height", "24px");
         });
 
         // Draw class labels
