@@ -41,8 +41,15 @@
 <script>
     console.log(d3.version)
 
-    // Get data attach to window
-    d3.json("data.json").then(data => {
+    /**
+     * @param {Object[]} data
+     * @param {string} data.sender
+     * @param {string} data.receiver
+     * @param {string} data.message
+     * @param {string} data.startTs
+     * @param {string} data.endTs
+     */
+    function processData(data) {
         const svg = d3.select('svg#chart1'),
             margin = {top: 20, right: 50, bottom: 100, left: 80},
             width = +svg.attr('width') - margin.left - margin.right,
@@ -208,6 +215,10 @@
             .attr("orient", "auto")
             .append("svg:path")
             .attr("d", "M0,-5L10,0L0,5");
-        }
-    );
+    }
+
+    // Get data attach to window
+    d3.json("data.json")
+        .then(processData);
+
 </script>
