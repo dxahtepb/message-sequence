@@ -150,7 +150,8 @@
                         .style("pointer-events", "none")
                         .transition()
                         .duration(300)
-                        .style("opacity", 0);
+                        .style("opacity", 0)
+                        .on("end", () => { tooltipDiv.text("") });
                     d3.select("#" + componentId)
                         .transition()
                         .duration(300)
