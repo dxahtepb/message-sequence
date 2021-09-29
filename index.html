@@ -33,8 +33,6 @@
 </style>
 <body>
 <script src="https://d3js.org/d3.v5.min.js"></script>
-<!--<script src="https://cdn.jsdelivr.net/npm/d3-path@3"></script>-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
 <svg id="chart1" width="960" height="600"></svg>
 
 <script>
@@ -71,15 +69,16 @@
     function processData(data) {
         const senders = d3.set(data.map(d => d.sender)).values();
         const receivers = d3.set(data.map(d => d.receiver)).values();
-        const classes = _.union(senders, receivers);
+        const classes = [...new Set([...senders, ...receivers])];
         console.log(classes);
 
         const svg = d3.select('svg#chart1'),
             margin = {top: 20, right: 50, bottom: 100, left: 80},
-            width = VERT_SPACE * classes.length - margin.left - margin.right
+            width = VERT_SPACE * classes.length - margin.left - margin.right;
             // width = +svg.attr('width') - margin.left - margin.right,
             // height = +svg.attr('height') - margin.top - margin.bottom,
-            g = svg.append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+        const g = svg.append('g')
+            .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
         // Graph title
         g.append('text')
