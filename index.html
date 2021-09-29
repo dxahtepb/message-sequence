@@ -39,7 +39,7 @@
     console.log(d3.version)
 
     const MESSAGE_LABEL_X_OFFSET = -40;
-    const MESSAGE_LABEL_Y_OFFSET = 75;
+    // const MESSAGE_LABEL_Y_OFFSET = 75;
     const MESSAGE_ARROW_Y_OFFSET = 80;
 
     const VERT_SPACE = 170;
@@ -63,8 +63,9 @@
      * @param {string} data.receiver
      * @param {string} data.label
      * @param {string} data.tooltipMessage
-     * @param {string} data.startTs
-     * @param {string} data.endTs
+     * @param {string} data.traceId
+     * @param {number} data.startTs
+     * @param {number} data.endTs
      */
     function processData(data) {
         const senders = d3.set(data.map(d => d.sender)).values();
@@ -75,8 +76,10 @@
         const svg = d3.select('svg#chart1'),
             margin = {top: 20, right: 50, bottom: 100, left: 80},
             width = VERT_SPACE * classes.length - margin.left - margin.right;
-            // width = +svg.attr('width') - margin.left - margin.right,
-            // height = +svg.attr('height') - margin.top - margin.bottom,
+        // width = +svg.attr('width') - margin.left - margin.right,
+        // height = +svg.attr('height') - margin.top - margin.bottom,
+        const defs = svg.append("svg:defs")
+
         const g = svg.append('g')
             .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
@@ -150,7 +153,9 @@
                         .transition()
                         .duration(300)
                         .style("opacity", 0)
-                        .on("end", () => { tooltipDiv.text("") });
+                        .on("end", () => {
+                            tooltipDiv.text("")
+                        });
                     d3.select("#" + componentId)
                         .transition()
                         .duration(300)
@@ -162,9 +167,10 @@
                         .html(
                             "from: " + message.sender
                             + "<br/>to: " + message.receiver
-                            + "<br/>" + message.tooltipMessage
                             + "<br/>started: " + message.startTs
                             + "<br/>finished: " + message.endTs
+                            + "<br/>trace-id: " + message.traceId
+                            + "<br/>" + message.tooltipMessage
                         )
                         .style("left", (d3.event.pageX) + "px")
                         .style("top", (d3.event.pageY - 28) + "px")
@@ -178,18 +184,24 @@
             }
         }
 
+        const traceIdToColor = assignColorsToTraceId(data)
+        const arrowColoredMarker = arrowColoredMarkerClosure(defs)
+
         // Draw message arrows
         data.forEach((m) => {
             const xStart = X_PAD + classes.indexOf(m.sender) * VERT_SPACE
             const xEnd = X_PAD + classes.indexOf(m.receiver) * VERT_SPACE
             const yStart = MESSAGE_ARROW_Y_OFFSET + m.startTs;
             const yEnd = MESSAGE_ARROW_Y_OFFSET + m.endTs;
+            const color = traceIdToColor.get(m.traceId);
 
-            const path = makeLine(svg, m, xStart, yStart, xEnd, yEnd)
-                .style("stroke", "black")
+            const path = makeLink(svg, m, xStart, yStart, xEnd, yEnd)
+                .attr("trace-id", m.traceId)
+                .attr("marker-end", arrowColoredMarker(color))
+                .style("stroke", color)
                 .style("cursor", "pointer")
                 .style("stroke-width", DEFAULT_STROKE_WIDTH);
-            path.on("click", onClickClosure(m, path))
+            path.on("click", onClickClosure(m, path));
 
             svg.append("g")
                 .attr("transform", "translate(" + xStart + "," + yStart + ")")
@@ -224,36 +236,15 @@
                 .style("font-size", "8px")
                 .text(() => m.endTs);
         });
-
-        // Arrow style
-        svg.append("svg:defs").selectAll("marker")
-            .data(["end"])
-            .enter().append("svg:marker")
-            .attr("id", String)
-            .attr("viewBox", "0 -5 10 10")
-            .attr("refX", 10)
-            .attr("refY", 0)
-            .attr("markerWidth", 10)
-            .attr("markerHeight", 10)
-            .attr("orient", "auto")
-            .append("svg:path")
-            .attr("d", "M0,-5L10,0L0,5");
     }
 
-    function makeLine(svg, m, xStart, yStart, xEnd, yEnd) {
-        if (m.sender === m.receiver) {
-            return svg.append("path")
-                .attr("marker-end", "url(#end)")
-                .attr("fill", "none")
-                .attr("d", makeArc(xStart, yStart, xEnd, yEnd, d3.path()));
-        } else {
-            return svg.append("line")
-                .attr("x1", xStart)
-                .attr("y1", yStart)
-                .attr("x2", xEnd)
-                .attr("y2", yEnd)
-                .attr("marker-end", "url(#end)");
-        }
+    function makeLink(svg, m, xStart, yStart, xEnd, yEnd) {
+        let pathD = m.sender === m.receiver
+            ? makeArc(xStart, yStart, xEnd, yEnd, d3.path())
+            : makeLine(xStart, yStart, xEnd, yEnd, d3.path());
+        return svg.append("path")
+            .attr("fill", "none")
+            .attr("d", pathD);
     }
 
     function makeArc(xStart, yStart, xEnd, yEnd, context) {
@@ -266,14 +257,102 @@
         return context;
     }
 
+    function makeLine(xStart, yStart, xEnd, yEnd, context) {
+        context.moveTo(xStart, yStart);
+        context.lineTo(xEnd, yEnd);
+        return context;
+    }
+
     /**
      *  @param {number} length
      *  @returns {string} random string
      */
     function generateId(length) {
-        const arr = new Uint8Array((length || 40) / 2)
-        window.crypto.getRandomValues(arr)
-        return Array.from(arr, (_) => _.toString(16).padStart(2, "0")).join('')
+        const arr = new Uint8Array((length || 40) / 2);
+        window.crypto.getRandomValues(arr);
+        return Array.from(arr, (_) => _.toString(16).padStart(2, "0")).join('');
+    }
+
+    /**
+     * @param {object[]} data
+     * @param {string} data.traceId
+     * @return {Map<string, string>} mapping of traceId to Color
+     */
+    function assignColorsToTraceId(data) {
+        const BLACK = '#000000';
+        const COLORS = [
+            '#e6194B',
+            '#3cb44b',
+            '#ffe119',
+            '#4363d8',
+            '#f58231',
+            '#911eb4',
+            '#42d4f4',
+            '#f032e6',
+            '#bfef45',
+            '#fabed4',
+            '#469990',
+            '#dcbeff',
+            '#9A6324',
+            '#fffac8',
+            '#800000',
+            '#aaffc3',
+            '#808000',
+            '#ffd8b1',
+            '#000075',
+        ];
+
+        const uniqueTraceIds = new Set(data.map(_ => _.traceId));
+        let traceIdCountWithoutBlack = uniqueTraceIds.has("")
+            ? uniqueTraceIds.size - 1
+            : uniqueTraceIds.size;
+
+        const traceToColor = new Map();
+
+        if (traceIdCountWithoutBlack <= COLORS.length) {
+            let currentColor = 0;
+            uniqueTraceIds.forEach(traceId => {
+                if (traceId === "") {
+                    traceToColor.set(traceId, BLACK);
+                } else {
+                    traceToColor.set(traceId, COLORS[currentColor]);
+                    currentColor++;
+                }
+            });
+        } else {
+            // if not enough distinct colors - all stay black
+            uniqueTraceIds.forEach(traceId => {
+                traceToColor.set(traceId, BLACK);
+            });
+        }
+
+        return traceToColor;
+    }
+
+    /**
+     * @return {function(string): string}
+     */
+    function arrowColoredMarkerClosure(svgDefs) {
+        const usedColors = new Set();
+
+        return color => {
+            const colorWithoutHash = color.replace("#", "")
+            if (!usedColors.has(color)) {
+                svgDefs.append("svg:marker")
+                    .attr("id", "arrowColoredMarker" + colorWithoutHash)
+                    .attr("viewBox", "0 -5 10 10")
+                    .attr("refX", 10)
+                    .attr("refY", 0)
+                    .attr("markerWidth", 10)
+                    .attr("markerHeight", 10)
+                    .attr("orient", "auto")
+                    .append("svg:path")
+                    .attr("d", "M0,-5L10,0L0,5")
+                    .style("fill", color);
+                usedColors.add(color);
+            }
+            return "url(#arrowColoredMarker" + colorWithoutHash + ")";
+        }
     }
 
     // Get data attach to window

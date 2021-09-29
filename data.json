@@ -4,6 +4,7 @@
     "receiver": "World 1",
     "label": "Start world 1",
     "tooltipMessage": "Start world 1",
+    "traceId": "1",
     "startTs": 10,
     "endTs": 70
   },
@@ -12,6 +13,7 @@
     "receiver": "World 1-1",
     "label": "Move to World 1-1",
     "tooltipMessage": "Move to World 1-1",
+    "traceId": "2",
     "startTs": 100,
     "endTs": 200
   },
@@ -20,6 +22,7 @@
     "receiver": "Mario",
     "label": "Received Mushroom",
     "tooltipMessage": "Received Mushroom",
+    "traceId": "2",
     "startTs": 250,
     "endTs": 270
   },
@@ -28,6 +31,7 @@
     "receiver": "Mario",
     "label": "Eat shroom",
     "tooltipMessage": "Eat Received Mushroom",
+    "traceId": "2",
     "startTs": 300,
     "endTs": 350
   },
@@ -36,6 +40,7 @@
     "receiver": "World 1-2",
     "label": "Move to World 1-2",
     "tooltipMessage": "Move to World 1-2",
+    "traceId": "3",
     "startTs": 360,
     "endTs": 390
   },
@@ -44,6 +49,7 @@
     "receiver": "Mario",
     "label": "Received Fire flower",
     "tooltipMessage": "Received Fire flower",
+    "traceId": "3",
     "startTs": 420,
     "endTs": 480
   },
@@ -52,6 +58,7 @@
     "receiver": "World 1-3",
     "label": "Move to World 1-3",
     "tooltipMessage": "Move to World 1-3",
+    "traceId": "4",
     "startTs": 512,
     "endTs": 600
   }
