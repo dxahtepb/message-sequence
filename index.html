@@ -50,9 +50,19 @@
      * @param {string} data.endTs
      */
     function processData(data) {
+        const senders = d3.set(data.map(d => d.sender)).values();
+        const receivers = d3.set(data.map(d => d.receiver)).values();
+        const classes = _.union(senders, receivers);
+        // console.log(senders);
+        console.log(classes);
+
+        const VERT_SPACE = 170;
+        const VERT_PAD = 20;
+
         const svg = d3.select('svg#chart1'),
             margin = {top: 20, right: 50, bottom: 100, left: 80},
-            width = +svg.attr('width') - margin.left - margin.right,
+            width = VERT_SPACE * classes.length - margin.left - margin.right
+            // width = +svg.attr('width') - margin.left - margin.right,
             // height = +svg.attr('height') - margin.top - margin.bottom,
             g = svg.append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
@@ -64,20 +74,9 @@
             .style('font-size', '16px')
             .text('Sequence diagram');
 
-        // console.log(data);
-
-        const senders = d3.set(data.map(d => d.sender)).values();
-        const receivers = d3.set(data.map(d => d.receiver)).values();
-        const classes = _.union(senders, receivers);
-        // console.log(senders);
-        console.log(classes);
-
         const X_PAD = 100;
         const Y_PAD = 30;
         console.log(classes.length);
-        // noinspection JSCheckFunctionSignatures
-        const VERT_SPACE = parseInt(width / classes.length);
-        const VERT_PAD = 20;
 
         const maxTs = data.reduce((currentMax, value) =>
             (currentMax.endTs > value.endTs) ? currentMax : value
@@ -85,6 +84,7 @@
         const MESSAGE_SPACE = 30;
         console.log(maxTs + 100);
         svg.attr("height", Y_PAD + maxTs + 200);
+        svg.attr("width", X_PAD + VERT_SPACE * classes.length)
 
         const MESSAGE_LABEL_X_OFFSET = -40;
         const MESSAGE_LABEL_Y_OFFSET = 75;
