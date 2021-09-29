@@ -40,6 +40,25 @@
 <script>
     console.log(d3.version)
 
+    const MESSAGE_LABEL_X_OFFSET = -40;
+    const MESSAGE_LABEL_Y_OFFSET = 75;
+    const MESSAGE_ARROW_Y_OFFSET = 80;
+
+    const VERT_SPACE = 170;
+    // const VERT_PAD = 20;
+
+    const X_PAD = 100;
+    const Y_PAD = 30;
+
+    // const MESSAGE_SPACE = 30;
+
+    const DEFAULT_STROKE_WIDTH = "1px";
+    const SELECTED_STROKE_WIDTH = "2px";
+
+    const CLASS_WIDTH = VERT_SPACE - 10;
+    // const CLASS_LABEL_X_OFFSET = -30;
+    // const CLASS_LABEL_Y_OFFSET = 25;
+
     /**
      * @param {Object[]} data
      * @param {string} data.sender
@@ -53,11 +72,7 @@
         const senders = d3.set(data.map(d => d.sender)).values();
         const receivers = d3.set(data.map(d => d.receiver)).values();
         const classes = _.union(senders, receivers);
-        // console.log(senders);
         console.log(classes);
-
-        const VERT_SPACE = 170;
-        const VERT_PAD = 20;
 
         const svg = d3.select('svg#chart1'),
             margin = {top: 20, right: 50, bottom: 100, left: 80},
@@ -74,25 +89,15 @@
             .style('font-size', '16px')
             .text('Sequence diagram');
 
-        const X_PAD = 100;
-        const Y_PAD = 30;
         console.log(classes.length);
 
         const maxTs = data.reduce((currentMax, value) =>
             (currentMax.endTs > value.endTs) ? currentMax : value
         ).endTs
-        const MESSAGE_SPACE = 30;
+
         console.log(maxTs + 100);
         svg.attr("height", Y_PAD + maxTs + 200);
         svg.attr("width", X_PAD + VERT_SPACE * classes.length)
-
-        const MESSAGE_LABEL_X_OFFSET = -40;
-        const MESSAGE_LABEL_Y_OFFSET = 75;
-        const MESSAGE_ARROW_Y_OFFSET = 80;
-
-        const CLASS_WIDTH = VERT_SPACE - 10;
-        // const CLASS_LABEL_X_OFFSET = -30;
-        // const CLASS_LABEL_Y_OFFSET = 25;
 
         // Draw vertical lines
         classes.forEach((c, i) => {
@@ -129,32 +134,30 @@
                 .attr("dy", "16px");
         });
 
-        function makeArc(xStart, yStart, xEnd, yEnd, context) {
-            const xMid = xStart + VERT_SPACE / 2,
-                  yMid = (yEnd + yStart) / 2,
-                  radius = (yEnd - yStart) / 2;
-            context.moveTo(xStart, yStart);
-            context.arcTo(xMid, yMid, xEnd, yEnd, radius);
-            context.lineTo(xEnd, yEnd);
-            return context;
-        }
-
         // Append div with tooltip
         const tooltipDiv = d3.select("body").append("div")
             .attr("class", "tooltip")
             .attr("show", false)
             .style("opacity", 0);
 
-        const onClickClosure = (message) => {
+        const onClickClosure = (message, line) => {
+            line.attr("id", "line_" + generateId(20));
             return () => {
                 if (tooltipDiv.attr("show") === "true") {
+                    const componentId = tooltipDiv.attr("selected-id");
                     tooltipDiv.attr("show", false)
+                        .attr("selected-id", null)
                         .style("pointer-events", "none")
                         .transition()
                         .duration(300)
                         .style("opacity", 0);
+                    d3.select("#" + componentId)
+                        .transition()
+                        .duration(300)
+                        .style("stroke-width", DEFAULT_STROKE_WIDTH);
                 } else {
                     tooltipDiv.attr("show", true)
+                        .attr("selected-id", line.attr("id"))
                         .style("pointer-events", "auto")
                         .html(
                             "from: " + message.sender
@@ -168,36 +171,25 @@
                         .transition()
                         .duration(200)
                         .style("opacity", 1);
+                    line.transition()
+                        .duration(200)
+                        .style("stroke-width", SELECTED_STROKE_WIDTH)
                 }
             }
         }
 
         // Draw message arrows
-        data.forEach((m, i) => {
+        data.forEach((m) => {
             const xStart = X_PAD + classes.indexOf(m.sender) * VERT_SPACE
             const xEnd = X_PAD + classes.indexOf(m.receiver) * VERT_SPACE
             const yStart = MESSAGE_ARROW_Y_OFFSET + m.startTs;
             const yEnd = MESSAGE_ARROW_Y_OFFSET + m.endTs;
 
-            if (m.sender === m.receiver) {
-                svg.append("path")
-                    .style("stroke", "black")
-                    .style("cursor", "pointer")
-                    .attr("marker-end", "url(#end)")
-                    .attr("fill", "none")
-                    .attr("d", makeArc(xStart, yStart, xEnd, yEnd, d3.path()))
-                    .on("click", onClickClosure(m));
-            } else {
-                svg.append("line")
-                    .style("stroke", "black")
-                    .style("cursor", "pointer")
-                    .attr("x1", xStart)
-                    .attr("y1", yStart)
-                    .attr("x2", xEnd)
-                    .attr("y2", yEnd)
-                    .attr("marker-end", "url(#end)")
-                    .on("click", onClickClosure(m));
-            }
+            const path = makeLine(svg, m, xStart, yStart, xEnd, yEnd)
+                .style("stroke", "black")
+                .style("cursor", "pointer")
+                .style("stroke-width", DEFAULT_STROKE_WIDTH);
+            path.on("click", onClickClosure(m, path))
 
             svg.append("g")
                 .attr("transform", "translate(" + xStart + "," + yStart + ")")
@@ -208,11 +200,11 @@
                 .style("font-size", "12px")
                 .style("cursor", "pointer")
                 .text(() => m.label)
-                .on("click", onClickClosure(m));
+                .on("click", onClickClosure(m, path));
         });
 
         // Draw message timestamps
-        data.forEach((m, i) => {
+        data.forEach((m) => {
             const xPos = X_PAD + MESSAGE_LABEL_X_OFFSET;
             const yPosStart = MESSAGE_ARROW_Y_OFFSET + m.startTs;
             const yPosEnd = MESSAGE_ARROW_Y_OFFSET + m.endTs;
@@ -246,6 +238,42 @@
             .attr("orient", "auto")
             .append("svg:path")
             .attr("d", "M0,-5L10,0L0,5");
+    }
+
+    function makeLine(svg, m, xStart, yStart, xEnd, yEnd) {
+        if (m.sender === m.receiver) {
+            return svg.append("path")
+                .attr("marker-end", "url(#end)")
+                .attr("fill", "none")
+                .attr("d", makeArc(xStart, yStart, xEnd, yEnd, d3.path()));
+        } else {
+            return svg.append("line")
+                .attr("x1", xStart)
+                .attr("y1", yStart)
+                .attr("x2", xEnd)
+                .attr("y2", yEnd)
+                .attr("marker-end", "url(#end)");
+        }
+    }
+
+    function makeArc(xStart, yStart, xEnd, yEnd, context) {
+        const xMid = xStart + VERT_SPACE / 2,
+            yMid = (yEnd + yStart) / 2,
+            radius = (yEnd - yStart) / 2;
+        context.moveTo(xStart, yStart);
+        context.arcTo(xMid, yMid, xEnd, yEnd, radius);
+        context.lineTo(xEnd, yEnd);
+        return context;
+    }
+
+    /**
+     *  @param {number} length
+     *  @returns {string} random string
+     */
+    function generateId(length) {
+        const arr = new Uint8Array((length || 40) / 2)
+        window.crypto.getRandomValues(arr)
+        return Array.from(arr, (_) => _.toString(16).padStart(2, "0")).join('')
     }
 
     // Get data attach to window
