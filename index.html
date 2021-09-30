@@ -34,7 +34,7 @@
         text-align: center!important;
     }
 
-    div.tooltip-message {
+    pre.tooltip-message {
         text-align: left!important;
     }
 
@@ -292,10 +292,9 @@
                             + "<br/>trace-id: " + message.traceId
                             + "<br/>"
                             + "</div>"
-                            + "<br/>"
-                            + "<div class='tooltip-message'>"
+                            + "<pre class='tooltip-message'>"
                             + message.tooltipMessage
-                            + "</div>"
+                            + "</pre>"
                         )
                         .style("left", (d3.event.pageX) + "px")
                         .style("top", (d3.event.pageY - 28) + "px")
