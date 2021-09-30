@@ -237,25 +237,33 @@
         });
 
         // Draw message timestamps
+        const renderedTimestamps = new Set()
         data.forEach((m) => {
             const xPos = X_PAD + MESSAGE_LABEL_X_OFFSET;
             const yPosStart = MESSAGE_ARROW_Y_OFFSET + m.startTs;
             const yPosEnd = MESSAGE_ARROW_Y_OFFSET + m.endTs;
 
-            svg.append("g")
-                .attr("transform", "translate(" + xPos + "," + yPosStart + ")")
-                .attr("class", "first")
-                .attr("text-anchor", "middle")
-                .append("text")
-                .style("font-size", "8px")
-                .text(() => m.startTs);
-            svg.append("g")
-                .attr("transform", "translate(" + xPos + "," + yPosEnd + ")")
-                .attr("class", "first")
-                .attr("text-anchor", "middle")
-                .append("text")
-                .style("font-size", "8px")
-                .text(() => m.endTs);
+            if (!renderedTimestamps.has(yPosStart)) {
+                renderedTimestamps.add(yPosStart);
+                svg.append("g")
+                    .attr("transform", "translate(" + xPos + "," + yPosStart + ")")
+                    .attr("class", "first")
+                    .attr("text-anchor", "middle")
+                    .append("text")
+                    .style("font-size", "8px")
+                    .text(() => m.startTs);
+            }
+
+            if (!renderedTimestamps.has(yPosEnd)) {
+                renderedTimestamps.add(yPosEnd);
+                svg.append("g")
+                    .attr("transform", "translate(" + xPos + "," + yPosEnd + ")")
+                    .attr("class", "first")
+                    .attr("text-anchor", "middle")
+                    .append("text")
+                    .style("font-size", "8px")
+                    .text(() => m.endTs);
+            }
         });
     }
 
