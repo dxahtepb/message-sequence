@@ -236,8 +236,7 @@
         });
 
         // Append div with tooltip
-        const tooltipDiv = d3.select("body").append("div");
-        const showTooltipClosure = createTooltipClosure(tooltipDiv);
+        const showTooltipClosure = createTooltipClosure();
 
         // Draw message arrows
         const colorSelector = arrowColorSelector(settings, data);
@@ -349,10 +348,13 @@
     }
 
     /**
-     * @param tooltipDiv
      * @return {function(*, *): function(): void}
      */
-    function createTooltipClosure(tooltipDiv) {
+    function createTooltipClosure() {
+        let tooltipDiv = d3.select("div[class='tooltip']");
+        if (tooltipDiv.size() === 0) {
+            tooltipDiv = d3.select("body").append("div");
+        }
         tooltipDiv.attr("class", "tooltip")
             .attr("show", false)
             .style("opacity", 0);
