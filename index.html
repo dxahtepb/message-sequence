@@ -22,12 +22,20 @@
 
     div.tooltip {
         position: absolute;
-        text-align: center;
-        padding: 2px;
+        text-align: left!important;
+        padding: 6px;
         font: 12px sans-serif;
         background: lightsteelblue;
         border: 0;
         border-radius: 8px;
+    }
+
+    div.tooltip-info {
+        text-align: center!important;
+    }
+
+    div.tooltip-message {
+        text-align: left!important;
     }
 
 </style>
@@ -165,12 +173,18 @@
                         .attr("selected-id", line.attr("id"))
                         .style("pointer-events", "auto")
                         .html(
-                            "from: " + message.sender
-                            + "<br/>to: " + message.receiver
-                            + "<br/>started: " + message.startTs
-                            + "<br/>finished: " + message.endTs
-                            + "<br/>trace-id: " + message.traceId
-                            + "<br/>" + message.tooltipMessage
+                            "<div class='tooltip-info'>"
+                                + "from: " + message.sender
+                                + "<br/>to: " + message.receiver
+                                + "<br/>started: " + message.startTs
+                                + "<br/>finished: " + message.endTs
+                                + "<br/>trace-id: " + message.traceId
+                                + "<br/>"
+                            + "</div>"
+                            + "<br/>"
+                            + "<div class='tooltip-message'>"
+                                + message.tooltipMessage
+                            + "</div>"
                         )
                         .style("left", (d3.event.pageX) + "px")
                         .style("top", (d3.event.pageY - 28) + "px")
@@ -194,6 +208,9 @@
             const yStart = MESSAGE_ARROW_Y_OFFSET + m.startTs;
             const yEnd = MESSAGE_ARROW_Y_OFFSET + m.endTs;
             const color = traceIdToColor.get(m.traceId);
+
+            m.tooltipMessage = escapeHtml(m.tooltipMessage)
+                .replace(/\r\n|\r|\n/g, '<br>');
 
             const path = makeLink(svg, m, xStart, yStart, xEnd, yEnd)
                 .attr("trace-id", m.traceId)
@@ -353,6 +370,20 @@
             }
             return "url(#arrowColoredMarker" + colorWithoutHash + ")";
         }
+    }
+
+    function escapeHtml(str) {
+        return str.replace(
+            /[&<>'"]/g,
+            tag =>
+                ({
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    "'": '&#39;',
+                    '"': '&quot;'
+                }[tag] || tag)
+        );
     }
 
     // Get data attach to window
