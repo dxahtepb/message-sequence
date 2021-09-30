@@ -61,6 +61,18 @@
     </div>
 
     <div>
+        Timestamp scale:
+        <div>
+            <input type="radio" id="setting-time-logical" name="time-scale-selector" value="logical" checked>
+            <label for="setting-time-logical">Logical Time</label>
+        </div>
+        <div>
+            <input type="radio" id="setting-time-real" name="time-scale-selector" value="real">
+            <label for="setting-time-real">Real Time</label>
+        </div>
+    </div>
+
+    <div>
         <button id="button-apply-settings" type="submit">Save</button>
     </div>
 </div>
@@ -117,8 +129,10 @@
 
     const settings = {
         isColorizeTraces: false,
+        timeScale: "logical",
         apply: () => {
             settings.isColorizeTraces = document.getElementById("colorize-traces").checked;
+            settings.timeScale = document.querySelector('input[name="time-scale-selector"]:checked').value
             console.log(settings);
             update(DATA_FILE_PATH);
         }
@@ -173,13 +187,17 @@
                 .replace(/\r\n|\r|\n/g, '<br>');
         });
 
-        const maxTs = data.reduce((currentMax, value) =>
-            (currentMax.endTs > value.endTs) ? currentMax : value
-        ).endTs
+        let height
+        if (settings.timeScale === "logical") {
+            height = MESSAGE_ARROW_Y_OFFSET + (logicalTimestamps.size) * MESSAGE_SPACE;
+        } else {
+            const maxTs = data.reduce((currentMax, value) =>
+                (currentMax.endTs > value.endTs) ? currentMax : value
+            ).endTs
+            height = maxTs + 100
+        }
 
-        console.log(maxTs + 100);
-        // svg.attr("height", Y_PAD + maxTs + 200);
-        svg.attr("height", MESSAGE_ARROW_Y_OFFSET + (logicalTimestamps.size) * MESSAGE_SPACE);
+        svg.attr("height", height);
         svg.attr("width", X_PAD + VERT_SPACE * classes.length)
 
         // Draw vertical lines
@@ -189,7 +207,7 @@
                 .attr("x1", X_PAD + i * VERT_SPACE)
                 .attr("y1", Y_PAD)
                 .attr("x2", X_PAD + i * VERT_SPACE)
-                .attr("y2", MESSAGE_ARROW_Y_OFFSET + maxTs + 40);
+                .attr("y2", height);
         });
 
         // Draw classes
@@ -228,10 +246,14 @@
         data.forEach((m) => {
             const xStart = X_PAD + classes.indexOf(m.sender) * VERT_SPACE;
             const xEnd = X_PAD + classes.indexOf(m.receiver) * VERT_SPACE;
-            // const yStart = MESSAGE_ARROW_Y_OFFSET + m.startTs;
-            // const yEnd = MESSAGE_ARROW_Y_OFFSET + m.endTs;
-            const yStart = MESSAGE_ARROW_Y_OFFSET + m.logicalStart * MESSAGE_SPACE;
-            const yEnd = MESSAGE_ARROW_Y_OFFSET + m.logicalEnd * MESSAGE_SPACE;
+            let yStart, yEnd;
+            if (settings.timeScale === "logical") {
+                yStart = MESSAGE_ARROW_Y_OFFSET + m.logicalStart * MESSAGE_SPACE;
+                yEnd = MESSAGE_ARROW_Y_OFFSET + m.logicalEnd * MESSAGE_SPACE;
+            } else {
+                yStart = MESSAGE_ARROW_Y_OFFSET + m.startTs;
+                yEnd = MESSAGE_ARROW_Y_OFFSET + m.endTs;
+            }
             const color = colorSelector(m);
 
             const path = makeLink(svg, m, xStart, yStart, xEnd, yEnd)
@@ -258,15 +280,19 @@
         const renderedTimestamps = new Set()
         data.forEach((m) => {
             const xPos = X_PAD + MESSAGE_LABEL_X_OFFSET;
-            // const yPosStart = MESSAGE_ARROW_Y_OFFSET + m.startTs;
-            // const yPosEnd = MESSAGE_ARROW_Y_OFFSET + m.endTs;
-            const yPosStart = MESSAGE_ARROW_Y_OFFSET + m.logicalStart * MESSAGE_SPACE;
-            const yPosEnd = MESSAGE_ARROW_Y_OFFSET + m.logicalEnd * MESSAGE_SPACE;
+            let yStart, yEnd;
+            if (settings.timeScale === "logical") {
+                yStart = MESSAGE_ARROW_Y_OFFSET + m.logicalStart * MESSAGE_SPACE;
+                yEnd = MESSAGE_ARROW_Y_OFFSET + m.logicalEnd * MESSAGE_SPACE;
+            } else {
+                yStart = MESSAGE_ARROW_Y_OFFSET + m.startTs;
+                yEnd = MESSAGE_ARROW_Y_OFFSET + m.endTs;
+            }
 
-            if (!renderedTimestamps.has(yPosStart)) {
-                renderedTimestamps.add(yPosStart);
+            if (!renderedTimestamps.has(yStart)) {
+                renderedTimestamps.add(yStart);
                 svg.append("g")
-                    .attr("transform", "translate(" + xPos + "," + yPosStart + ")")
+                    .attr("transform", "translate(" + xPos + "," + yStart + ")")
                     .attr("class", "first")
                     .attr("text-anchor", "middle")
                     .append("text")
@@ -274,10 +300,10 @@
                     .text(() => m.startTs);
             }
 
-            if (!renderedTimestamps.has(yPosEnd)) {
-                renderedTimestamps.add(yPosEnd);
+            if (!renderedTimestamps.has(yEnd)) {
+                renderedTimestamps.add(yEnd);
                 svg.append("g")
-                    .attr("transform", "translate(" + xPos + "," + yPosEnd + ")")
+                    .attr("transform", "translate(" + xPos + "," + yEnd + ")")
                     .attr("class", "first")
                     .attr("text-anchor", "middle")
                     .append("text")
