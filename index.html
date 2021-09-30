@@ -152,63 +152,13 @@
         });
 
         // Append div with tooltip
-        const tooltipDiv = d3.select("body").append("div")
-            .attr("class", "tooltip")
-            .attr("show", false)
-            .style("opacity", 0);
+        const tooltipDiv = d3.select("body").append("div");
+        const showTooltipClosure = createTooltipClosure(tooltipDiv);
 
-        const onClickClosure = (message, line) => {
-            line.attr("id", "line_" + generateId(20));
-            return () => {
-                if (tooltipDiv.attr("show") === "true") {
-                    const componentId = tooltipDiv.attr("selected-id");
-                    tooltipDiv.attr("show", false)
-                        .attr("selected-id", null)
-                        .style("pointer-events", "none")
-                        .transition()
-                        .duration(300)
-                        .style("opacity", 0)
-                        .on("end", () => {
-                            tooltipDiv.text("")
-                        });
-                    d3.select("#" + componentId)
-                        .transition()
-                        .duration(300)
-                        .style("stroke-width", DEFAULT_STROKE_WIDTH);
-                } else {
-                    tooltipDiv.attr("show", true)
-                        .attr("selected-id", line.attr("id"))
-                        .style("pointer-events", "auto")
-                        .html(
-                            "<div class='tooltip-info'>"
-                                + "from: " + message.sender
-                                + "<br/>to: " + message.receiver
-                                + "<br/>started: " + message.startTs
-                                + "<br/>finished: " + message.endTs
-                                + "<br/>trace-id: " + message.traceId
-                                + "<br/>"
-                            + "</div>"
-                            + "<br/>"
-                            + "<div class='tooltip-message'>"
-                                + message.tooltipMessage
-                            + "</div>"
-                        )
-                        .style("left", (d3.event.pageX) + "px")
-                        .style("top", (d3.event.pageY - 28) + "px")
-                        .transition()
-                        .duration(200)
-                        .style("opacity", 1);
-                    line.transition()
-                        .duration(200)
-                        .style("stroke-width", SELECTED_STROKE_WIDTH)
-                }
-            }
-        }
-
+        // Draw message arrows
         const traceIdToColor = assignColorsToTraceId(data)
         const arrowColoredMarker = arrowColoredMarkerClosure(defs)
 
-        // Draw message arrows
         data.forEach((m) => {
             const xStart = X_PAD + classes.indexOf(m.sender) * VERT_SPACE
             const xEnd = X_PAD + classes.indexOf(m.receiver) * VERT_SPACE
@@ -222,7 +172,7 @@
                 .style("stroke", color)
                 .style("cursor", "pointer")
                 .style("stroke-width", DEFAULT_STROKE_WIDTH);
-            path.on("click", onClickClosure(m, path));
+            path.on("click", showTooltipClosure(m, path));
 
             svg.append("g")
                 .attr("transform", "translate(" + xStart + "," + yStart + ")")
@@ -233,7 +183,7 @@
                 .style("font-size", "12px")
                 .style("cursor", "pointer")
                 .text(() => m.label)
-                .on("click", onClickClosure(m, path));
+                .on("click", showTooltipClosure(m, path));
         });
 
         // Draw message timestamps
@@ -300,6 +250,64 @@
         const arr = new Uint8Array((length || 40) / 2);
         window.crypto.getRandomValues(arr);
         return Array.from(arr, (_) => _.toString(16).padStart(2, "0")).join('');
+    }
+
+    /**
+     * @param tooltipDiv
+     * @return {function(*, *): function(): void}
+     */
+    function createTooltipClosure(tooltipDiv) {
+        tooltipDiv.attr("class", "tooltip")
+            .attr("show", false)
+            .style("opacity", 0);
+
+        return (message, line) => {
+            line.attr("id", "line_" + generateId(20));
+            return () => {
+                if (tooltipDiv.attr("show") === "true") {
+                    const componentId = tooltipDiv.attr("selected-id");
+                    tooltipDiv.attr("show", false)
+                        .attr("selected-id", null)
+                        .style("pointer-events", "none")
+                        .transition()
+                        .duration(300)
+                        .style("opacity", 0)
+                        .on("end", () => {
+                            tooltipDiv.text("")
+                        });
+                    d3.select("#" + componentId)
+                        .transition()
+                        .duration(300)
+                        .style("stroke-width", DEFAULT_STROKE_WIDTH);
+                } else {
+                    tooltipDiv.attr("show", true)
+                        .attr("selected-id", line.attr("id"))
+                        .style("pointer-events", "auto")
+                        .html(
+                            "<div class='tooltip-info'>"
+                            + "from: " + message.sender
+                            + "<br/>to: " + message.receiver
+                            + "<br/>started: " + message.startTs
+                            + "<br/>finished: " + message.endTs
+                            + "<br/>trace-id: " + message.traceId
+                            + "<br/>"
+                            + "</div>"
+                            + "<br/>"
+                            + "<div class='tooltip-message'>"
+                            + message.tooltipMessage
+                            + "</div>"
+                        )
+                        .style("left", (d3.event.pageX) + "px")
+                        .style("top", (d3.event.pageY - 28) + "px")
+                        .transition()
+                        .duration(200)
+                        .style("opacity", 1);
+                    line.transition()
+                        .duration(200)
+                        .style("stroke-width", SELECTED_STROKE_WIDTH)
+                }
+            }
+        }
     }
 
     /**
