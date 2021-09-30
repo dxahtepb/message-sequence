@@ -150,8 +150,11 @@
      * @param {string} data.traceId
      * @param {number} data.startTs
      * @param {number} data.endTs
+     * @param {number} data.logicalStart
+     * @param {number} data.logicalEnd
      */
     function processData(data) {
+        // Get unique classes
         const senders = d3.set(data.map(d => d.sender)).values();
         const receivers = d3.set(data.map(d => d.receiver)).values();
         const classes = [...new Set([...senders, ...receivers])];
@@ -160,15 +163,12 @@
         const svg = d3.select('svg#chart1'),
             margin = {top: 20, right: 50, bottom: 100, left: 80},
             width = VERT_SPACE * classes.length - margin.left - margin.right;
-        // width = +svg.attr('width') - margin.left - margin.right,
-        // height = +svg.attr('height') - margin.top - margin.bottom,
         const defs = svg.append("svg:defs")
 
-        const g = svg.append('g')
-            .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
-
         // Graph title
-        g.append('text')
+        svg.append('g')
+            .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+            .append('text')
             .attr('x', (width / 2))
             .attr('y', 0 - (margin.top / 3))
             .attr('text-anchor', 'middle')
