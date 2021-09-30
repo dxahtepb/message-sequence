@@ -18,6 +18,15 @@
     "endTs": 200
   },
   {
+    "sender": "World 1",
+    "receiver": "World 1-1",
+    "label": "Init world",
+    "tooltipMessage": "Move to World 1-1",
+    "traceId": "1",
+    "startTs": 90,
+    "endTs": 200
+  },
+  {
     "sender": "World 1-1",
     "receiver": "Mario",
     "label": "Received Mushroom",

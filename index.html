@@ -24,7 +24,7 @@
         position: absolute;
         text-align: left!important;
         padding: 6px;
-        font: 12px sans-serif;
+        font: 13px sans-serif;
         background: lightsteelblue;
         border: 0;
         border-radius: 8px;
@@ -56,7 +56,7 @@
     const X_PAD = 100;
     const Y_PAD = 30;
 
-    // const MESSAGE_SPACE = 30;
+    const MESSAGE_SPACE = 30;
 
     const DEFAULT_STROKE_WIDTH = "1px";
     const SELECTED_STROKE_WIDTH = "2px";
@@ -99,12 +99,15 @@
             .style('font-size', '16px')
             .text('Sequence diagram');
 
-        // Cleanup data
-        data.forEach(m => {
-            if (m.traceId === undefined) {
-                m.traceId = "";
+        // Prepare data
+        const logicalTimestamps = compressTimestamps(data);
+        data.forEach(d => {
+            d.logicalStart = logicalTimestamps.get(d.startTs);
+            d.logicalEnd = logicalTimestamps.get(d.endTs);
+            if (d.traceId === undefined) {
+                d.traceId = "";
             }
-            m.tooltipMessage = escapeHtml(m.tooltipMessage)
+            d.tooltipMessage = escapeHtml(d.tooltipMessage)
                 .replace(/\r\n|\r|\n/g, '<br>');
         });
 
@@ -113,7 +116,8 @@
         ).endTs
 
         console.log(maxTs + 100);
-        svg.attr("height", Y_PAD + maxTs + 200);
+        // svg.attr("height", Y_PAD + maxTs + 200);
+        svg.attr("height", MESSAGE_ARROW_Y_OFFSET + (logicalTimestamps.size) * MESSAGE_SPACE);
         svg.attr("width", X_PAD + VERT_SPACE * classes.length)
 
         // Draw vertical lines
@@ -162,8 +166,10 @@
         data.forEach((m) => {
             const xStart = X_PAD + classes.indexOf(m.sender) * VERT_SPACE
             const xEnd = X_PAD + classes.indexOf(m.receiver) * VERT_SPACE
-            const yStart = MESSAGE_ARROW_Y_OFFSET + m.startTs;
-            const yEnd = MESSAGE_ARROW_Y_OFFSET + m.endTs;
+            // const yStart = MESSAGE_ARROW_Y_OFFSET + m.startTs;
+            // const yEnd = MESSAGE_ARROW_Y_OFFSET + m.endTs;
+            const yStart = MESSAGE_ARROW_Y_OFFSET + m.logicalStart * MESSAGE_SPACE;
+            const yEnd = MESSAGE_ARROW_Y_OFFSET + m.logicalEnd * MESSAGE_SPACE;
             const color = traceIdToColor.get(m.traceId);
 
             const path = makeLink(svg, m, xStart, yStart, xEnd, yEnd)
@@ -180,7 +186,7 @@
                 .attr("dx", "5px")
                 .attr("dy", "-2px")
                 .attr("text-anchor", "begin")
-                .style("font-size", "12px")
+                .style("font-size", "13px")
                 .style("cursor", "pointer")
                 .text(() => m.label)
                 .on("click", showTooltipClosure(m, path));
@@ -190,8 +196,10 @@
         const renderedTimestamps = new Set()
         data.forEach((m) => {
             const xPos = X_PAD + MESSAGE_LABEL_X_OFFSET;
-            const yPosStart = MESSAGE_ARROW_Y_OFFSET + m.startTs;
-            const yPosEnd = MESSAGE_ARROW_Y_OFFSET + m.endTs;
+            // const yPosStart = MESSAGE_ARROW_Y_OFFSET + m.startTs;
+            // const yPosEnd = MESSAGE_ARROW_Y_OFFSET + m.endTs;
+            const yPosStart = MESSAGE_ARROW_Y_OFFSET + m.logicalStart * MESSAGE_SPACE;
+            const yPosEnd = MESSAGE_ARROW_Y_OFFSET + m.logicalEnd * MESSAGE_SPACE;
 
             if (!renderedTimestamps.has(yPosStart)) {
                 renderedTimestamps.add(yPosStart);
@@ -200,7 +208,7 @@
                     .attr("class", "first")
                     .attr("text-anchor", "middle")
                     .append("text")
-                    .style("font-size", "8px")
+                    .style("font-size", "10px")
                     .text(() => m.startTs);
             }
 
@@ -211,7 +219,7 @@
                     .attr("class", "first")
                     .attr("text-anchor", "middle")
                     .append("text")
-                    .style("font-size", "8px")
+                    .style("font-size", "10px")
                     .text(() => m.endTs);
             }
         });
@@ -389,6 +397,22 @@
             }
             return "url(#arrowColoredMarker" + colorWithoutHash + ")";
         }
+    }
+
+    /**
+     * @param {Object[]} data
+     * @param {number} data.startTs
+     * @param {number} data.endTs
+     */
+    function compressTimestamps(data) {
+        const starts = data.map(d => d.startTs);
+        const ends = data.map(d => d.endTs);
+        const realTimestamps = [...new Set([...starts, ...ends])];
+        realTimestamps.sort((a, b) => a - b);
+        const logicalTimestamps = new Map();
+        realTimestamps.forEach((ts, i) => logicalTimestamps.set(ts, i));
+        console.log(realTimestamps);
+        return logicalTimestamps;
     }
 
     function escapeHtml(str) {
