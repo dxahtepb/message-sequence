@@ -99,7 +99,14 @@
             .style('font-size', '16px')
             .text('Sequence diagram');
 
-        console.log(classes.length);
+        // Cleanup data
+        data.forEach(m => {
+            if (m.traceId === undefined) {
+                m.traceId = "";
+            }
+            m.tooltipMessage = escapeHtml(m.tooltipMessage)
+                .replace(/\r\n|\r|\n/g, '<br>');
+        });
 
         const maxTs = data.reduce((currentMax, value) =>
             (currentMax.endTs > value.endTs) ? currentMax : value
@@ -208,9 +215,6 @@
             const yStart = MESSAGE_ARROW_Y_OFFSET + m.startTs;
             const yEnd = MESSAGE_ARROW_Y_OFFSET + m.endTs;
             const color = traceIdToColor.get(m.traceId);
-
-            m.tooltipMessage = escapeHtml(m.tooltipMessage)
-                .replace(/\r\n|\r|\n/g, '<br>');
 
             const path = makeLink(svg, m, xStart, yStart, xEnd, yEnd)
                 .attr("trace-id", m.traceId)
