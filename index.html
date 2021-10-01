@@ -11,13 +11,8 @@
     .class-label {
         font-size: x-small;
         font-weight: bold;
-    }
-
-    .message-rect {
-        border: 1px;
-        fill: green;
-        stroke-width: 1px;
-        stroke: black;
+        stroke: none;
+        fill: black;
     }
 
     div.settings {
@@ -80,6 +75,8 @@
     </div>
 </div>
 
+<div id="container"></div>
+
 <script>
     console.log(d3.version)
 
@@ -88,7 +85,7 @@
 
     function update(dataPath) {
         d3.selectAll("svg#chart1").remove();
-        d3.select("body")
+        d3.select("#container")
             .append("svg")
             .attr("id", "chart1");
         d3.json(dataPath)
@@ -258,31 +255,6 @@
                 .attr("y2", height);
         });
 
-        // Draw classes
-        classes.forEach((c, i) => {
-            const x = X_PAD + i * VERT_SPACE;
-            const g = svg.append("g")
-                .attr("transform", "translate(" + x + "," + Y_PAD + ")")
-                .attr("class", "class-rect");
-            g.append("rect")
-                .attr("x", -CLASS_WIDTH / 2)
-                .attr("y", 0)
-                .attr("width", CLASS_WIDTH)
-                .attr("height", "24px");
-        });
-
-        // Draw class labels
-        classes.forEach((c, i) => {
-            const x = X_PAD + i * VERT_SPACE;
-            svg.append("g")
-                .attr("transform", "translate(" + x + "," + Y_PAD + ")")
-                .append("text")
-                .attr("class", "class-label")
-                .attr("text-anchor", "middle")
-                .text(() => c)
-                .attr("dy", "16px");
-        });
-
         // Append div with tooltip
         const showTooltipClosure = createTooltipClosure();
 
@@ -360,6 +332,24 @@
                     .style("font-size", "10px")
                     .text(() => m.endTs);
             }
+        });
+
+        // Draw classes
+        classes.forEach((c, i) => {
+            const x = X_PAD + i * VERT_SPACE;
+            const g = svg.append("g")
+                .attr("transform", "translate(" + x + "," + Y_PAD + ")")
+                .attr("class", "class-rect sticky-trace-header");
+            g.append("rect")
+                .attr("x", -CLASS_WIDTH / 2)
+                .attr("y", 0)
+                .attr("width", CLASS_WIDTH)
+                .attr("height", "24px");
+            g.append("text")
+                .attr("class", "class-label")
+                .attr("text-anchor", "middle")
+                .text(() => c)
+                .attr("dy", "16px");
         });
     }
 
@@ -574,6 +564,27 @@
             /[&<>'"]/g,
             tag => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'}[tag] || tag)
         );
+    }
+
+    window.addEventListener("scroll", () => {
+        Array.from(document.getElementsByClassName("sticky-trace-header")).forEach((element, i) => {
+            const x = X_PAD + i * VERT_SPACE;
+            let y = Y_PAD;
+            if (window.scrollY > Y_PAD) {
+                y = screenYtoSVGUnits(window.scrollY);
+            }
+            element.setAttribute("transform", "translate(" + x + "," + y + ")");
+        })
+    });
+
+    // Converts a screen Y position to SVG units which have a viewBox transform
+    function screenYtoSVGUnits(val) {
+        const svg = document.getElementById("chart1");
+        let pt = svg.createSVGPoint();
+        pt.x = 0;
+        pt.y = val;
+        pt = pt.matrixTransform(svg.getCTM().inverse());
+        return pt.y;
     }
 
     // Get data attach to window
