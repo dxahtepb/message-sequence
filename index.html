@@ -58,7 +58,7 @@
 <div id="settings" class="settings" style="left: 60px; top: 45px" show="false">
     <div>
         <label for="colorize-traces">Colorize Traces</label>
-        <input type="checkbox" id="colorize-traces">
+        <input type="checkbox" id="colorize-traces" checked>
     </div>
 
     <div>
@@ -133,7 +133,7 @@
         });
 
     const settings = {
-        isColorizeTraces: false,
+        isColorizeTraces: true,
         timeScale: "logical",
         apply: () => {
             settings.isColorizeTraces = document.getElementById("colorize-traces").checked;
