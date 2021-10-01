@@ -292,7 +292,7 @@
             const maxTs = data.reduce((currentMax, value) =>
                 (currentMax.endTs > value.endTs) ? currentMax : value
             ).endTs
-            height = maxTs + 100
+            height = maxTs + Y_PAD + 100
         }
 
         svg.attr("height", height);
