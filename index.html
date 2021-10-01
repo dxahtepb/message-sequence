@@ -286,6 +286,9 @@
                 .style("cursor", "pointer")
                 .style("stroke-width", DEFAULT_STROKE_WIDTH);
             path.on("click", showTooltipClosure(m, path));
+            if (m.payloadType === RESPONSE_TYPE) {
+                path.style("stroke-dasharray", ("5, 3"));
+            }
 
             svg.append("g")
                 .attr("transform", "translate(" + xStart + "," + yStart + ")")
