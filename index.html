@@ -83,8 +83,6 @@
 <script>
     console.log(d3.version)
 
-    const DATA_FILE_PATH = "traceSample.json";
-
     const REQUEST_TYPE = "commute::rpc::proto::Request"
     const RESPONSE_TYPE = "commute::rpc::proto::Response"
 
@@ -196,7 +194,16 @@
         // Get unique classes
         const senders = d3.set(data.map(d => d.sender)).values();
         const receivers = d3.set(data.map(d => d.receiver)).values();
-        const classes = [...new Set([...senders, ...receivers])];
+        const classes = [...new Set([...senders, ...receivers])]
+            .sort((a, b) => {
+                if (a.startsWith("Client") && b.startsWith("Server")) {
+                    return -1;
+                } else if (a.startsWith("Server") && b.startsWith("Client")) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            });
         console.log(classes);
 
         const svg = d3.select('svg#chart1'),
