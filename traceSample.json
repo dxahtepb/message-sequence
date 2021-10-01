@@ -1,0 +1,999 @@
+[
+  {
+    "type": "message",
+    "source_host": "Client-2",
+    "dest_host": "Server-kv-2",
+    "send_time": 130,
+    "receive_time": 176,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 1,
+      "trace_id": "Set-guid-X-1",
+      "method": "KV.Set"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-2",
+    "dest_host": "Server-kv-2",
+    "send_time": 176,
+    "receive_time": 177,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 3,
+      "trace_id": "Set-guid-X-1",
+      "method": "Replica.LocalWrite"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-2",
+    "dest_host": "Server-kv-2",
+    "send_time": 206,
+    "receive_time": 207,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 3,
+      "trace_id": "Set-guid-X-1",
+      "method": "Replica.LocalWrite",
+      "error": 0
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-2",
+    "dest_host": "Server-kv-4",
+    "send_time": 176,
+    "receive_time": 227,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 5,
+      "trace_id": "Set-guid-X-1",
+      "method": "Replica.LocalWrite"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-4",
+    "dest_host": "Server-kv-2",
+    "send_time": 277,
+    "receive_time": 322,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 5,
+      "trace_id": "Set-guid-X-1",
+      "method": "Replica.LocalWrite",
+      "error": 0
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-2",
+    "dest_host": "Server-kv-3",
+    "send_time": 176,
+    "receive_time": 511,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 4,
+      "trace_id": "Set-guid-X-1",
+      "method": "Replica.LocalWrite"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Client-1",
+    "dest_host": "Server-kv-4",
+    "send_time": 488,
+    "receive_time": 518,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 6,
+      "trace_id": "Set-guid-Z-2",
+      "method": "KV.Set"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-4",
+    "dest_host": "Server-kv-4",
+    "send_time": 518,
+    "receive_time": 519,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 10,
+      "trace_id": "Set-guid-Z-2",
+      "method": "Replica.LocalWrite"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-4",
+    "dest_host": "Server-kv-4",
+    "send_time": 522,
+    "receive_time": 523,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 10,
+      "trace_id": "Set-guid-Z-2",
+      "method": "Replica.LocalWrite",
+      "error": 0
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-4",
+    "dest_host": "Server-kv-1",
+    "send_time": 518,
+    "receive_time": 566,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 7,
+      "trace_id": "Set-guid-Z-2",
+      "method": "Replica.LocalWrite"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-4",
+    "dest_host": "Server-kv-2",
+    "send_time": 518,
+    "receive_time": 575,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 8,
+      "trace_id": "Set-guid-Z-2",
+      "method": "Replica.LocalWrite"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-3",
+    "dest_host": "Server-kv-2",
+    "send_time": 579,
+    "receive_time": 637,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 4,
+      "trace_id": "Set-guid-X-1",
+      "method": "Replica.LocalWrite",
+      "error": 0
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-1",
+    "dest_host": "Server-kv-4",
+    "send_time": 580,
+    "receive_time": 637,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 7,
+      "trace_id": "Set-guid-Z-2",
+      "method": "Replica.LocalWrite",
+      "error": 0
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-2",
+    "dest_host": "Client-2",
+    "send_time": 637,
+    "receive_time": 693,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 1,
+      "trace_id": "Set-guid-X-1",
+      "method": "KV.Set",
+      "error": 0
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-2",
+    "dest_host": "Server-kv-4",
+    "send_time": 643,
+    "receive_time": 695,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 8,
+      "trace_id": "Set-guid-Z-2",
+      "method": "Replica.LocalWrite",
+      "error": 0
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-4",
+    "dest_host": "Client-1",
+    "send_time": 695,
+    "receive_time": 733,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 6,
+      "trace_id": "Set-guid-Z-2",
+      "method": "KV.Set",
+      "error": 0
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Client-2",
+    "dest_host": "Server-kv-1",
+    "send_time": 711,
+    "receive_time": 751,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 11,
+      "trace_id": "Get-guid-Y-3",
+      "method": "KV.Get"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-1",
+    "dest_host": "Server-kv-1",
+    "send_time": 751,
+    "receive_time": 752,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 12,
+      "trace_id": "Get-guid-Y-3",
+      "method": "Replica.LocalRead"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-1",
+    "dest_host": "Server-kv-1",
+    "send_time": 752,
+    "receive_time": 753,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 12,
+      "trace_id": "Get-guid-Y-3",
+      "method": "Replica.LocalRead",
+      "error": 0
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-2",
+    "dest_host": "Server-kv-1",
+    "send_time": 176,
+    "receive_time": 768,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 2,
+      "trace_id": "Set-guid-X-1",
+      "method": "Replica.LocalWrite"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-1",
+    "dest_host": "Server-kv-2",
+    "send_time": 751,
+    "receive_time": 781,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 13,
+      "trace_id": "Get-guid-Y-3",
+      "method": "Replica.LocalRead"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-1",
+    "dest_host": "Server-kv-4",
+    "send_time": 751,
+    "receive_time": 794,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 15,
+      "trace_id": "Get-guid-Y-3",
+      "method": "Replica.LocalRead"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-1",
+    "dest_host": "Server-kv-3",
+    "send_time": 751,
+    "receive_time": 801,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 14,
+      "trace_id": "Get-guid-Y-3",
+      "method": "Replica.LocalRead"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-2",
+    "dest_host": "Server-kv-1",
+    "send_time": 781,
+    "receive_time": 818,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 13,
+      "trace_id": "Get-guid-Y-3",
+      "method": "Replica.LocalRead",
+      "error": 0
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-1",
+    "dest_host": "Server-kv-2",
+    "send_time": 768,
+    "receive_time": 820,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 2,
+      "trace_id": "Set-guid-X-1",
+      "method": "Replica.LocalWrite",
+      "error": 0
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-3",
+    "dest_host": "Server-kv-1",
+    "send_time": 801,
+    "receive_time": 848,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 14,
+      "trace_id": "Get-guid-Y-3",
+      "method": "Replica.LocalRead",
+      "error": 0
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-1",
+    "dest_host": "Client-2",
+    "send_time": 848,
+    "receive_time": 880,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 11,
+      "trace_id": "Get-guid-Y-3",
+      "method": "KV.Get",
+      "error": 0
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Client-2",
+    "dest_host": "Server-kv-3",
+    "send_time": 887,
+    "receive_time": 944,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 17,
+      "trace_id": "Set-guid-Z-5",
+      "method": "KV.Set"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-3",
+    "dest_host": "Server-kv-3",
+    "send_time": 944,
+    "receive_time": 945,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 20,
+      "trace_id": "Set-guid-Z-5",
+      "method": "Replica.LocalWrite"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-3",
+    "dest_host": "Server-kv-4",
+    "send_time": 944,
+    "receive_time": 980,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 21,
+      "trace_id": "Set-guid-Z-5",
+      "method": "Replica.LocalWrite"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-3",
+    "dest_host": "Server-kv-1",
+    "send_time": 944,
+    "receive_time": 986,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 18,
+      "trace_id": "Set-guid-Z-5",
+      "method": "Replica.LocalWrite"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-3",
+    "dest_host": "Server-kv-2",
+    "send_time": 944,
+    "receive_time": 999,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 19,
+      "trace_id": "Set-guid-Z-5",
+      "method": "Replica.LocalWrite"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-1",
+    "dest_host": "Server-kv-3",
+    "send_time": 986,
+    "receive_time": 1037,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 18,
+      "trace_id": "Set-guid-Z-5",
+      "method": "Replica.LocalWrite",
+      "error": 0
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-2",
+    "dest_host": "Server-kv-3",
+    "send_time": 999,
+    "receive_time": 1052,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 19,
+      "trace_id": "Set-guid-Z-5",
+      "method": "Replica.LocalWrite",
+      "error": 0
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-3",
+    "dest_host": "Server-kv-3",
+    "send_time": 1060,
+    "receive_time": 1061,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 20,
+      "trace_id": "Set-guid-Z-5",
+      "method": "Replica.LocalWrite",
+      "error": 0
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-3",
+    "dest_host": "Client-2",
+    "send_time": 1061,
+    "receive_time": 1114,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 17,
+      "trace_id": "Set-guid-Z-5",
+      "method": "KV.Set",
+      "error": 0
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Client-2",
+    "dest_host": "Server-kv-3",
+    "send_time": 1136,
+    "receive_time": 1177,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 22,
+      "trace_id": "Get-guid-Y-6",
+      "method": "KV.Get"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-3",
+    "dest_host": "Server-kv-3",
+    "send_time": 1177,
+    "receive_time": 1178,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 25,
+      "trace_id": "Get-guid-Y-6",
+      "method": "Replica.LocalRead"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-3",
+    "dest_host": "Server-kv-3",
+    "send_time": 1178,
+    "receive_time": 1179,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 25,
+      "trace_id": "Get-guid-Y-6",
+      "method": "Replica.LocalRead",
+      "error": 0
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-3",
+    "dest_host": "Server-kv-2",
+    "send_time": 1177,
+    "receive_time": 1207,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 24,
+      "trace_id": "Get-guid-Y-6",
+      "method": "Replica.LocalRead"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-3",
+    "dest_host": "Server-kv-1",
+    "send_time": 1177,
+    "receive_time": 1224,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 23,
+      "trace_id": "Get-guid-Y-6",
+      "method": "Replica.LocalRead"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-1",
+    "dest_host": "Server-kv-3",
+    "send_time": 1224,
+    "receive_time": 1256,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 23,
+      "trace_id": "Get-guid-Y-6",
+      "method": "Replica.LocalRead",
+      "error": 0
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-4",
+    "dest_host": "Server-kv-3",
+    "send_time": 518,
+    "receive_time": 1463,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 9,
+      "trace_id": "Set-guid-Z-2",
+      "method": "Replica.LocalWrite"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-4",
+    "dest_host": "Server-kv-1",
+    "send_time": 794,
+    "receive_time": 1469,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 15,
+      "trace_id": "Get-guid-Y-3",
+      "method": "Replica.LocalRead",
+      "error": 0
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Client-1",
+    "dest_host": "Server-kv-2",
+    "send_time": 759,
+    "receive_time": 1587,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 16,
+      "trace_id": "Get-guid-X-4",
+      "method": "KV.Get"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-2",
+    "dest_host": "Server-kv-2",
+    "send_time": 1587,
+    "receive_time": 1588,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 28,
+      "trace_id": "Get-guid-X-4",
+      "method": "Replica.LocalRead"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-2",
+    "dest_host": "Server-kv-2",
+    "send_time": 1588,
+    "receive_time": 1589,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 28,
+      "trace_id": "Get-guid-X-4",
+      "method": "Replica.LocalRead",
+      "error": 0
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-2",
+    "dest_host": "Server-kv-3",
+    "send_time": 1587,
+    "receive_time": 1621,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 29,
+      "trace_id": "Get-guid-X-4",
+      "method": "Replica.LocalRead"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-2",
+    "dest_host": "Server-kv-4",
+    "send_time": 1587,
+    "receive_time": 1634,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 30,
+      "trace_id": "Get-guid-X-4",
+      "method": "Replica.LocalRead"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-3",
+    "dest_host": "Server-kv-2",
+    "send_time": 1621,
+    "receive_time": 1651,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 29,
+      "trace_id": "Get-guid-X-4",
+      "method": "Replica.LocalRead",
+      "error": 0
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-4",
+    "dest_host": "Server-kv-2",
+    "send_time": 1634,
+    "receive_time": 1666,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 30,
+      "trace_id": "Get-guid-X-4",
+      "method": "Replica.LocalRead",
+      "error": 0
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-3",
+    "dest_host": "Server-kv-4",
+    "send_time": 1543,
+    "receive_time": 1709,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 9,
+      "trace_id": "Set-guid-Z-2",
+      "method": "Replica.LocalWrite",
+      "error": 0
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-2",
+    "dest_host": "Server-kv-1",
+    "send_time": 1587,
+    "receive_time": 1713,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 27,
+      "trace_id": "Get-guid-X-4",
+      "method": "Replica.LocalRead"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-2",
+    "dest_host": "Client-1",
+    "send_time": 1666,
+    "receive_time": 1721,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 16,
+      "trace_id": "Get-guid-X-4",
+      "method": "KV.Get",
+      "error": 0
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-1",
+    "dest_host": "Server-kv-2",
+    "send_time": 1713,
+    "receive_time": 1757,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 27,
+      "trace_id": "Get-guid-X-4",
+      "method": "Replica.LocalRead",
+      "error": 0
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-4",
+    "dest_host": "Server-kv-3",
+    "send_time": 980,
+    "receive_time": 1767,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 21,
+      "trace_id": "Set-guid-Z-5",
+      "method": "Replica.LocalWrite",
+      "error": 0
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-2",
+    "dest_host": "Server-kv-3",
+    "send_time": 1207,
+    "receive_time": 1782,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 24,
+      "trace_id": "Get-guid-Y-6",
+      "method": "Replica.LocalRead",
+      "error": 0
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Client-1",
+    "dest_host": "Server-kv-2",
+    "send_time": 1777,
+    "receive_time": 1813,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 31,
+      "trace_id": "Set-guid-X-7",
+      "method": "KV.Set"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-2",
+    "dest_host": "Server-kv-2",
+    "send_time": 1813,
+    "receive_time": 1814,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 33,
+      "trace_id": "Set-guid-X-7",
+      "method": "Replica.LocalWrite"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-3",
+    "dest_host": "Client-2",
+    "send_time": 1782,
+    "receive_time": 1836,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 22,
+      "trace_id": "Get-guid-Y-6",
+      "method": "KV.Get",
+      "error": 0
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-2",
+    "dest_host": "Server-kv-2",
+    "send_time": 1837,
+    "receive_time": 1838,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 33,
+      "trace_id": "Set-guid-X-7",
+      "method": "Replica.LocalWrite",
+      "error": 0
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-2",
+    "dest_host": "Server-kv-3",
+    "send_time": 1813,
+    "receive_time": 1843,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 34,
+      "trace_id": "Set-guid-X-7",
+      "method": "Replica.LocalWrite"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-2",
+    "dest_host": "Server-kv-4",
+    "send_time": 1813,
+    "receive_time": 1853,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 35,
+      "trace_id": "Set-guid-X-7",
+      "method": "Replica.LocalWrite"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-2",
+    "dest_host": "Server-kv-1",
+    "send_time": 1813,
+    "receive_time": 1860,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 32,
+      "trace_id": "Set-guid-X-7",
+      "method": "Replica.LocalWrite"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Client-2",
+    "dest_host": "Server-kv-4",
+    "send_time": 1858,
+    "receive_time": 1911,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 36,
+      "trace_id": "Set-guid-Z-8",
+      "method": "KV.Set"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-1",
+    "dest_host": "Server-kv-2",
+    "send_time": 1866,
+    "receive_time": 1912,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 32,
+      "trace_id": "Set-guid-X-7",
+      "method": "Replica.LocalWrite",
+      "error": 0
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-4",
+    "dest_host": "Server-kv-4",
+    "send_time": 1911,
+    "receive_time": 1912,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 40,
+      "trace_id": "Set-guid-Z-8",
+      "method": "Replica.LocalWrite"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-4",
+    "dest_host": "Server-kv-4",
+    "send_time": 1916,
+    "receive_time": 1917,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 40,
+      "trace_id": "Set-guid-Z-8",
+      "method": "Replica.LocalWrite",
+      "error": 0
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-3",
+    "dest_host": "Server-kv-2",
+    "send_time": 1888,
+    "receive_time": 1937,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 34,
+      "trace_id": "Set-guid-X-7",
+      "method": "Replica.LocalWrite",
+      "error": 0
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-4",
+    "dest_host": "Server-kv-3",
+    "send_time": 1911,
+    "receive_time": 1952,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 39,
+      "trace_id": "Set-guid-Z-8",
+      "method": "Replica.LocalWrite"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-4",
+    "dest_host": "Server-kv-2",
+    "send_time": 1916,
+    "receive_time": 1961,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 35,
+      "trace_id": "Set-guid-X-7",
+      "method": "Replica.LocalWrite",
+      "error": 0
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-4",
+    "dest_host": "Server-kv-2",
+    "send_time": 1911,
+    "receive_time": 1964,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 38,
+      "trace_id": "Set-guid-Z-8",
+      "method": "Replica.LocalWrite"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-4",
+    "dest_host": "Server-kv-1",
+    "send_time": 1911,
+    "receive_time": 1966,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 37,
+      "trace_id": "Set-guid-Z-8",
+      "method": "Replica.LocalWrite"
+    }
+  },
+  {
+    "type": "message",
+    "source_host": "Server-kv-2",
+    "dest_host": "Client-1",
+    "send_time": 1937,
+    "receive_time": 1969,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 31,
+      "trace_id": "Set-guid-X-7",
+      "method": "KV.Set",
+      "error": 0
+    }
+  }
+]
