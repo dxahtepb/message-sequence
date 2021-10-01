@@ -326,9 +326,12 @@
                 .attr("trace-id", m.traceId)
                 .attr("marker-end", arrowColoredMarker(color))
                 .style("stroke", color)
-                .style("cursor", "pointer")
                 .style("stroke-width", DEFAULT_STROKE_WIDTH);
-            path.on("click", showTooltipClosure(m, path));
+            const clickPath = makeLink(svg, m, xStart, yStart, xEnd, yEnd)
+                .style("stroke", "rgba(0,0,0,0)")
+                .style("cursor", "pointer")
+                .style("stroke-width", "5px");
+            clickPath.on("click", showTooltipClosure(m, path, clickPath));
             if (m.payloadType === RESPONSE_TYPE) {
                 path.style("stroke-dasharray", ("5, 3"));
             }
@@ -436,7 +439,7 @@
     }
 
     /**
-     * @return {function(*, *): function(): void}
+     * @return {function(*, *, *): function(): void}
      */
     function createTooltipClosure() {
         const container = d3.select("#tooltip-container");
@@ -454,11 +457,8 @@
         }
 
         return (message, line) => {
-            line.attr("id", "line_" + generateId(20));
-
             function show() {
                 tooltipDiv.attr("show", true)
-                    .attr("selected-id", line.attr("id"))
                     .style("pointer-events", "auto")
                     .html(
                         "<div class='tooltip-info'>"
@@ -486,9 +486,7 @@
             }
 
             function hide() {
-                const componentId = tooltipDiv.attr("selected-id");
                 tooltipDiv.attr("show", false)
-                    .attr("selected-id", null)
                     .style("pointer-events", "none")
                     .transition()
                     .duration(300)
@@ -496,8 +494,7 @@
                     .on("end", () => {
                         tooltipDiv.text("")
                     });
-                d3.select("#" + componentId)
-                    .transition()
+                line.transition()
                     .duration(300)
                     .style("stroke-width", DEFAULT_STROKE_WIDTH);
                 fakeBox.on("click", null)
