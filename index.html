@@ -61,14 +61,13 @@
 
 </div>
 
-<div style="display: inline; position: absolute; left: 10px; top: 10px">
+<div id="container-buttons" style="display: inline; position: absolute; left: 10px; top: 10px">
     <button id="settings-button">Open Settings</button>
     <button id="clear-button">Clear</button>
+    <input id="file-selector" type="file">
 </div>
 
 <div id="settings" class="settings" style="left: 60px; top: 45px" show="false">
-    <input id="file-selector" type="file">
-
     <div>
         <label for="colorize-traces">Colorize Traces</label>
         <input type="checkbox" id="colorize-traces" checked>
@@ -108,18 +107,19 @@
             d3.json(dataPath)
                 .then(transformTraceData)
                 .then(processData)
+                .catch(showError);
         } else {
             processData([])
         }
     }
 
-    const MESSAGE_LABEL_X_OFFSET = -40;
-    const MESSAGE_ARROW_Y_OFFSET = 80;
-
     const VERT_SPACE = 170;
 
     const X_PAD = 100;
-    const Y_PAD = 30;
+    const Y_PAD = 70;
+
+    const MESSAGE_LABEL_X_OFFSET = -40;
+    const MESSAGE_ARROW_Y_OFFSET = Y_PAD + 50;
 
     const MESSAGE_SPACE = 30;
 
@@ -175,6 +175,12 @@
         }
     }
     settings.apply()
+
+    document.getElementById("file-selector")
+        .addEventListener("change", () => {
+            settings.apply();
+            update(settings.dataFilePath);
+        });
 
     d3.select("#button-apply-settings")
         .on("click", () => {
@@ -237,29 +243,29 @@
         console.log(classes);
 
         const svg = d3.select('svg#chart1'),
-            margin = {top: 20, right: 50, bottom: 100, left: 80},
+            margin = {top: 10, right: 50, bottom: 100, left: 80},
             width = VERT_SPACE * classes.length - margin.left - margin.right;
         const defs = svg.append("svg:defs")
 
         if (data.length === 0) {
             svg.attr("height", 800);
-            svg.attr("width", 600)
+            svg.attr("width", "100%")
 
             // Graph title
             svg.append('g')
-                .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+                .attr('transform', 'translate(' + margin.left + ',' + (Y_PAD - margin.top) + ')')
                 .append('text')
                 .attr('x', 400)
                 .attr('y', 0 - (margin.top / 3))
                 .attr('text-anchor', 'middle')
                 .style('font-size', '16px')
-                .text("You can load trace file from settings");
+                .text("Nothing to show, choose file with trace to draw message sequence");
             return;
         }
 
         // Graph title
         svg.append('g')
-            .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+            .attr('transform', 'translate(' + margin.left + ',' + (Y_PAD - margin.top) + ')')
             .append('text')
             .attr('x', (width / 2))
             .attr('y', 0 - (margin.top / 3))
@@ -627,6 +633,24 @@
             /[&<>'"]/g,
             tag => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'}[tag] || tag)
         );
+    }
+
+    function showError(error) {
+        console.error(error)
+        const svg = d3.select('svg#chart1'),
+            margin = {top: 10, right: 50, bottom: 100, left: 80};
+        svg.attr("height", 800);
+        svg.attr("width", "100%")
+
+        // Graph title
+        svg.append('g')
+            .attr('transform', 'translate(' + margin.left + ',' + (Y_PAD - margin.top) + ')')
+            .append('text')
+            .attr('x', 400)
+            .attr('y', 0 - (margin.top / 3))
+            .attr('text-anchor', 'middle')
+            .style('font-size', '16px')
+            .text("Can't draw trace from " + settings.readableFilePath + "! Did u chose correct trace file?");
     }
 
     window.addEventListener("scroll", () => {
