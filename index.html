@@ -56,6 +56,8 @@
 
 <button id="settings-button" style="position: absolute; left: 10px; top: 10px">Open Settings</button>
 <div id="settings" class="settings" style="left: 60px; top: 45px" show="false">
+    <input id="file-selector" type="file">
+
     <div>
         <label for="colorize-traces">Colorize Traces</label>
         <input type="checkbox" id="colorize-traces" checked>
@@ -135,11 +137,15 @@
     const settings = {
         isColorizeTraces: true,
         timeScale: "logical",
+        dataFilePath: "traceSample.json",
         apply: () => {
             settings.isColorizeTraces = document.getElementById("colorize-traces").checked;
-            settings.timeScale = document.querySelector('input[name="time-scale-selector"]:checked').value
+            settings.timeScale = document.querySelector('input[name="time-scale-selector"]:checked').value;
+            const files = document.getElementById("file-selector").files
+            if (files.length !== 0) {
+                settings.dataFilePath = URL.createObjectURL(files[0]);
+            }
             console.log(settings);
-
         }
     }
     settings.apply()
@@ -147,7 +153,7 @@
     d3.select("#button-apply-settings")
         .on("click", () => {
             settings.apply()
-            update(DATA_FILE_PATH);
+            update(settings.dataFilePath);
         });
 
     function transformTraceData(rawData) {
@@ -562,6 +568,6 @@
     }
 
     // Get data attach to window
-    update(DATA_FILE_PATH);
+    update(settings.dataFilePath);
 
 </script>
