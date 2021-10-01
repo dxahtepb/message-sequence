@@ -12,7 +12,7 @@ For example:
 docker cp "distsys-course:/tmp/trace.json" "./trace.json"
 ```
 
-After a trace is recorded you can open it with the visualizer. Just select the trace file in `Onen Settings -> Choose File`.
+After a trace is recorded you can open it with the visualizer. Just select the trace file with `Choose File` button.
 
 ![Choose file](docs/FileSelect.png)
 
