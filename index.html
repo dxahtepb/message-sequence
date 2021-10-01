@@ -29,7 +29,7 @@
 
     div.tooltip {
         position: absolute;
-        text-align: left!important;
+        text-align: left !important;
         padding: 6px;
         font: 13px sans-serif;
         background: lightsteelblue;
@@ -38,11 +38,11 @@
     }
 
     div.tooltip-info {
-        text-align: center!important;
+        text-align: center !important;
     }
 
     pre.tooltip-message {
-        text-align: left!important;
+        text-align: left !important;
     }
 
 </style>
@@ -162,21 +162,21 @@
         return rawData
             .filter(d => d.type === "message")
             .map(d => {
-            const converted = {
-                sender: d.source_host,
-                receiver: d.dest_host,
-                label: d.payload.method,
-                tooltipMessage: JSON.stringify(d.payload, null, '  '),
-                startTs: d.send_time,
-                endTs: d.receive_time,
-                payloadType: d.payload.type,
-                original: d
-            };
-            if (d.payload.trace_id !== undefined) {
-                converted.traceId = d.payload.trace_id
-            }
-            return converted;
-        });
+                const converted = {
+                    sender: d.source_host,
+                    receiver: d.dest_host,
+                    label: d.payload.method,
+                    tooltipMessage: JSON.stringify(d.payload, null, '  '),
+                    startTs: d.send_time,
+                    endTs: d.receive_time,
+                    payloadType: d.payload.type,
+                    original: d
+                };
+                if (d.payload.trace_id !== undefined) {
+                    converted.traceId = d.payload.trace_id
+                }
+                return converted;
+            });
     }
 
     /**
