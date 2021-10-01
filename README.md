@@ -1,5 +1,7 @@
 ## Message sequence visualizer for whirl network traces
 
+Deployed at https://dxahtepb.github.io/message-sequence/
+
 ### How to use
 In order to generate traces run your simulation with `--trace <path>`. This makes sense to do only when `--seed <number>` flag is set.
 
