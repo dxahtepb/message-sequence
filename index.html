@@ -136,11 +136,13 @@
         isColorizeTraces: true,
         timeScale: "logical",
         dataFilePath: "traceSample.json",
+        readableFilePath: "traceSample.json",
         apply: () => {
             settings.isColorizeTraces = document.getElementById("colorize-traces").checked;
             settings.timeScale = document.querySelector('input[name="time-scale-selector"]:checked').value;
-            const files = document.getElementById("file-selector").files
+            const files = document.getElementById("file-selector").files;
             if (files.length !== 0) {
+                settings.readableFilePath = files[0].name;
                 settings.dataFilePath = URL.createObjectURL(files[0]);
             }
             console.log(settings);
@@ -219,7 +221,7 @@
             .attr('y', 0 - (margin.top / 3))
             .attr('text-anchor', 'middle')
             .style('font-size', '16px')
-            .text('Sequence diagram');
+            .text('Sequence diagram ' + settings.readableFilePath);
 
         // Prepare data
         const logicalTimestamps = compressTimestamps(data);
