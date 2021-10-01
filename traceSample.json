@@ -1,6 +1,6 @@
 [
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Client-2",
     "dest_host": "Server-kv-2",
     "send_time": 130,
@@ -13,7 +13,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-2",
     "dest_host": "Server-kv-2",
     "send_time": 176,
@@ -26,7 +26,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-2",
     "dest_host": "Server-kv-2",
     "send_time": 206,
@@ -40,7 +40,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-2",
     "dest_host": "Server-kv-4",
     "send_time": 176,
@@ -53,7 +53,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-4",
     "dest_host": "Server-kv-2",
     "send_time": 277,
@@ -67,7 +67,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-2",
     "dest_host": "Server-kv-3",
     "send_time": 176,
@@ -80,7 +80,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Client-1",
     "dest_host": "Server-kv-4",
     "send_time": 488,
@@ -93,7 +93,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-4",
     "dest_host": "Server-kv-4",
     "send_time": 518,
@@ -106,7 +106,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-4",
     "dest_host": "Server-kv-4",
     "send_time": 522,
@@ -120,7 +120,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-4",
     "dest_host": "Server-kv-1",
     "send_time": 518,
@@ -133,7 +133,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-4",
     "dest_host": "Server-kv-2",
     "send_time": 518,
@@ -146,7 +146,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-3",
     "dest_host": "Server-kv-2",
     "send_time": 579,
@@ -160,7 +160,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-1",
     "dest_host": "Server-kv-4",
     "send_time": 580,
@@ -174,7 +174,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-2",
     "dest_host": "Client-2",
     "send_time": 637,
@@ -188,7 +188,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-2",
     "dest_host": "Server-kv-4",
     "send_time": 643,
@@ -202,7 +202,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-4",
     "dest_host": "Client-1",
     "send_time": 695,
@@ -216,7 +216,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Client-2",
     "dest_host": "Server-kv-1",
     "send_time": 711,
@@ -229,7 +229,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-1",
     "dest_host": "Server-kv-1",
     "send_time": 751,
@@ -242,7 +242,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-1",
     "dest_host": "Server-kv-1",
     "send_time": 752,
@@ -256,7 +256,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-2",
     "dest_host": "Server-kv-1",
     "send_time": 176,
@@ -269,7 +269,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-1",
     "dest_host": "Server-kv-2",
     "send_time": 751,
@@ -282,7 +282,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-1",
     "dest_host": "Server-kv-4",
     "send_time": 751,
@@ -295,7 +295,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-1",
     "dest_host": "Server-kv-3",
     "send_time": 751,
@@ -308,7 +308,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-2",
     "dest_host": "Server-kv-1",
     "send_time": 781,
@@ -322,7 +322,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-1",
     "dest_host": "Server-kv-2",
     "send_time": 768,
@@ -336,7 +336,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-3",
     "dest_host": "Server-kv-1",
     "send_time": 801,
@@ -350,7 +350,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-1",
     "dest_host": "Client-2",
     "send_time": 848,
@@ -364,7 +364,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Client-2",
     "dest_host": "Server-kv-3",
     "send_time": 887,
@@ -377,7 +377,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-3",
     "dest_host": "Server-kv-3",
     "send_time": 944,
@@ -390,7 +390,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-3",
     "dest_host": "Server-kv-4",
     "send_time": 944,
@@ -403,7 +403,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-3",
     "dest_host": "Server-kv-1",
     "send_time": 944,
@@ -416,7 +416,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-3",
     "dest_host": "Server-kv-2",
     "send_time": 944,
@@ -429,7 +429,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-1",
     "dest_host": "Server-kv-3",
     "send_time": 986,
@@ -443,7 +443,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-2",
     "dest_host": "Server-kv-3",
     "send_time": 999,
@@ -457,7 +457,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-3",
     "dest_host": "Server-kv-3",
     "send_time": 1060,
@@ -471,7 +471,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-3",
     "dest_host": "Client-2",
     "send_time": 1061,
@@ -485,7 +485,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Client-2",
     "dest_host": "Server-kv-3",
     "send_time": 1136,
@@ -498,7 +498,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-3",
     "dest_host": "Server-kv-3",
     "send_time": 1177,
@@ -511,7 +511,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-3",
     "dest_host": "Server-kv-3",
     "send_time": 1178,
@@ -525,7 +525,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-3",
     "dest_host": "Server-kv-2",
     "send_time": 1177,
@@ -538,7 +538,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-3",
     "dest_host": "Server-kv-1",
     "send_time": 1177,
@@ -551,7 +551,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-1",
     "dest_host": "Server-kv-3",
     "send_time": 1224,
@@ -565,7 +565,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-4",
     "dest_host": "Server-kv-3",
     "send_time": 518,
@@ -578,7 +578,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-4",
     "dest_host": "Server-kv-1",
     "send_time": 794,
@@ -592,7 +592,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Client-1",
     "dest_host": "Server-kv-2",
     "send_time": 759,
@@ -605,7 +605,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-2",
     "dest_host": "Server-kv-2",
     "send_time": 1587,
@@ -618,7 +618,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-2",
     "dest_host": "Server-kv-2",
     "send_time": 1588,
@@ -632,7 +632,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-2",
     "dest_host": "Server-kv-3",
     "send_time": 1587,
@@ -645,7 +645,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-2",
     "dest_host": "Server-kv-4",
     "send_time": 1587,
@@ -658,7 +658,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-3",
     "dest_host": "Server-kv-2",
     "send_time": 1621,
@@ -672,7 +672,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-4",
     "dest_host": "Server-kv-2",
     "send_time": 1634,
@@ -686,7 +686,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-3",
     "dest_host": "Server-kv-4",
     "send_time": 1543,
@@ -700,7 +700,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-2",
     "dest_host": "Server-kv-1",
     "send_time": 1587,
@@ -713,7 +713,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-2",
     "dest_host": "Client-1",
     "send_time": 1666,
@@ -727,7 +727,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-1",
     "dest_host": "Server-kv-2",
     "send_time": 1713,
@@ -741,7 +741,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-4",
     "dest_host": "Server-kv-3",
     "send_time": 980,
@@ -755,7 +755,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-2",
     "dest_host": "Server-kv-3",
     "send_time": 1207,
@@ -769,7 +769,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Client-1",
     "dest_host": "Server-kv-2",
     "send_time": 1777,
@@ -782,7 +782,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-2",
     "dest_host": "Server-kv-2",
     "send_time": 1813,
@@ -795,7 +795,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-3",
     "dest_host": "Client-2",
     "send_time": 1782,
@@ -809,7 +809,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-2",
     "dest_host": "Server-kv-2",
     "send_time": 1837,
@@ -823,7 +823,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-2",
     "dest_host": "Server-kv-3",
     "send_time": 1813,
@@ -836,7 +836,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-2",
     "dest_host": "Server-kv-4",
     "send_time": 1813,
@@ -849,7 +849,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-2",
     "dest_host": "Server-kv-1",
     "send_time": 1813,
@@ -862,7 +862,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Client-2",
     "dest_host": "Server-kv-4",
     "send_time": 1858,
@@ -875,7 +875,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-1",
     "dest_host": "Server-kv-2",
     "send_time": 1866,
@@ -889,7 +889,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-4",
     "dest_host": "Server-kv-4",
     "send_time": 1911,
@@ -902,7 +902,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-4",
     "dest_host": "Server-kv-4",
     "send_time": 1916,
@@ -916,7 +916,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-3",
     "dest_host": "Server-kv-2",
     "send_time": 1888,
@@ -930,7 +930,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-4",
     "dest_host": "Server-kv-3",
     "send_time": 1911,
@@ -943,7 +943,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-4",
     "dest_host": "Server-kv-2",
     "send_time": 1916,
@@ -957,7 +957,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-4",
     "dest_host": "Server-kv-2",
     "send_time": 1911,
@@ -970,7 +970,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-4",
     "dest_host": "Server-kv-1",
     "send_time": 1911,
@@ -983,7 +983,7 @@
     }
   },
   {
-    "type": "message",
+    "event_type": "message",
     "source_host": "Server-kv-2",
     "dest_host": "Client-1",
     "send_time": 1937,

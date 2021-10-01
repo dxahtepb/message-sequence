@@ -155,12 +155,12 @@
 
     function transformTraceData(rawData) {
         // Assume we've got dataSample-like format
-        if (rawData.length !== 0 && rawData[0].type === undefined) {
+        if (rawData.length !== 0 && rawData[0].event_type === undefined) {
             return rawData;
         }
         // Data is in traceSample format
         return rawData
-            .filter(d => d.type === "message")
+            .filter(d => d.event_type === "message")
             .map(d => {
                 const converted = {
                     sender: d.source_host,
