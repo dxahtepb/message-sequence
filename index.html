@@ -159,7 +159,9 @@
             return rawData;
         }
         // Data is in traceSample format
-        return rawData.map(d => {
+        return rawData
+            .filter(d => d.type === "message")
+            .map(d => {
             const converted = {
                 sender: d.source_host,
                 receiver: d.dest_host,
