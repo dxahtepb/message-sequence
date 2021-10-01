@@ -45,9 +45,21 @@
         text-align: left !important;
     }
 
+    .fakebox {
+        display: none;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        position: fixed;
+    }
+
 </style>
 <body>
 <script src="https://d3js.org/d3.v5.min.js"></script>
+
+<div id="tooltip-container">
+
+</div>
 
 <div style="display: inline; position: absolute; left: 10px; top: 10px">
     <button id="settings-button">Open Settings</button>
@@ -427,57 +439,76 @@
      * @return {function(*, *): function(): void}
      */
     function createTooltipClosure() {
+        const container = d3.select("#tooltip-container");
+
         let tooltipDiv = d3.select("div[class='tooltip']");
+        let fakeBox = d3.select("#tooltip-fakebox");
         if (tooltipDiv.size() === 0) {
-            tooltipDiv = d3.select("body").append("div");
+            fakeBox = container.append("div")
+                .attr("class", "fakebox")
+                .attr("id", "tooltip-fakebox");
+            tooltipDiv = container.append("div")
+                .attr("class", "tooltip")
+                .attr("show", false)
+                .style("opacity", 0);
         }
-        tooltipDiv.attr("class", "tooltip")
-            .attr("show", false)
-            .style("opacity", 0);
 
         return (message, line) => {
             line.attr("id", "line_" + generateId(20));
+
+            function show() {
+                tooltipDiv.attr("show", true)
+                    .attr("selected-id", line.attr("id"))
+                    .style("pointer-events", "auto")
+                    .html(
+                        "<div class='tooltip-info'>"
+                        + "from: " + message.sender
+                        + "<br/>to: " + message.receiver
+                        + "<br/>started: " + message.startTs
+                        + "<br/>finished: " + message.endTs
+                        + "<br/>trace-id: " + message.traceId
+                        + "<br/>"
+                        + "</div>"
+                        + "<pre class='tooltip-message'>"
+                        + message.tooltipMessage
+                        + "</pre>"
+                    )
+                    .style("left", (d3.event.pageX) + "px")
+                    .style("top", (d3.event.pageY - 28) + "px")
+                    .transition()
+                    .duration(200)
+                    .style("opacity", 1);
+                line.transition()
+                    .duration(200)
+                    .style("stroke-width", SELECTED_STROKE_WIDTH);
+                fakeBox.on("click", hide)
+                    .style("display", "block");
+            }
+
+            function hide() {
+                const componentId = tooltipDiv.attr("selected-id");
+                tooltipDiv.attr("show", false)
+                    .attr("selected-id", null)
+                    .style("pointer-events", "none")
+                    .transition()
+                    .duration(300)
+                    .style("opacity", 0)
+                    .on("end", () => {
+                        tooltipDiv.text("")
+                    });
+                d3.select("#" + componentId)
+                    .transition()
+                    .duration(300)
+                    .style("stroke-width", DEFAULT_STROKE_WIDTH);
+                fakeBox.on("click", null)
+                    .style("display", "none");
+            }
+
             return () => {
                 if (tooltipDiv.attr("show") === "true") {
-                    const componentId = tooltipDiv.attr("selected-id");
-                    tooltipDiv.attr("show", false)
-                        .attr("selected-id", null)
-                        .style("pointer-events", "none")
-                        .transition()
-                        .duration(300)
-                        .style("opacity", 0)
-                        .on("end", () => {
-                            tooltipDiv.text("")
-                        });
-                    d3.select("#" + componentId)
-                        .transition()
-                        .duration(300)
-                        .style("stroke-width", DEFAULT_STROKE_WIDTH);
+                    hide();
                 } else {
-                    tooltipDiv.attr("show", true)
-                        .attr("selected-id", line.attr("id"))
-                        .style("pointer-events", "auto")
-                        .html(
-                            "<div class='tooltip-info'>"
-                            + "from: " + message.sender
-                            + "<br/>to: " + message.receiver
-                            + "<br/>started: " + message.startTs
-                            + "<br/>finished: " + message.endTs
-                            + "<br/>trace-id: " + message.traceId
-                            + "<br/>"
-                            + "</div>"
-                            + "<pre class='tooltip-message'>"
-                            + message.tooltipMessage
-                            + "</pre>"
-                        )
-                        .style("left", (d3.event.pageX) + "px")
-                        .style("top", (d3.event.pageY - 28) + "px")
-                        .transition()
-                        .duration(200)
-                        .style("opacity", 1);
-                    line.transition()
-                        .duration(200)
-                        .style("stroke-width", SELECTED_STROKE_WIDTH)
+                    show();
                 }
             }
         }
