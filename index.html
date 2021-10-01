@@ -49,7 +49,11 @@
 <body>
 <script src="https://d3js.org/d3.v5.min.js"></script>
 
-<button id="settings-button" style="position: absolute; left: 10px; top: 10px">Open Settings</button>
+<div style="display: inline; position: absolute; left: 10px; top: 10px">
+    <button id="settings-button">Open Settings</button>
+    <button id="clear-button">Clear</button>
+</div>
+
 <div id="settings" class="settings" style="left: 60px; top: 45px" show="false">
     <input id="file-selector" type="file">
 
@@ -88,9 +92,13 @@
         d3.select("#container")
             .append("svg")
             .attr("id", "chart1");
-        d3.json(dataPath)
-            .then(transformTraceData)
-            .then(processData)
+        if (dataPath !== "") {
+            d3.json(dataPath)
+                .then(transformTraceData)
+                .then(processData)
+        } else {
+            processData([])
+        }
     }
 
     const MESSAGE_LABEL_X_OFFSET = -40;
@@ -127,6 +135,15 @@
                     .duration(300)
                     .style("opacity", 1);
             }
+        });
+
+    d3.select("#clear-button")
+        .on("click", () => {
+            document.getElementById("file-selector").value = ''
+            settings.dataFilePath = ""
+            settings.readableFilePath = ""
+            settings.apply()
+            update("")
         });
 
     const settings = {
@@ -211,6 +228,22 @@
             margin = {top: 20, right: 50, bottom: 100, left: 80},
             width = VERT_SPACE * classes.length - margin.left - margin.right;
         const defs = svg.append("svg:defs")
+
+        if (data.length === 0) {
+            svg.attr("height", 800);
+            svg.attr("width", 600)
+
+            // Graph title
+            svg.append('g')
+                .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+                .append('text')
+                .attr('x', 400)
+                .attr('y', 0 - (margin.top / 3))
+                .attr('text-anchor', 'middle')
+                .style('font-size', '16px')
+                .text("You can load trace file from settings");
+            return;
+        }
 
         // Graph title
         svg.append('g')
