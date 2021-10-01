@@ -139,12 +139,16 @@
             settings.isColorizeTraces = document.getElementById("colorize-traces").checked;
             settings.timeScale = document.querySelector('input[name="time-scale-selector"]:checked').value
             console.log(settings);
-            update(DATA_FILE_PATH);
+
         }
     }
+    settings.apply()
 
     d3.select("#button-apply-settings")
-        .on("click", settings.apply);
+        .on("click", () => {
+            settings.apply()
+            update(DATA_FILE_PATH);
+        });
 
     function transformTraceData(rawData) {
         return rawData.map(d => {
