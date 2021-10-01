@@ -29,6 +29,7 @@
         border: 0;
         border-radius: 6px;
         opacity: 0;
+        pointer-events: none;
     }
 
     div.tooltip {
@@ -80,7 +81,10 @@
 <script>
     console.log(d3.version)
 
-    const DATA_FILE_PATH = "data.json";
+    const DATA_FILE_PATH = "traceSample.json";
+
+    const REQUEST_TYPE = "commute::rpc::proto::Request"
+    const RESPONSE_TYPE = "commute::rpc::proto::Response"
 
     function update(dataPath) {
         d3.selectAll("svg#chart1").remove();
@@ -88,6 +92,7 @@
             .append("svg")
             .attr("id", "chart1");
         d3.json(dataPath)
+            .then(transformTraceData)
             .then(processData)
     }
 
@@ -140,6 +145,25 @@
 
     d3.select("#button-apply-settings")
         .on("click", settings.apply);
+
+    function transformTraceData(rawData) {
+        return rawData.map(d => {
+            const converted = {
+                sender: d.source_host,
+                receiver: d.dest_host,
+                label: d.payload.method,
+                tooltipMessage: JSON.stringify(d.payload, null, '  '),
+                startTs: d.send_time,
+                endTs: d.receive_time,
+                payloadType: d.payload.type,
+                original: d
+            };
+            if (d.payload.trace_id !== undefined) {
+                converted.traceId = d.payload.trace_id
+            }
+            return converted;
+        });
+    }
 
     /**
      * @param {Object[]} data
