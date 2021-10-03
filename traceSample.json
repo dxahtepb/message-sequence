@@ -9,7 +9,16 @@
       "type": "commute::rpc::proto::Request",
       "id": 1,
       "trace_id": "Set-guid-X-1",
-      "method": "KV.Set"
+      "method": "KV.Set",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>, std::basic_string<char>>"
+        },
+        "object": {
+          "tuple_element0": "a",
+          "tuple_element1": "35"
+        }
+      }
     }
   },
   {
@@ -22,7 +31,21 @@
       "type": "commute::rpc::proto::Request",
       "id": 3,
       "trace_id": "Set-guid-X-1",
-      "method": "Replica.LocalWrite"
+      "method": "Replica.LocalWrite",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>, StampedValue>"
+        },
+        "object": {
+          "tuple_element0": "a",
+          "tuple_element1": {
+            "value": "35",
+            "timestamp": {
+              "value": 999
+            }
+          }
+        }
+      }
     }
   },
   {
@@ -36,7 +59,13 @@
       "id": 3,
       "trace_id": "Set-guid-X-1",
       "method": "Replica.LocalWrite",
-      "error": 0
+      "error": 0,
+      "result": {
+        "header": {
+          "type_name": "std::monostate"
+        },
+        "object": {}
+      }
     }
   },
   {
@@ -49,7 +78,21 @@
       "type": "commute::rpc::proto::Request",
       "id": 5,
       "trace_id": "Set-guid-X-1",
-      "method": "Replica.LocalWrite"
+      "method": "Replica.LocalWrite",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>, StampedValue>"
+        },
+        "object": {
+          "tuple_element0": "a",
+          "tuple_element1": {
+            "value": "35",
+            "timestamp": {
+              "value": 999
+            }
+          }
+        }
+      }
     }
   },
   {
@@ -63,7 +106,13 @@
       "id": 5,
       "trace_id": "Set-guid-X-1",
       "method": "Replica.LocalWrite",
-      "error": 0
+      "error": 0,
+      "result": {
+        "header": {
+          "type_name": "std::monostate"
+        },
+        "object": {}
+      }
     }
   },
   {
@@ -76,7 +125,21 @@
       "type": "commute::rpc::proto::Request",
       "id": 4,
       "trace_id": "Set-guid-X-1",
-      "method": "Replica.LocalWrite"
+      "method": "Replica.LocalWrite",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>, StampedValue>"
+        },
+        "object": {
+          "tuple_element0": "a",
+          "tuple_element1": {
+            "value": "35",
+            "timestamp": {
+              "value": 999
+            }
+          }
+        }
+      }
     }
   },
   {
@@ -89,7 +152,16 @@
       "type": "commute::rpc::proto::Request",
       "id": 6,
       "trace_id": "Set-guid-Z-2",
-      "method": "KV.Set"
+      "method": "KV.Set",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>, std::basic_string<char>>"
+        },
+        "object": {
+          "tuple_element0": "a",
+          "tuple_element1": "7"
+        }
+      }
     }
   },
   {
@@ -102,7 +174,21 @@
       "type": "commute::rpc::proto::Request",
       "id": 10,
       "trace_id": "Set-guid-Z-2",
-      "method": "Replica.LocalWrite"
+      "method": "Replica.LocalWrite",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>, StampedValue>"
+        },
+        "object": {
+          "tuple_element0": "a",
+          "tuple_element1": {
+            "value": "7",
+            "timestamp": {
+              "value": 1200
+            }
+          }
+        }
+      }
     }
   },
   {
@@ -116,7 +202,13 @@
       "id": 10,
       "trace_id": "Set-guid-Z-2",
       "method": "Replica.LocalWrite",
-      "error": 0
+      "error": 0,
+      "result": {
+        "header": {
+          "type_name": "std::monostate"
+        },
+        "object": {}
+      }
     }
   },
   {
@@ -129,7 +221,21 @@
       "type": "commute::rpc::proto::Request",
       "id": 7,
       "trace_id": "Set-guid-Z-2",
-      "method": "Replica.LocalWrite"
+      "method": "Replica.LocalWrite",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>, StampedValue>"
+        },
+        "object": {
+          "tuple_element0": "a",
+          "tuple_element1": {
+            "value": "7",
+            "timestamp": {
+              "value": 1200
+            }
+          }
+        }
+      }
     }
   },
   {
@@ -142,7 +248,21 @@
       "type": "commute::rpc::proto::Request",
       "id": 8,
       "trace_id": "Set-guid-Z-2",
-      "method": "Replica.LocalWrite"
+      "method": "Replica.LocalWrite",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>, StampedValue>"
+        },
+        "object": {
+          "tuple_element0": "a",
+          "tuple_element1": {
+            "value": "7",
+            "timestamp": {
+              "value": 1200
+            }
+          }
+        }
+      }
     }
   },
   {
@@ -156,7 +276,13 @@
       "id": 4,
       "trace_id": "Set-guid-X-1",
       "method": "Replica.LocalWrite",
-      "error": 0
+      "error": 0,
+      "result": {
+        "header": {
+          "type_name": "std::monostate"
+        },
+        "object": {}
+      }
     }
   },
   {
@@ -170,7 +296,13 @@
       "id": 7,
       "trace_id": "Set-guid-Z-2",
       "method": "Replica.LocalWrite",
-      "error": 0
+      "error": 0,
+      "result": {
+        "header": {
+          "type_name": "std::monostate"
+        },
+        "object": {}
+      }
     }
   },
   {
@@ -184,7 +316,13 @@
       "id": 1,
       "trace_id": "Set-guid-X-1",
       "method": "KV.Set",
-      "error": 0
+      "error": 0,
+      "result": {
+        "header": {
+          "type_name": "std::monostate"
+        },
+        "object": {}
+      }
     }
   },
   {
@@ -198,7 +336,13 @@
       "id": 8,
       "trace_id": "Set-guid-Z-2",
       "method": "Replica.LocalWrite",
-      "error": 0
+      "error": 0,
+      "result": {
+        "header": {
+          "type_name": "std::monostate"
+        },
+        "object": {}
+      }
     }
   },
   {
@@ -212,7 +356,13 @@
       "id": 6,
       "trace_id": "Set-guid-Z-2",
       "method": "KV.Set",
-      "error": 0
+      "error": 0,
+      "result": {
+        "header": {
+          "type_name": "std::monostate"
+        },
+        "object": {}
+      }
     }
   },
   {
@@ -225,7 +375,15 @@
       "type": "commute::rpc::proto::Request",
       "id": 11,
       "trace_id": "Get-guid-Y-3",
-      "method": "KV.Get"
+      "method": "KV.Get",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>>"
+        },
+        "object": {
+          "tuple_element0": "a"
+        }
+      }
     }
   },
   {
@@ -238,7 +396,15 @@
       "type": "commute::rpc::proto::Request",
       "id": 12,
       "trace_id": "Get-guid-Y-3",
-      "method": "Replica.LocalRead"
+      "method": "Replica.LocalRead",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>>"
+        },
+        "object": {
+          "tuple_element0": "a"
+        }
+      }
     }
   },
   {
@@ -252,7 +418,18 @@
       "id": 12,
       "trace_id": "Get-guid-Y-3",
       "method": "Replica.LocalRead",
-      "error": 0
+      "error": 0,
+      "result": {
+        "header": {
+          "type_name": "StampedValue"
+        },
+        "object": {
+          "value": "7",
+          "timestamp": {
+            "value": 1200
+          }
+        }
+      }
     }
   },
   {
@@ -265,7 +442,21 @@
       "type": "commute::rpc::proto::Request",
       "id": 2,
       "trace_id": "Set-guid-X-1",
-      "method": "Replica.LocalWrite"
+      "method": "Replica.LocalWrite",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>, StampedValue>"
+        },
+        "object": {
+          "tuple_element0": "a",
+          "tuple_element1": {
+            "value": "35",
+            "timestamp": {
+              "value": 999
+            }
+          }
+        }
+      }
     }
   },
   {
@@ -278,7 +469,15 @@
       "type": "commute::rpc::proto::Request",
       "id": 13,
       "trace_id": "Get-guid-Y-3",
-      "method": "Replica.LocalRead"
+      "method": "Replica.LocalRead",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>>"
+        },
+        "object": {
+          "tuple_element0": "a"
+        }
+      }
     }
   },
   {
@@ -291,7 +490,15 @@
       "type": "commute::rpc::proto::Request",
       "id": 15,
       "trace_id": "Get-guid-Y-3",
-      "method": "Replica.LocalRead"
+      "method": "Replica.LocalRead",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>>"
+        },
+        "object": {
+          "tuple_element0": "a"
+        }
+      }
     }
   },
   {
@@ -304,7 +511,15 @@
       "type": "commute::rpc::proto::Request",
       "id": 14,
       "trace_id": "Get-guid-Y-3",
-      "method": "Replica.LocalRead"
+      "method": "Replica.LocalRead",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>>"
+        },
+        "object": {
+          "tuple_element0": "a"
+        }
+      }
     }
   },
   {
@@ -318,7 +533,18 @@
       "id": 13,
       "trace_id": "Get-guid-Y-3",
       "method": "Replica.LocalRead",
-      "error": 0
+      "error": 0,
+      "result": {
+        "header": {
+          "type_name": "StampedValue"
+        },
+        "object": {
+          "value": "7",
+          "timestamp": {
+            "value": 1200
+          }
+        }
+      }
     }
   },
   {
@@ -332,7 +558,13 @@
       "id": 2,
       "trace_id": "Set-guid-X-1",
       "method": "Replica.LocalWrite",
-      "error": 0
+      "error": 0,
+      "result": {
+        "header": {
+          "type_name": "std::monostate"
+        },
+        "object": {}
+      }
     }
   },
   {
@@ -346,7 +578,18 @@
       "id": 14,
       "trace_id": "Get-guid-Y-3",
       "method": "Replica.LocalRead",
-      "error": 0
+      "error": 0,
+      "result": {
+        "header": {
+          "type_name": "StampedValue"
+        },
+        "object": {
+          "value": "35",
+          "timestamp": {
+            "value": 999
+          }
+        }
+      }
     }
   },
   {
@@ -360,7 +603,13 @@
       "id": 11,
       "trace_id": "Get-guid-Y-3",
       "method": "KV.Get",
-      "error": 0
+      "error": 0,
+      "result": {
+        "header": {
+          "type_name": "std::string"
+        },
+        "object": "7"
+      }
     }
   },
   {
@@ -373,7 +622,16 @@
       "type": "commute::rpc::proto::Request",
       "id": 17,
       "trace_id": "Set-guid-Z-5",
-      "method": "KV.Set"
+      "method": "KV.Set",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>, std::basic_string<char>>"
+        },
+        "object": {
+          "tuple_element0": "a",
+          "tuple_element1": "56"
+        }
+      }
     }
   },
   {
@@ -386,7 +644,21 @@
       "type": "commute::rpc::proto::Request",
       "id": 20,
       "trace_id": "Set-guid-Z-5",
-      "method": "Replica.LocalWrite"
+      "method": "Replica.LocalWrite",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>, StampedValue>"
+        },
+        "object": {
+          "tuple_element0": "a",
+          "tuple_element1": {
+            "value": "56",
+            "timestamp": {
+              "value": 1098
+            }
+          }
+        }
+      }
     }
   },
   {
@@ -399,7 +671,21 @@
       "type": "commute::rpc::proto::Request",
       "id": 21,
       "trace_id": "Set-guid-Z-5",
-      "method": "Replica.LocalWrite"
+      "method": "Replica.LocalWrite",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>, StampedValue>"
+        },
+        "object": {
+          "tuple_element0": "a",
+          "tuple_element1": {
+            "value": "56",
+            "timestamp": {
+              "value": 1098
+            }
+          }
+        }
+      }
     }
   },
   {
@@ -412,7 +698,21 @@
       "type": "commute::rpc::proto::Request",
       "id": 18,
       "trace_id": "Set-guid-Z-5",
-      "method": "Replica.LocalWrite"
+      "method": "Replica.LocalWrite",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>, StampedValue>"
+        },
+        "object": {
+          "tuple_element0": "a",
+          "tuple_element1": {
+            "value": "56",
+            "timestamp": {
+              "value": 1098
+            }
+          }
+        }
+      }
     }
   },
   {
@@ -425,7 +725,21 @@
       "type": "commute::rpc::proto::Request",
       "id": 19,
       "trace_id": "Set-guid-Z-5",
-      "method": "Replica.LocalWrite"
+      "method": "Replica.LocalWrite",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>, StampedValue>"
+        },
+        "object": {
+          "tuple_element0": "a",
+          "tuple_element1": {
+            "value": "56",
+            "timestamp": {
+              "value": 1098
+            }
+          }
+        }
+      }
     }
   },
   {
@@ -439,7 +753,13 @@
       "id": 18,
       "trace_id": "Set-guid-Z-5",
       "method": "Replica.LocalWrite",
-      "error": 0
+      "error": 0,
+      "result": {
+        "header": {
+          "type_name": "std::monostate"
+        },
+        "object": {}
+      }
     }
   },
   {
@@ -453,7 +773,13 @@
       "id": 19,
       "trace_id": "Set-guid-Z-5",
       "method": "Replica.LocalWrite",
-      "error": 0
+      "error": 0,
+      "result": {
+        "header": {
+          "type_name": "std::monostate"
+        },
+        "object": {}
+      }
     }
   },
   {
@@ -467,7 +793,13 @@
       "id": 20,
       "trace_id": "Set-guid-Z-5",
       "method": "Replica.LocalWrite",
-      "error": 0
+      "error": 0,
+      "result": {
+        "header": {
+          "type_name": "std::monostate"
+        },
+        "object": {}
+      }
     }
   },
   {
@@ -481,7 +813,13 @@
       "id": 17,
       "trace_id": "Set-guid-Z-5",
       "method": "KV.Set",
-      "error": 0
+      "error": 0,
+      "result": {
+        "header": {
+          "type_name": "std::monostate"
+        },
+        "object": {}
+      }
     }
   },
   {
@@ -494,7 +832,15 @@
       "type": "commute::rpc::proto::Request",
       "id": 22,
       "trace_id": "Get-guid-Y-6",
-      "method": "KV.Get"
+      "method": "KV.Get",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>>"
+        },
+        "object": {
+          "tuple_element0": "a"
+        }
+      }
     }
   },
   {
@@ -507,7 +853,15 @@
       "type": "commute::rpc::proto::Request",
       "id": 25,
       "trace_id": "Get-guid-Y-6",
-      "method": "Replica.LocalRead"
+      "method": "Replica.LocalRead",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>>"
+        },
+        "object": {
+          "tuple_element0": "a"
+        }
+      }
     }
   },
   {
@@ -521,7 +875,18 @@
       "id": 25,
       "trace_id": "Get-guid-Y-6",
       "method": "Replica.LocalRead",
-      "error": 0
+      "error": 0,
+      "result": {
+        "header": {
+          "type_name": "StampedValue"
+        },
+        "object": {
+          "value": "56",
+          "timestamp": {
+            "value": 1098
+          }
+        }
+      }
     }
   },
   {
@@ -534,7 +899,15 @@
       "type": "commute::rpc::proto::Request",
       "id": 24,
       "trace_id": "Get-guid-Y-6",
-      "method": "Replica.LocalRead"
+      "method": "Replica.LocalRead",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>>"
+        },
+        "object": {
+          "tuple_element0": "a"
+        }
+      }
     }
   },
   {
@@ -547,7 +920,15 @@
       "type": "commute::rpc::proto::Request",
       "id": 23,
       "trace_id": "Get-guid-Y-6",
-      "method": "Replica.LocalRead"
+      "method": "Replica.LocalRead",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>>"
+        },
+        "object": {
+          "tuple_element0": "a"
+        }
+      }
     }
   },
   {
@@ -561,7 +942,18 @@
       "id": 23,
       "trace_id": "Get-guid-Y-6",
       "method": "Replica.LocalRead",
-      "error": 0
+      "error": 0,
+      "result": {
+        "header": {
+          "type_name": "StampedValue"
+        },
+        "object": {
+          "value": "7",
+          "timestamp": {
+            "value": 1200
+          }
+        }
+      }
     }
   },
   {
@@ -574,7 +966,21 @@
       "type": "commute::rpc::proto::Request",
       "id": 9,
       "trace_id": "Set-guid-Z-2",
-      "method": "Replica.LocalWrite"
+      "method": "Replica.LocalWrite",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>, StampedValue>"
+        },
+        "object": {
+          "tuple_element0": "a",
+          "tuple_element1": {
+            "value": "7",
+            "timestamp": {
+              "value": 1200
+            }
+          }
+        }
+      }
     }
   },
   {
@@ -588,7 +994,18 @@
       "id": 15,
       "trace_id": "Get-guid-Y-3",
       "method": "Replica.LocalRead",
-      "error": 0
+      "error": 0,
+      "result": {
+        "header": {
+          "type_name": "StampedValue"
+        },
+        "object": {
+          "value": "7",
+          "timestamp": {
+            "value": 1200
+          }
+        }
+      }
     }
   },
   {
@@ -601,7 +1018,15 @@
       "type": "commute::rpc::proto::Request",
       "id": 16,
       "trace_id": "Get-guid-X-4",
-      "method": "KV.Get"
+      "method": "KV.Get",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>>"
+        },
+        "object": {
+          "tuple_element0": "a"
+        }
+      }
     }
   },
   {
@@ -614,7 +1039,15 @@
       "type": "commute::rpc::proto::Request",
       "id": 28,
       "trace_id": "Get-guid-X-4",
-      "method": "Replica.LocalRead"
+      "method": "Replica.LocalRead",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>>"
+        },
+        "object": {
+          "tuple_element0": "a"
+        }
+      }
     }
   },
   {
@@ -628,7 +1061,18 @@
       "id": 28,
       "trace_id": "Get-guid-X-4",
       "method": "Replica.LocalRead",
-      "error": 0
+      "error": 0,
+      "result": {
+        "header": {
+          "type_name": "StampedValue"
+        },
+        "object": {
+          "value": "7",
+          "timestamp": {
+            "value": 1200
+          }
+        }
+      }
     }
   },
   {
@@ -641,7 +1085,15 @@
       "type": "commute::rpc::proto::Request",
       "id": 29,
       "trace_id": "Get-guid-X-4",
-      "method": "Replica.LocalRead"
+      "method": "Replica.LocalRead",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>>"
+        },
+        "object": {
+          "tuple_element0": "a"
+        }
+      }
     }
   },
   {
@@ -654,7 +1106,15 @@
       "type": "commute::rpc::proto::Request",
       "id": 30,
       "trace_id": "Get-guid-X-4",
-      "method": "Replica.LocalRead"
+      "method": "Replica.LocalRead",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>>"
+        },
+        "object": {
+          "tuple_element0": "a"
+        }
+      }
     }
   },
   {
@@ -668,7 +1128,18 @@
       "id": 29,
       "trace_id": "Get-guid-X-4",
       "method": "Replica.LocalRead",
-      "error": 0
+      "error": 0,
+      "result": {
+        "header": {
+          "type_name": "StampedValue"
+        },
+        "object": {
+          "value": "7",
+          "timestamp": {
+            "value": 1200
+          }
+        }
+      }
     }
   },
   {
@@ -682,7 +1153,18 @@
       "id": 30,
       "trace_id": "Get-guid-X-4",
       "method": "Replica.LocalRead",
-      "error": 0
+      "error": 0,
+      "result": {
+        "header": {
+          "type_name": "StampedValue"
+        },
+        "object": {
+          "value": "7",
+          "timestamp": {
+            "value": 1200
+          }
+        }
+      }
     }
   },
   {
@@ -696,7 +1178,13 @@
       "id": 9,
       "trace_id": "Set-guid-Z-2",
       "method": "Replica.LocalWrite",
-      "error": 0
+      "error": 0,
+      "result": {
+        "header": {
+          "type_name": "std::monostate"
+        },
+        "object": {}
+      }
     }
   },
   {
@@ -709,7 +1197,15 @@
       "type": "commute::rpc::proto::Request",
       "id": 27,
       "trace_id": "Get-guid-X-4",
-      "method": "Replica.LocalRead"
+      "method": "Replica.LocalRead",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>>"
+        },
+        "object": {
+          "tuple_element0": "a"
+        }
+      }
     }
   },
   {
@@ -723,7 +1219,13 @@
       "id": 16,
       "trace_id": "Get-guid-X-4",
       "method": "KV.Get",
-      "error": 0
+      "error": 0,
+      "result": {
+        "header": {
+          "type_name": "std::string"
+        },
+        "object": "7"
+      }
     }
   },
   {
@@ -737,7 +1239,18 @@
       "id": 27,
       "trace_id": "Get-guid-X-4",
       "method": "Replica.LocalRead",
-      "error": 0
+      "error": 0,
+      "result": {
+        "header": {
+          "type_name": "StampedValue"
+        },
+        "object": {
+          "value": "7",
+          "timestamp": {
+            "value": 1200
+          }
+        }
+      }
     }
   },
   {
@@ -751,7 +1264,13 @@
       "id": 21,
       "trace_id": "Set-guid-Z-5",
       "method": "Replica.LocalWrite",
-      "error": 0
+      "error": 0,
+      "result": {
+        "header": {
+          "type_name": "std::monostate"
+        },
+        "object": {}
+      }
     }
   },
   {
@@ -765,7 +1284,18 @@
       "id": 24,
       "trace_id": "Get-guid-Y-6",
       "method": "Replica.LocalRead",
-      "error": 0
+      "error": 0,
+      "result": {
+        "header": {
+          "type_name": "StampedValue"
+        },
+        "object": {
+          "value": "7",
+          "timestamp": {
+            "value": 1200
+          }
+        }
+      }
     }
   },
   {
@@ -778,7 +1308,16 @@
       "type": "commute::rpc::proto::Request",
       "id": 31,
       "trace_id": "Set-guid-X-7",
-      "method": "KV.Set"
+      "method": "KV.Set",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>, std::basic_string<char>>"
+        },
+        "object": {
+          "tuple_element0": "a",
+          "tuple_element1": "22"
+        }
+      }
     }
   },
   {
@@ -791,7 +1330,21 @@
       "type": "commute::rpc::proto::Request",
       "id": 33,
       "trace_id": "Set-guid-X-7",
-      "method": "Replica.LocalWrite"
+      "method": "Replica.LocalWrite",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>, StampedValue>"
+        },
+        "object": {
+          "tuple_element0": "a",
+          "tuple_element1": {
+            "value": "22",
+            "timestamp": {
+              "value": 2636
+            }
+          }
+        }
+      }
     }
   },
   {
@@ -805,7 +1358,13 @@
       "id": 22,
       "trace_id": "Get-guid-Y-6",
       "method": "KV.Get",
-      "error": 0
+      "error": 0,
+      "result": {
+        "header": {
+          "type_name": "std::string"
+        },
+        "object": "7"
+      }
     }
   },
   {
@@ -819,7 +1378,13 @@
       "id": 33,
       "trace_id": "Set-guid-X-7",
       "method": "Replica.LocalWrite",
-      "error": 0
+      "error": 0,
+      "result": {
+        "header": {
+          "type_name": "std::monostate"
+        },
+        "object": {}
+      }
     }
   },
   {
@@ -832,7 +1397,21 @@
       "type": "commute::rpc::proto::Request",
       "id": 34,
       "trace_id": "Set-guid-X-7",
-      "method": "Replica.LocalWrite"
+      "method": "Replica.LocalWrite",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>, StampedValue>"
+        },
+        "object": {
+          "tuple_element0": "a",
+          "tuple_element1": {
+            "value": "22",
+            "timestamp": {
+              "value": 2636
+            }
+          }
+        }
+      }
     }
   },
   {
@@ -845,7 +1424,21 @@
       "type": "commute::rpc::proto::Request",
       "id": 35,
       "trace_id": "Set-guid-X-7",
-      "method": "Replica.LocalWrite"
+      "method": "Replica.LocalWrite",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>, StampedValue>"
+        },
+        "object": {
+          "tuple_element0": "a",
+          "tuple_element1": {
+            "value": "22",
+            "timestamp": {
+              "value": 2636
+            }
+          }
+        }
+      }
     }
   },
   {
@@ -858,7 +1451,21 @@
       "type": "commute::rpc::proto::Request",
       "id": 32,
       "trace_id": "Set-guid-X-7",
-      "method": "Replica.LocalWrite"
+      "method": "Replica.LocalWrite",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>, StampedValue>"
+        },
+        "object": {
+          "tuple_element0": "a",
+          "tuple_element1": {
+            "value": "22",
+            "timestamp": {
+              "value": 2636
+            }
+          }
+        }
+      }
     }
   },
   {
@@ -871,7 +1478,16 @@
       "type": "commute::rpc::proto::Request",
       "id": 36,
       "trace_id": "Set-guid-Z-8",
-      "method": "KV.Set"
+      "method": "KV.Set",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>, std::basic_string<char>>"
+        },
+        "object": {
+          "tuple_element0": "a",
+          "tuple_element1": "29"
+        }
+      }
     }
   },
   {
@@ -885,7 +1501,13 @@
       "id": 32,
       "trace_id": "Set-guid-X-7",
       "method": "Replica.LocalWrite",
-      "error": 0
+      "error": 0,
+      "result": {
+        "header": {
+          "type_name": "std::monostate"
+        },
+        "object": {}
+      }
     }
   },
   {
@@ -898,21 +1520,41 @@
       "type": "commute::rpc::proto::Request",
       "id": 40,
       "trace_id": "Set-guid-Z-8",
-      "method": "Replica.LocalWrite"
+      "method": "Replica.LocalWrite",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>, StampedValue>"
+        },
+        "object": {
+          "tuple_element0": "a",
+          "tuple_element1": {
+            "value": "29",
+            "timestamp": {
+              "value": 2593
+            }
+          }
+        }
+      }
     }
   },
   {
     "event_type": "message",
     "source_host": "Server-kv-4",
     "dest_host": "Server-kv-4",
-    "send_time": 1916,
-    "receive_time": 1917,
+    "send_time": 1935,
+    "receive_time": 1936,
     "payload": {
       "type": "commute::rpc::proto::Response",
       "id": 40,
       "trace_id": "Set-guid-Z-8",
       "method": "Replica.LocalWrite",
-      "error": 0
+      "error": 0,
+      "result": {
+        "header": {
+          "type_name": "std::monostate"
+        },
+        "object": {}
+      }
     }
   },
   {
@@ -926,7 +1568,13 @@
       "id": 34,
       "trace_id": "Set-guid-X-7",
       "method": "Replica.LocalWrite",
-      "error": 0
+      "error": 0,
+      "result": {
+        "header": {
+          "type_name": "std::monostate"
+        },
+        "object": {}
+      }
     }
   },
   {
@@ -939,21 +1587,21 @@
       "type": "commute::rpc::proto::Request",
       "id": 39,
       "trace_id": "Set-guid-Z-8",
-      "method": "Replica.LocalWrite"
-    }
-  },
-  {
-    "event_type": "message",
-    "source_host": "Server-kv-4",
-    "dest_host": "Server-kv-2",
-    "send_time": 1916,
-    "receive_time": 1961,
-    "payload": {
-      "type": "commute::rpc::proto::Response",
-      "id": 35,
-      "trace_id": "Set-guid-X-7",
       "method": "Replica.LocalWrite",
-      "error": 0
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>, StampedValue>"
+        },
+        "object": {
+          "tuple_element0": "a",
+          "tuple_element1": {
+            "value": "29",
+            "timestamp": {
+              "value": 2593
+            }
+          }
+        }
+      }
     }
   },
   {
@@ -966,7 +1614,21 @@
       "type": "commute::rpc::proto::Request",
       "id": 38,
       "trace_id": "Set-guid-Z-8",
-      "method": "Replica.LocalWrite"
+      "method": "Replica.LocalWrite",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>, StampedValue>"
+        },
+        "object": {
+          "tuple_element0": "a",
+          "tuple_element1": {
+            "value": "29",
+            "timestamp": {
+              "value": 2593
+            }
+          }
+        }
+      }
     }
   },
   {
@@ -979,7 +1641,62 @@
       "type": "commute::rpc::proto::Request",
       "id": 37,
       "trace_id": "Set-guid-Z-8",
-      "method": "Replica.LocalWrite"
+      "method": "Replica.LocalWrite",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>, StampedValue>"
+        },
+        "object": {
+          "tuple_element0": "a",
+          "tuple_element1": {
+            "value": "29",
+            "timestamp": {
+              "value": 2593
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "event_type": "message",
+    "source_host": "Server-kv-3",
+    "dest_host": "Server-kv-4",
+    "send_time": 1177,
+    "receive_time": 1984,
+    "payload": {
+      "type": "commute::rpc::proto::Request",
+      "id": 26,
+      "trace_id": "Get-guid-Y-6",
+      "method": "Replica.LocalRead",
+      "arguments": {
+        "header": {
+          "type_name": "std::tuple<std::basic_string<char>>"
+        },
+        "object": {
+          "tuple_element0": "a"
+        }
+      }
+    }
+  },
+  {
+    "event_type": "message",
+    "source_host": "Server-kv-3",
+    "dest_host": "Server-kv-4",
+    "send_time": 1952,
+    "receive_time": 1994,
+    "payload": {
+      "type": "commute::rpc::proto::Response",
+      "id": 39,
+      "trace_id": "Set-guid-Z-8",
+      "method": "Replica.LocalWrite",
+      "error": 0,
+      "result": {
+        "header": {
+          "type_name": "std::monostate"
+        },
+        "object": {}
+      }
     }
   },
   {
@@ -987,13 +1704,19 @@
     "source_host": "Server-kv-2",
     "dest_host": "Client-1",
     "send_time": 1937,
-    "receive_time": 1969,
+    "receive_time": 1995,
     "payload": {
       "type": "commute::rpc::proto::Response",
       "id": 31,
       "trace_id": "Set-guid-X-7",
       "method": "KV.Set",
-      "error": 0
+      "error": 0,
+      "result": {
+        "header": {
+          "type_name": "std::monostate"
+        },
+        "object": {}
+      }
     }
   }
 ]
