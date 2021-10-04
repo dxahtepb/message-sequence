@@ -157,10 +157,7 @@ function processData(data) {
     // Graph title
     svg
       .append("g")
-      .attr(
-        "transform",
-        "translate(" + margin.left + "," + (Y_PAD - margin.top) + ")"
-      )
+      .attr("transform", `translate(${margin.left}, ${Y_PAD - margin.top})`)
       .append("text")
       .attr("x", 400)
       .attr("y", 0 - margin.top / 3)
@@ -173,16 +170,13 @@ function processData(data) {
   // Graph title
   svg
     .append("g")
-    .attr(
-      "transform",
-      "translate(" + margin.left + "," + (Y_PAD - margin.top) + ")"
-    )
+    .attr("transform", `translate(${margin.left}, ${Y_PAD - margin.top})`)
     .append("text")
     .attr("x", width / 2)
     .attr("y", 0 - margin.top / 3)
     .attr("text-anchor", "middle")
     .style("font-size", "16px")
-    .text("Sequence diagram " + settings.readableFilePath);
+    .text(`Sequence diagram ${settings.readableFilePath}`);
 
   // Prepare data
   const logicalTimestamps = compressTimestamps(data);
@@ -258,7 +252,7 @@ function processData(data) {
 
     svg
       .append("g")
-      .attr("transform", "translate(" + xStart + "," + yStart + ")")
+      .attr("transform", `translate(${xStart}, ${yStart})`)
       .append("text")
       .attr("dx", "5px")
       .attr("dy", "-2px")
@@ -286,7 +280,7 @@ function processData(data) {
       renderedTimestamps.add(yStart);
       svg
         .append("g")
-        .attr("transform", "translate(" + xPos + "," + yStart + ")")
+        .attr("transform", `translate(${xPos}, ${yStart})`)
         .attr("class", "first")
         .attr("text-anchor", "middle")
         .append("text")
@@ -298,7 +292,7 @@ function processData(data) {
       renderedTimestamps.add(yEnd);
       svg
         .append("g")
-        .attr("transform", "translate(" + xPos + "," + yEnd + ")")
+        .attr("transform", `translate(${xPos}, ${yEnd})`)
         .attr("class", "first")
         .attr("text-anchor", "middle")
         .append("text")
@@ -312,7 +306,7 @@ function processData(data) {
     const x = X_PAD + i * VERT_SPACE;
     const g = svg
       .append("g")
-      .attr("transform", "translate(" + x + "," + Y_PAD + ")")
+      .attr("transform", `translate(${x}, ${Y_PAD})`)
       .attr("class", "class-rect sticky-trace-header");
     g.append("rect")
       .attr("x", -CLASS_WIDTH / 2)
@@ -387,25 +381,19 @@ function createTooltipClosure() {
         .attr("show", true)
         .style("pointer-events", "auto")
         .html(
-          "<div class='tooltip-info'>" +
-            "from: " +
-            message.sender +
-            "<br/>to: " +
-            message.receiver +
-            "<br/>started: " +
-            message.startTs +
-            "<br/>finished: " +
-            message.endTs +
-            "<br/>trace-id: " +
-            message.traceId +
-            "<br/>" +
-            "</div>" +
-            "<pre class='tooltip-message'>" +
-            message.tooltipMessage +
-            "</pre>"
+          `<div class='tooltip-info'>
+            from: ${message.sender}
+            <br/>to: ${message.receiver}
+            <br/>started: ${message.startTs}
+            <br/>finished: ${message.endTs}
+            <br/>trace-id: ${message.traceId}
+            <br/>
+            </div>
+            <pre class='tooltip-message'> ${message.tooltipMessage}
+            </pre>`
         )
-        .style("left", d3.event.pageX + "px")
-        .style("top", d3.event.pageY - 28 + "px")
+        .style("left", `${d3.event.pageX}px`)
+        .style("top", `${d3.event.pageY - 28}px`)
         .transition()
         .duration(200)
         .style("opacity", 1);
@@ -535,7 +523,7 @@ function arrowColoredMarkerClosure(svgDefs) {
         .style("fill", color);
       usedColors.add(color);
     }
-    return "url(#arrowColoredMarker" + colorWithoutHash + ")";
+    return `url(#arrowColoredMarker${colorWithoutHash})`;
   };
 }
 
@@ -575,10 +563,7 @@ function showError(error) {
   // Graph title
   svg
     .append("g")
-    .attr(
-      "transform",
-      "translate(" + margin.left + "," + (Y_PAD - margin.top) + ")"
-    )
+    .attr("transform", `translate(${margin.left}, ${Y_PAD - margin.top})`)
     .append("text")
     .attr("x", 400)
     .attr("y", 0 - margin.top / 3)
@@ -599,7 +584,7 @@ window.addEventListener("scroll", () => {
       if (window.scrollY > Y_PAD) {
         y = screenYtoSVGUnits(window.scrollY);
       }
-      element.setAttribute("transform", "translate(" + x + "," + y + ")");
+      element.setAttribute("transform", `translate(${x}, ${y})`);
     }
   );
 });
