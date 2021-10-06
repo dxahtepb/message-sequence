@@ -15,7 +15,7 @@ const CLASS_WIDTH = VERT_SPACE - 10;
 const settings = {
   isColorizeTraces: true,
   timeScale: "logical",
-  dataFilePath: "traceSample.json",
+  dataFilePath: "../traceSample.json",
   readableFilePath: "traceSample.json",
   apply: () => {
     settings.isColorizeTraces =
