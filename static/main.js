@@ -177,37 +177,31 @@ function processData(data) {
   // Draw message arrows
   const colorSelector = arrowColorSelector(settings, data);
   const arrowColoredMarker = arrowColoredMarkerClosure(defs);
+  const timeScaleModel = createTimeScaleModel(settings)
 
   data.forEach((m) => {
     const xStart = X_PAD + classes.indexOf(m.sender) * VERT_SPACE;
     const xEnd = X_PAD + classes.indexOf(m.receiver) * VERT_SPACE;
-    let yStart, yEnd;
-    if (settings.timeScale === "logical") {
-      yStart = MESSAGE_ARROW_Y_OFFSET + m.logicalStart * MESSAGE_SPACE;
-      yEnd = MESSAGE_ARROW_Y_OFFSET + m.logicalEnd * MESSAGE_SPACE;
-    } else {
-      yStart = MESSAGE_ARROW_Y_OFFSET + m.startTs;
-      yEnd = MESSAGE_ARROW_Y_OFFSET + m.endTs;
-    }
+    const yCoords = timeScaleModel(m)
     const color = colorSelector(m);
 
-    const path = makeLink(svg, m, xStart, yStart, xEnd, yEnd)
+    const path = makeLink(svg, m, xStart, yCoords.start, xEnd, yCoords.end)
       .attr("trace-id", m.traceId)
       .attr("marker-end", arrowColoredMarker(color))
       .style("stroke", color)
       .style("stroke-width", DEFAULT_STROKE_WIDTH);
-    const clickPath = makeLink(svg, m, xStart, yStart, xEnd, yEnd)
+    const clickPath = makeLink(svg, m, xStart, yCoords.start, xEnd, yCoords.end)
       .style("stroke", "rgba(0,0,0,0)")
       .style("cursor", "pointer")
       .style("stroke-width", "5px");
-    clickPath.on("click", showTooltipClosure(m, path, clickPath));
+    clickPath.on("click", showTooltipClosure(m, path));
     if (m.payloadType === RESPONSE_TYPE) {
       path.style("stroke-dasharray", "5, 3");
     }
 
     svg
       .append("g")
-      .attr("transform", `translate(${xStart}, ${yStart})`)
+      .attr("transform", `translate(${xStart}, ${yCoords.start})`)
       .append("text")
       .attr("dx", "5px")
       .attr("dy", "-2px")
@@ -222,38 +216,9 @@ function processData(data) {
   const renderedTimestamps = new Set();
   data.forEach((m) => {
     const xPos = X_PAD + MESSAGE_LABEL_X_OFFSET;
-    let yStart, yEnd;
-    if (settings.timeScale === "logical") {
-      yStart = MESSAGE_ARROW_Y_OFFSET + m.logicalStart * MESSAGE_SPACE;
-      yEnd = MESSAGE_ARROW_Y_OFFSET + m.logicalEnd * MESSAGE_SPACE;
-    } else {
-      yStart = MESSAGE_ARROW_Y_OFFSET + m.startTs;
-      yEnd = MESSAGE_ARROW_Y_OFFSET + m.endTs;
-    }
-
-    if (!renderedTimestamps.has(yStart)) {
-      renderedTimestamps.add(yStart);
-      svg
-        .append("g")
-        .attr("transform", `translate(${xPos}, ${yStart})`)
-        .attr("class", "first")
-        .attr("text-anchor", "middle")
-        .append("text")
-        .style("font-size", "10px")
-        .text(() => m.startTs);
-    }
-
-    if (!renderedTimestamps.has(yEnd)) {
-      renderedTimestamps.add(yEnd);
-      svg
-        .append("g")
-        .attr("transform", `translate(${xPos}, ${yEnd})`)
-        .attr("class", "first")
-        .attr("text-anchor", "middle")
-        .append("text")
-        .style("font-size", "10px")
-        .text(() => m.endTs);
-    }
+    const yCoords = timeScaleModel(m)
+    drawTimestamp(svg, xPos, yCoords.start, m, renderedTimestamps);
+    drawTimestamp(svg, xPos, yCoords.end, m, renderedTimestamps);
   });
 
   // Draw classes
@@ -274,6 +239,29 @@ function processData(data) {
       .text(() => c)
       .attr("dy", "16px");
   });
+}
+
+function showError(error) {
+  console.error(error);
+  const svg = d3.select("svg#chart1"),
+      margin = { top: 10, right: 50, bottom: 100, left: 80 };
+  svg.attr("height", 800);
+  svg.attr("width", "100%");
+
+  // Graph title
+  svg
+      .append("g")
+      .attr("transform", `translate(${margin.left}, ${Y_PAD - margin.top})`)
+      .append("text")
+      .attr("x", 400)
+      .attr("y", 0 - margin.top / 3)
+      .attr("text-anchor", "middle")
+      .style("font-size", "16px")
+      .text(
+          "Can't draw trace from " +
+          settings.readableFilePath +
+          "! Did u chose correct trace file?"
+      );
 }
 
 // Get data attach to window

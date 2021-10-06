@@ -7,17 +7,7 @@ function makeLink(svg, m, xStart, yStart, xEnd, yEnd) {
 }
 
 /**
- *  @param {number} length
- *  @returns {string} random string
- */
-function generateId(length) {
-  const arr = new Uint8Array((length || 40) / 2);
-  window.crypto.getRandomValues(arr);
-  return Array.from(arr, (_) => _.toString(16).padStart(2, "0")).join("");
-}
-
-/**
- * @return {function(*, *, *): function(): void}
+ * @return {function(*, *): function(): void}
  */
 function createTooltipClosure() {
   const container = d3.select("#tooltip-container");
@@ -214,29 +204,6 @@ function escapeHtml(str) {
   );
 }
 
-function showError(error) {
-  console.error(error);
-  const svg = d3.select("svg#chart1"),
-    margin = { top: 10, right: 50, bottom: 100, left: 80 };
-  svg.attr("height", 800);
-  svg.attr("width", "100%");
-
-  // Graph title
-  svg
-    .append("g")
-    .attr("transform", `translate(${margin.left}, ${Y_PAD - margin.top})`)
-    .append("text")
-    .attr("x", 400)
-    .attr("y", 0 - margin.top / 3)
-    .attr("text-anchor", "middle")
-    .style("font-size", "16px")
-    .text(
-      "Can't draw trace from " +
-        settings.readableFilePath +
-        "! Did u chose correct trace file?"
-    );
-}
-
 // Converts a screen Y position to SVG units which have a viewBox transform
 function screenYtoSVGUnits(val) {
   const svg = document.getElementById("chart1");
@@ -261,4 +228,40 @@ function makeLine(xStart, yStart, xEnd, yEnd, context) {
   context.moveTo(xStart, yStart);
   context.lineTo(xEnd, yEnd);
   return context;
+}
+
+function drawTimestamp(svg, xPos, yPos, m, renderedTimestamps) {
+  if (!renderedTimestamps.has(yPos)) {
+    renderedTimestamps.add(yPos)
+    svg
+        .append("g")
+        .attr("transform", `translate(${xPos}, ${yPos})`)
+        .attr("class", "first")
+        .attr("text-anchor", "middle")
+        .append("text")
+        .style("font-size", "10px")
+        .text(() => m.endTs);
+  }
+}
+
+/**
+ * @param settings
+ * @returns {function(*): {start, end}}
+ */
+export function createTimeScaleModel(settings) {
+  if (settings.timeScale === "logical") {
+    return function (m) {
+      return {
+        start: MESSAGE_ARROW_Y_OFFSET + m.logicalStart * MESSAGE_SPACE,
+        end: MESSAGE_ARROW_Y_OFFSET + m.logicalEnd * MESSAGE_SPACE
+      }
+    }
+  } else {
+    return function (m) {
+      return {
+        start: MESSAGE_ARROW_Y_OFFSET + m.startTs,
+        end: MESSAGE_ARROW_Y_OFFSET + m.endTs
+      }
+    }
+  }
 }
