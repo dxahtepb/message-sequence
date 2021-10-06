@@ -248,7 +248,7 @@ function drawTimestamp(svg, xPos, yPos, m, renderedTimestamps) {
  * @param settings
  * @returns {function(*): {start, end}}
  */
-export function createTimeScaleModel(settings) {
+function createTimeScaleModel(settings) {
   if (settings.timeScale === "logical") {
     return function (m) {
       return {
