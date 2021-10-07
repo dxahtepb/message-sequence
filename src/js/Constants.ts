@@ -1,0 +1,11 @@
+export const REQUEST_TYPE = "commute::rpc::proto::Request";
+export const RESPONSE_TYPE = "commute::rpc::proto::Response";
+export const VERT_SPACE = 170;
+export const X_PAD = 100;
+export const Y_PAD = 70;
+export const MESSAGE_LABEL_X_OFFSET = -40;
+export const MESSAGE_ARROW_Y_OFFSET = Y_PAD + 50;
+export const MESSAGE_SPACE = 30;
+export const DEFAULT_STROKE_WIDTH = "1px";
+export const SELECTED_STROKE_WIDTH = "2px";
+export const CLASS_WIDTH = VERT_SPACE - 10;

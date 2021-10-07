@@ -1,44 +1,32 @@
+import * as d3 from "d3";
+import {createTooltipClosure} from "./js/Tooltip";
+import {MessageData} from "./js/Types/MessageData";
+import {
+  CLASS_WIDTH,
+  DEFAULT_STROKE_WIDTH,
+  MESSAGE_ARROW_Y_OFFSET,
+  MESSAGE_LABEL_X_OFFSET,
+  MESSAGE_SPACE,
+  RESPONSE_TYPE,
+  VERT_SPACE,
+  X_PAD,
+  Y_PAD
+} from "./js/Constants";
+import {settings} from "./js/Settings";
+import {escapeHtml, replaceNewlineWithBr} from "./js/Util";
+import {compressTimestamps, createTimeScaleModel} from "./js/TimespampModel";
+import {arrowColorSelector} from "./js/Colors";
+import {applyStickyScrollForClass} from "./js/Svg/StickyScroll";
+import {makeArrowLine} from "./js/Svg/MessageArrow";
+import {drawTimestamp} from "./js/Svg/Timestamp";
+
 console.log(d3.version);
 
-const REQUEST_TYPE = "commute::rpc::proto::Request";
-const RESPONSE_TYPE = "commute::rpc::proto::Response";
-const VERT_SPACE = 170;
-const X_PAD = 100;
-const Y_PAD = 70;
-const MESSAGE_LABEL_X_OFFSET = -40;
-const MESSAGE_ARROW_Y_OFFSET = Y_PAD + 50;
-const MESSAGE_SPACE = 30;
-const DEFAULT_STROKE_WIDTH = "1px";
-const SELECTED_STROKE_WIDTH = "2px";
-const CLASS_WIDTH = VERT_SPACE - 10;
-
-const settings = {
-  isColorizeTraces: true,
-  timeScale: "logical",
-  dataFilePath: "../traceSample.json",
-  readableFilePath: "traceSample.json",
-  apply: () => {
-    settings.isColorizeTraces =
-      document.getElementById("colorize-traces").checked;
-    settings.timeScale = document.querySelector(
-      'input[name="time-scale-selector"]:checked'
-    ).value;
-    const files = document.getElementById("file-selector").files;
-    if (files.length !== 0) {
-      settings.readableFilePath = files[0].name;
-      settings.dataFilePath = URL.createObjectURL(files[0]);
-    }
-    console.log(settings);
-  },
-};
-
-settings.apply();
-
-function update(dataPath) {
+function update(dataPath: string) {
   d3.selectAll("svg#chart1").remove();
   d3.select("#container").append("svg").attr("id", "chart1");
   if (dataPath !== "") {
-    d3.json(dataPath)
+    d3.json<any>(dataPath)
       .then(transformTraceData)
       .then(processData)
       .catch(showError);
@@ -47,45 +35,37 @@ function update(dataPath) {
   }
 }
 
-function transformTraceData(rawData) {
+function transformTraceData(rawData: Array<any>) {
   // Assume we've got dataSample-like format
   if (rawData.length !== 0 && rawData[0].event_type === undefined) {
     return rawData;
   }
   // Data is in traceSample format
-  return rawData
+  const converted = rawData
     .filter((d) => d.event_type === "message")
     .map((d) => {
-      const converted = {
+      const tooltip = JSON.stringify(d.payload, null, "  ");
+      return {
         sender: d.source_host,
         receiver: d.dest_host,
         label: d.payload.method,
-        tooltipMessage: JSON.stringify(d.payload, null, "  "),
+        traceId: d.payload.trace_id || "",
+        tooltipMessage: replaceNewlineWithBr(escapeHtml(tooltip)),
         startTs: d.send_time,
         endTs: d.receive_time,
         payloadType: d.payload.type,
         original: d,
-      };
-      if (d.payload.trace_id !== undefined) {
-        converted.traceId = d.payload.trace_id;
-      }
-      return converted;
+      } as MessageData;
     });
+  const logicalTimestamps = compressTimestamps(converted);
+  converted.map((d) => {
+    d.logicalStart = logicalTimestamps.get(d.startTs);
+    d.logicalEnd = logicalTimestamps.get(d.endTs);
+  });
+  return converted;
 }
 
-/**
- * @param {Object[]} data
- * @param {string} data.sender
- * @param {string} data.receiver
- * @param {string} data.label
- * @param {string} data.tooltipMessage
- * @param {string} data.traceId
- * @param {number} data.startTs
- * @param {number} data.endTs
- * @param {number} data.logicalStart
- * @param {number} data.logicalEnd
- */
-function processData(data) {
+function processData(data: Array<MessageData>) {
   // Get unique classes
   const senders = d3.set(data.map((d) => d.sender)).values();
   const receivers = d3.set(data.map((d) => d.receiver)).values();
@@ -101,7 +81,7 @@ function processData(data) {
   console.log(classes);
 
   const svg = d3.select("svg#chart1"),
-    margin = { top: 10, right: 50, bottom: 100, left: 80 },
+    margin = {top: 10, right: 50, bottom: 100, left: 80},
     width = VERT_SPACE * classes.length - margin.left - margin.right;
   const defs = svg.append("svg:defs");
 
@@ -134,20 +114,10 @@ function processData(data) {
     .text(`Sequence diagram ${settings.readableFilePath}`);
 
   // Prepare data
+  // todo: dont do it twice
   const logicalTimestamps = compressTimestamps(data);
-  data.forEach((d) => {
-    d.logicalStart = logicalTimestamps.get(d.startTs);
-    d.logicalEnd = logicalTimestamps.get(d.endTs);
-    if (d.traceId === undefined) {
-      d.traceId = "";
-    }
-    d.tooltipMessage = escapeHtml(d.tooltipMessage).replace(
-      /\r\n|\r|\n/g,
-      "<br>"
-    );
-  });
-
-  let height;
+  // todo: move to TimestampModel
+  let height: number;
   if (settings.timeScale === "logical") {
     height = MESSAGE_ARROW_Y_OFFSET + logicalTimestamps.size * MESSAGE_SPACE;
   } else {
@@ -161,7 +131,7 @@ function processData(data) {
   svg.attr("width", X_PAD + VERT_SPACE * classes.length);
 
   // Draw vertical lines
-  classes.forEach((c, i) => {
+  classes.forEach((_, i: number) => {
     svg
       .append("line")
       .style("stroke", "#888")
@@ -185,12 +155,12 @@ function processData(data) {
     const yCoords = timeScaleModel(m)
     const color = colorSelector(m);
 
-    const path = makeLink(svg, m, xStart, yCoords.start, xEnd, yCoords.end)
+    const path = makeArrowLine(svg, m, xStart, yCoords.start, xEnd, yCoords.end)
       .attr("trace-id", m.traceId)
       .attr("marker-end", arrowColoredMarker(color))
       .style("stroke", color)
       .style("stroke-width", DEFAULT_STROKE_WIDTH);
-    const clickPath = makeLink(svg, m, xStart, yCoords.start, xEnd, yCoords.end)
+    const clickPath = makeArrowLine(svg, m, xStart, yCoords.start, xEnd, yCoords.end)
       .style("stroke", "rgba(0,0,0,0)")
       .style("cursor", "pointer")
       .style("stroke-width", "5px");
@@ -213,7 +183,7 @@ function processData(data) {
   });
 
   // Draw message timestamps
-  const renderedTimestamps = new Set();
+  const renderedTimestamps = new Set<number>();
   data.forEach((m) => {
     const xPos = X_PAD + MESSAGE_LABEL_X_OFFSET;
     const yCoords = timeScaleModel(m)
@@ -241,28 +211,53 @@ function processData(data) {
   });
 }
 
-function showError(error) {
+function showError(error: any) {
   console.error(error);
   const svg = d3.select("svg#chart1"),
-      margin = { top: 10, right: 50, bottom: 100, left: 80 };
+    margin = {top: 10, right: 50, bottom: 100, left: 80};
   svg.attr("height", 800);
   svg.attr("width", "100%");
 
   // Graph title
   svg
-      .append("g")
-      .attr("transform", `translate(${margin.left}, ${Y_PAD - margin.top})`)
-      .append("text")
-      .attr("x", 400)
-      .attr("y", 0 - margin.top / 3)
-      .attr("text-anchor", "middle")
-      .style("font-size", "16px")
-      .text(
-          "Can't draw trace from " +
-          settings.readableFilePath +
-          "! Did u chose correct trace file?"
-      );
+    .append("g")
+    .attr("transform", `translate(${margin.left}, ${Y_PAD - margin.top})`)
+    .append("text")
+    .attr("x", 400)
+    .attr("y", 0 - margin.top / 3)
+    .attr("text-anchor", "middle")
+    .style("font-size", "16px")
+    .text(
+      "Can't draw trace from " +
+      settings.readableFilePath +
+      "! Did u chose correct trace file?"
+    );
 }
+
+d3.select("#clear-button").on("click", () => {
+  const file_selector = document.querySelector<HTMLInputElement>("#file-selector")
+  if (file_selector) {
+    file_selector.value = ""
+  }
+  settings.dataFilePath = "";
+  settings.readableFilePath = "";
+  settings.apply();
+  update("");
+});
+
+d3.select("#button-apply-settings").on("click", () => {
+  settings.apply();
+  update(settings.dataFilePath);
+});
+
+document.querySelector<HTMLInputElement>("#file-selector")
+  ?.addEventListener("change", () => {
+    settings.apply();
+    update(settings.dataFilePath);
+  });
+
+settings.apply();
+applyStickyScrollForClass(window, "sticky-trace-header");
 
 // Get data attach to window
 update(settings.dataFilePath);
