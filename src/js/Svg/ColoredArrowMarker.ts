@@ -1,5 +1,5 @@
 // todo: replace any here with actual type
-function arrowColoredMarkerClosure(svgDefs: any) {
+export function arrowColoredMarkerClosure(svgDefs: any) {
   const usedColors = new Set();
 
   return (color: string) => {

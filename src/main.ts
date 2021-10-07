@@ -19,6 +19,7 @@ import {arrowColorSelector} from "./js/Colors";
 import {applyStickyScrollForClass} from "./js/Svg/StickyScroll";
 import {makeArrowLine} from "./js/Svg/MessageArrow";
 import {drawTimestamp} from "./js/Svg/Timestamp";
+import {arrowColoredMarkerClosure} from "./js/Svg/ColoredArrowMarker";
 
 console.log(d3.version);
 
