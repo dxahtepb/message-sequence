@@ -80,7 +80,6 @@ function processData(data: Array<MessageData>) {
       return 0;
     }
   });
-  console.log(classes);
 
   const svg = d3.select("svg#chart1"),
     margin = {top: 10, right: 50, bottom: 100, left: 80},

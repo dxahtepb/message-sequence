@@ -9,7 +9,6 @@ export function compressTimestamps(data: Array<any>) {
   realTimestamps.sort((a, b) => a - b);
   const logicalTimestamps = new Map();
   realTimestamps.forEach((ts, i) => logicalTimestamps.set(ts, i));
-  console.log(realTimestamps);
   return logicalTimestamps;
 }
 
