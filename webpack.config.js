@@ -1,3 +1,6 @@
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
 module.exports = {
@@ -9,7 +12,7 @@ module.exports = {
         test: /\.tsx?$/,
         use: 'ts-loader',
         exclude: /node_modules/,
-      },
+      }
     ],
   },
   resolve: {
@@ -20,6 +23,20 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
   },
   devServer: {
-    hot: true,
+    liveReload: true,
+    hot: false,
   },
+  plugins: [
+    new CleanWebpackPlugin(),
+    new HtmlWebpackPlugin({
+      template: 'src/index.html',
+      filename: 'index.html'
+    }),
+    new CopyWebpackPlugin({
+      patterns: [{
+        from: 'src/style',
+        to: 'style'
+      }]
+    }),
+  ]
 };
