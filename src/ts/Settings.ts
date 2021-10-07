@@ -6,6 +6,7 @@ import {
   DEFAULT_TRACE_FILENAME,
   TimeScale
 } from "./Constants";
+import {UpdateEvent} from "./Events/Update";
 
 export interface Settings {
   isColorizeTraces: boolean;
@@ -64,4 +65,10 @@ document.querySelector<HTMLButtonElement>("button[id=settings-button]")
         .duration(300)
         .style("opacity", 1);
     }
+  });
+
+document.querySelector<HTMLButtonElement>("#button-apply-settings")
+  ?.addEventListener("click", () => {
+    settings.apply();
+    window.dispatchEvent(new UpdateEvent(settings))
   });

@@ -21,6 +21,8 @@ import {applyStickyScrollForClass} from "./ts/Svg/StickyScroll";
 import {makeArrowLine} from "./ts/Svg/MessageArrow";
 import {drawTimestamp} from "./ts/Svg/Timestamp";
 import {arrowColoredMarkerClosure} from "./ts/Svg/ColoredArrowMarker";
+import {UpdateEvent} from "./ts/Events/Update";
+import {initTraceSelectors} from "./ts/TraceSelector";
 
 console.log(d3.version);
 
@@ -36,6 +38,10 @@ function update(dataPath: string) {
     processData([]);
   }
 }
+
+window.addEventListener(UpdateEvent.TYPE, ((event: UpdateEvent) => {
+  update(event.detail.settings.dataFilePath);
+}) as EventListener);
 
 function transformTraceData(rawData: Array<any>) {
   // Assume we've got dataSample-like format
@@ -235,30 +241,11 @@ function showError(error: any) {
     );
 }
 
-d3.select("#clear-button").on("click", () => {
-  const file_selector = document.querySelector<HTMLInputElement>("#file-selector")
-  if (file_selector) {
-    file_selector.value = ""
-  }
-  settings.dataFilePath = "";
-  settings.readableFilePath = "";
+function main() {
+  applyStickyScrollForClass(window, "sticky-trace-header");
+  initTraceSelectors(document);
   settings.apply();
-  update("");
-});
+  window.dispatchEvent(new UpdateEvent(settings));
+}
 
-d3.select("#button-apply-settings").on("click", () => {
-  settings.apply();
-  update(settings.dataFilePath);
-});
-
-document.querySelector<HTMLInputElement>("#file-selector")
-  ?.addEventListener("change", () => {
-    settings.apply();
-    update(settings.dataFilePath);
-  });
-
-settings.apply();
-applyStickyScrollForClass(window, "sticky-trace-header");
-
-// Get data attach to window
-update(settings.dataFilePath);
+main()
