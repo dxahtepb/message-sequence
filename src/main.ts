@@ -1,6 +1,6 @@
 import * as d3 from "d3";
-import {createTooltipClosure} from "./js/Tooltip";
-import {MessageData} from "./js/Types/MessageData";
+import {createTooltipClosure} from "./ts/Tooltip";
+import {MessageData} from "./ts/Types/MessageData";
 import {
   CLASS_WIDTH,
   DEFAULT_STROKE_WIDTH,
@@ -11,15 +11,15 @@ import {
   VERT_SPACE,
   X_PAD,
   Y_PAD
-} from "./js/Constants";
-import {settings} from "./js/Settings";
-import {escapeHtml, replaceNewlineWithBr} from "./js/Util";
-import {compressTimestamps, createTimeScaleModel} from "./js/TimespampModel";
-import {arrowColorSelector} from "./js/Colors";
-import {applyStickyScrollForClass} from "./js/Svg/StickyScroll";
-import {makeArrowLine} from "./js/Svg/MessageArrow";
-import {drawTimestamp} from "./js/Svg/Timestamp";
-import {arrowColoredMarkerClosure} from "./js/Svg/ColoredArrowMarker";
+} from "./ts/Constants";
+import {settings} from "./ts/Settings";
+import {escapeHtml, replaceNewlineWithBr} from "./ts/Util";
+import {compressTimestamps, createTimeScaleModel} from "./ts/TimespampModel";
+import {arrowColorSelector} from "./ts/Colors";
+import {applyStickyScrollForClass} from "./ts/Svg/StickyScroll";
+import {makeArrowLine} from "./ts/Svg/MessageArrow";
+import {drawTimestamp} from "./ts/Svg/Timestamp";
+import {arrowColoredMarkerClosure} from "./ts/Svg/ColoredArrowMarker";
 
 console.log(d3.version);
 
