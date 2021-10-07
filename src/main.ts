@@ -18,9 +18,8 @@ import {escapeHtml, replaceNewlineWithBr} from "./ts/Util";
 import {compressTimestamps, createTimeScaleModel} from "./ts/TimespampModel";
 import {arrowColorSelector} from "./ts/Colors";
 import {applyStickyScrollForClass} from "./ts/Svg/StickyScroll";
-import {makeArrowLine} from "./ts/Svg/MessageArrow";
+import {arrowColoredMarkerClosure, makeArrowLine} from "./ts/Svg/MessageArrow";
 import {drawTimestamp} from "./ts/Svg/Timestamp";
-import {arrowColoredMarkerClosure} from "./ts/Svg/ColoredArrowMarker";
 import {UpdateEvent} from "./ts/Events/Update";
 import {initTraceSelectors} from "./ts/TraceSelector";
 

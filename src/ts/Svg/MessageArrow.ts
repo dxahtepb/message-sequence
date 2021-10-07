@@ -1,6 +1,6 @@
 import {VERT_SPACE} from "../Constants";
 import {MessageData} from "../Types/MessageData";
-import {Path, path} from "d3";
+import {BaseType, Path, path, Selection} from "d3";
 
 export function makeArrowLine(svg: any, m: MessageData, xStart: number, yStart: number, xEnd: number, yEnd: number) {
   let pathD = m.sender === m.receiver
@@ -23,4 +23,30 @@ function makeLine(xStart: number, yStart: number, xEnd: number, yEnd: number, co
   context.moveTo(xStart, yStart);
   context.lineTo(xEnd, yEnd);
   return context;
+}
+
+type SvgDefsSelection = Selection<BaseType, any, any, any>;
+
+export function arrowColoredMarkerClosure(svgDefs: SvgDefsSelection) {
+  const usedColors = new Set();
+
+  return (color: string) => {
+    const colorWithoutHash = color.replace("#", "");
+    if (!usedColors.has(color)) {
+      svgDefs
+        .append("svg:marker")
+        .attr("id", "arrowColoredMarker" + colorWithoutHash)
+        .attr("viewBox", "0 -5 10 10")
+        .attr("refX", 10)
+        .attr("refY", 0)
+        .attr("markerWidth", 10)
+        .attr("markerHeight", 10)
+        .attr("orient", "auto")
+        .append("svg:path")
+        .attr("d", "M0,-5L10,0L0,5")
+        .style("fill", color);
+      usedColors.add(color);
+    }
+    return `url(#arrowColoredMarker${colorWithoutHash})`;
+  };
 }
