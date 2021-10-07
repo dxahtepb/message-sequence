@@ -8,6 +8,7 @@ import {
   MESSAGE_LABEL_X_OFFSET,
   MESSAGE_SPACE,
   RESPONSE_TYPE,
+  TimeScale,
   VERT_SPACE,
   X_PAD,
   Y_PAD
@@ -119,7 +120,7 @@ function processData(data: Array<MessageData>) {
   const logicalTimestamps = compressTimestamps(data);
   // todo: move to TimestampModel
   let height: number;
-  if (settings.timeScale === "logical") {
+  if (settings.timeScale === TimeScale.LOGICAL) {
     height = MESSAGE_ARROW_Y_OFFSET + logicalTimestamps.size * MESSAGE_SPACE;
   } else {
     const maxTs = data.reduce((currentMax, value) =>

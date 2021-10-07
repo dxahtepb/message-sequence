@@ -1,6 +1,6 @@
 import {Settings} from "./Settings";
 import {MessageData} from "./Types/MessageData";
-import {MESSAGE_ARROW_Y_OFFSET, MESSAGE_SPACE} from "./Constants";
+import {MESSAGE_ARROW_Y_OFFSET, MESSAGE_SPACE, TimeScale} from "./Constants";
 
 export function compressTimestamps(data: Array<any>) {
   const starts = data.map((d) => d.startTs);
@@ -14,7 +14,7 @@ export function compressTimestamps(data: Array<any>) {
 }
 
 export function createTimeScaleModel(settings: Settings) {
-  if (settings.timeScale === "logical") {
+  if (settings.timeScale === TimeScale.LOGICAL) {
     return function (message: MessageData) {
       if (message.logicalStart == null || message.logicalEnd == null) {
         throw "Message does not have logical timestamps";

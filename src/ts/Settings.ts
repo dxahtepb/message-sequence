@@ -1,8 +1,15 @@
 import * as d3 from "d3-selection";
+import {
+  DEFAULT_COLORIZE_TRACES,
+  DEFAULT_TIME_SCALE,
+  DEFAULT_TRACE,
+  DEFAULT_TRACE_FILENAME,
+  TimeScale
+} from "./Constants";
 
 export interface Settings {
     isColorizeTraces: boolean;
-    timeScale: string;
+    timeScale: TimeScale;
     dataFilePath: string;
     readableFilePath: string;
 
@@ -10,17 +17,20 @@ export interface Settings {
 }
 
 export const settings: Settings = {
-    isColorizeTraces: true,
-    timeScale: "logical",
-    dataFilePath: "dataSample/traceSample.json",
-    readableFilePath: "traceSample.json",
+    isColorizeTraces: DEFAULT_COLORIZE_TRACES,
+    timeScale: DEFAULT_TIME_SCALE,
+    dataFilePath: DEFAULT_TRACE,
+    readableFilePath: DEFAULT_TRACE_FILENAME,
     apply: () => {
         settings.isColorizeTraces = document.querySelector<HTMLInputElement>(
             "input[id=colorize-traces]"
-        )?.checked ?? true;
-        settings.timeScale = document.querySelector<HTMLInputElement>(
-            'input[name="time-scale-selector"]:checked'
-        )?.value ?? "logical";
+        )?.checked ?? DEFAULT_COLORIZE_TRACES;
+        const timeScaleSelectorValue = document.querySelector<HTMLInputElement>(
+          'input[name="time-scale-selector"]:checked'
+        )?.value ?? DEFAULT_TIME_SCALE
+        settings.timeScale = timeScaleSelectorValue === TimeScale.LOGICAL
+          ? TimeScale.LOGICAL
+          : TimeScale.REAL;
         const files = document.querySelector<HTMLInputElement>("[id=file-selector]")?.files;
         if (files != null && files.length !== 0) {
             settings.readableFilePath = files[0].name;
