@@ -12,7 +12,7 @@ export interface Settings {
 export const settings: Settings = {
     isColorizeTraces: true,
     timeScale: "logical",
-    dataFilePath: "../traceSample.json",
+    dataFilePath: "dataSample/traceSample.json",
     readableFilePath: "traceSample.json",
     apply: () => {
         settings.isColorizeTraces = document.querySelector<HTMLInputElement>(

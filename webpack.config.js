@@ -33,10 +33,16 @@ module.exports = {
       filename: 'index.html'
     }),
     new CopyWebpackPlugin({
-      patterns: [{
-        from: 'src/style',
-        to: 'style'
-      }]
+      patterns: [
+        {
+          from: 'src/style',
+          to: 'style'
+        },
+        {
+          from: 'dataSample/traceSample.json',
+          to: 'dataSample/traceSample.json'
+        }
+      ]
     }),
   ]
 };
