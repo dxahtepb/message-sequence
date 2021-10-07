@@ -4,7 +4,8 @@
   ],
   "scripts": {
     "serve": "webpack serve",
-    "build": "webpack"
+    "build": "webpack",
+    "deploy": "gh-pages -d dist"
   },
   "devDependencies": {
     "@types/d3": "^5.16.0",
