@@ -42,3 +42,6 @@ yarn.lock
 
 # ignore npm package-lock
 package-lock.json
+
+/dist/
+.parcel-cache
