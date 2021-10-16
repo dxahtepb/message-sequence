@@ -35,8 +35,7 @@ export function createTooltipClosure() {
               <br/>trace-id: ${message.traceId}
               <br/>
               </div>
-              <pre class='tooltip-message'> ${message.tooltipMessage}
-              </pre>`
+              <pre class='tooltip-message'>${message.tooltipMessage}</pre>`
         )
         .style("left", `${d3.event.pageX}px`)
         .style("top", `${d3.event.pageY - 28}px`)
