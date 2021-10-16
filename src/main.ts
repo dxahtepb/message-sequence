@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 import {createTooltipClosure} from "./ts/Tooltip";
-import {MessageData} from "./ts/Types/MessageData";
+import {isMessageData, MessageData} from "./ts/Types/MessageData";
 import {
   CLASS_WIDTH,
   DEFAULT_STROKE_WIDTH,
@@ -22,6 +22,8 @@ import {arrowColoredMarkerClosure, makeArrowLine} from "./ts/Svg/MessageArrow";
 import {drawTimestamp} from "./ts/Svg/Timestamp";
 import {UpdateEvent} from "./ts/Events/Update";
 import {initTraceSelectors} from "./ts/TraceSelector";
+import {isUserEventData, UserEventData} from "./ts/Types/UserEventData";
+import {TraceEvent} from "./ts/Types/TraceEvent";
 
 console.log(d3.version);
 
@@ -49,30 +51,50 @@ function transformTraceData(rawData: Array<any>) {
   }
   // Data is in traceSample format
   const converted = rawData
-    .filter((d) => d.event_type === "message")
-    .map((d) => {
+    .map((d): TraceEvent | undefined => {
       const tooltip = JSON.stringify(d.payload, null, "  ");
-      return {
-        sender: d.source_host,
-        receiver: d.dest_host,
-        label: d.payload.method,
-        traceId: d.payload.trace_id || "",
-        tooltipMessage: replaceNewlineWithBr(escapeHtml(tooltip)),
-        startTs: d.send_time,
-        endTs: d.receive_time,
-        payloadType: d.payload.type,
-        original: d,
-      } as MessageData;
-    });
+      if (d.event_type === "message") {
+        return {
+          tag: "MessageData",
+          sender: d.source_host,
+          receiver: d.dest_host,
+          label: d.payload.method,
+          traceId: d.payload.trace_id || "",
+          tooltipMessage: replaceNewlineWithBr(escapeHtml(tooltip)),
+          startTs: d.send_time,
+          endTs: d.receive_time,
+          payloadType: d.payload.type,
+          original: d,
+        } as MessageData;
+      } else if (d.event_type === "user") {
+        return {
+          tag: "UserEventData",
+          sender: d.source_host,
+          receiver: d.source_host,
+          label: "",
+          traceId: d.payload.trace_id || "",
+          tooltipMessage: replaceNewlineWithBr(escapeHtml(tooltip)),
+          ts: d.time,
+          original: d
+        } as UserEventData;
+      } else {
+        return undefined
+      }
+    })
+    .filter((d): d is TraceEvent => d !== undefined)
   const logicalTimestamps = compressTimestamps(converted);
   converted.map((d) => {
-    d.logicalStart = logicalTimestamps.get(d.startTs);
-    d.logicalEnd = logicalTimestamps.get(d.endTs);
+    if (isMessageData(d)) {
+      d.logicalStart = logicalTimestamps.get(d.startTs);
+      d.logicalEnd = logicalTimestamps.get(d.endTs);
+    } else if (isUserEventData(d)) {
+      d.logicalTs = logicalTimestamps.get(d.ts);
+    }
   });
   return converted;
 }
 
-function processData(data: Array<MessageData>) {
+function processData(data: Array<TraceEvent>) {
   // Get unique classes
   const senders = d3.set(data.map((d) => d.sender)).values();
   const receivers = d3.set(data.map((d) => d.receiver)).values();
@@ -127,9 +149,14 @@ function processData(data: Array<MessageData>) {
   if (settings.timeScale === TimeScale.LOGICAL) {
     height = MESSAGE_ARROW_Y_OFFSET + logicalTimestamps.size * MESSAGE_SPACE;
   } else {
-    const maxTs = data.reduce((currentMax, value) =>
-      currentMax.endTs > value.endTs ? currentMax : value
-    ).endTs;
+    const maxTs = data.reduce((currentMax, value) => {
+      const x = isMessageData(value)
+        ? value.endTs
+        : isUserEventData(value)
+          ? value.ts
+          : 0
+      return currentMax > x ? currentMax : x
+    }, 0);
     height = maxTs + Y_PAD + 100;
   }
 
@@ -156,36 +183,40 @@ function processData(data: Array<MessageData>) {
   const timeScaleModel = createTimeScaleModel(settings)
 
   data.forEach((m) => {
-    const xStart = X_PAD + classes.indexOf(m.sender) * VERT_SPACE;
-    const xEnd = X_PAD + classes.indexOf(m.receiver) * VERT_SPACE;
-    const yCoords = timeScaleModel(m)
-    const color = colorSelector(m);
+    if (isMessageData(m)) {
+      const xStart = X_PAD + classes.indexOf(m.sender) * VERT_SPACE;
+      const xEnd = X_PAD + classes.indexOf(m.receiver) * VERT_SPACE;
+      const yCoords = timeScaleModel(m)
+      const color = colorSelector(m);
 
-    const path = makeArrowLine(svg, m, xStart, yCoords.start, xEnd, yCoords.end)
-      .attr("trace-id", m.traceId)
-      .attr("marker-end", arrowColoredMarker(color))
-      .style("stroke", color)
-      .style("stroke-width", DEFAULT_STROKE_WIDTH);
-    const clickPath = makeArrowLine(svg, m, xStart, yCoords.start, xEnd, yCoords.end)
-      .style("stroke", "rgba(0,0,0,0)")
-      .style("cursor", "pointer")
-      .style("stroke-width", "5px");
-    clickPath.on("click", showTooltipClosure(m, path));
-    if (m.payloadType === RESPONSE_TYPE) {
-      path.style("stroke-dasharray", "5, 3");
+      const path = makeArrowLine(svg, m, xStart, yCoords.start, xEnd, yCoords.end)
+        .attr("trace-id", m.traceId)
+        .attr("marker-end", arrowColoredMarker(color))
+        .style("stroke", color)
+        .style("stroke-width", DEFAULT_STROKE_WIDTH);
+      const clickPath = makeArrowLine(svg, m, xStart, yCoords.start, xEnd, yCoords.end)
+        .style("stroke", "rgba(0,0,0,0)")
+        .style("cursor", "pointer")
+        .style("stroke-width", "5px");
+      clickPath.on("click", showTooltipClosure(m, path));
+      if (m.payloadType === RESPONSE_TYPE) {
+        path.style("stroke-dasharray", "5, 3");
+      }
+
+      svg
+        .append("g")
+        .attr("transform", `translate(${xStart}, ${yCoords.start})`)
+        .append("text")
+        .attr("dx", "5px")
+        .attr("dy", "-2px")
+        .attr("text-anchor", "begin")
+        .style("font-size", "13px")
+        .style("cursor", "pointer")
+        .text(() => m.label)
+        .on("click", showTooltipClosure(m, path));
+    } else if (isUserEventData(m)) {
+
     }
-
-    svg
-      .append("g")
-      .attr("transform", `translate(${xStart}, ${yCoords.start})`)
-      .append("text")
-      .attr("dx", "5px")
-      .attr("dy", "-2px")
-      .attr("text-anchor", "begin")
-      .style("font-size", "13px")
-      .style("cursor", "pointer")
-      .text(() => m.label)
-      .on("click", showTooltipClosure(m, path));
   });
 
   // Draw message timestamps
@@ -193,8 +224,12 @@ function processData(data: Array<MessageData>) {
   data.forEach((m) => {
     const xPos = X_PAD + MESSAGE_LABEL_X_OFFSET;
     const yCoords = timeScaleModel(m)
-    drawTimestamp(svg, xPos, yCoords.start, m.startTs.toString(), renderedTimestamps);
-    drawTimestamp(svg, xPos, yCoords.end, m.endTs.toString(), renderedTimestamps);
+    if (isMessageData(m)) {
+      drawTimestamp(svg, xPos, yCoords.start, m.startTs.toString(), renderedTimestamps);
+      drawTimestamp(svg, xPos, yCoords.end, m.endTs.toString(), renderedTimestamps);
+    } else if (isUserEventData(m)) {
+      drawTimestamp(svg, xPos, yCoords.start, m.ts.toString(), renderedTimestamps);
+    }
   });
 
   // Draw classes

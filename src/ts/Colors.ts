@@ -1,17 +1,17 @@
 import {Settings} from "./Settings";
-import {MessageData} from "./Types/MessageData";
+import {TraceEvent} from "./Types/TraceEvent";
 
-export function arrowColorSelector(settings: Settings, data: Array<MessageData>) {
+export function arrowColorSelector(settings: Settings, data: Array<TraceEvent>) {
   const BLACK = "#000000";
   if (settings.isColorizeTraces) {
     const traceIdToColor = assignColorsToTraceId(data);
-    return (message: MessageData) => traceIdToColor.get(message.traceId);
+    return (message: TraceEvent) => traceIdToColor.get(message.traceId);
   } else {
-    return (_: MessageData) => BLACK;
+    return (_: TraceEvent) => BLACK;
   }
 }
 
-function assignColorsToTraceId(data: Array<MessageData>) {
+function assignColorsToTraceId(data: Array<TraceEvent>) {
   const BLACK = "#000000";
   const COLORS = [
     "#e6194B",
