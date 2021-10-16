@@ -1,1 +1,61 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><meta name="viewport" content="width=device-width,initial-scale=1"/><link rel="stylesheet" href="style/main.css"/><title>message-sequence</title><script defer="defer" src="bundle.js"></script></head><body><div id="tooltip-container"></div><div id="container-buttons" style="display: inline; position: absolute; left: 10px; top: 10px"><button id="settings-button">Open Settings</button> <button id="clear-button">Clear</button> <input id="file-selector" type="file"/></div><div id="settings" class="settings" style="left: 60px; top: 45px" show="false"><div><label for="colorize-traces">Colorize Traces</label> <input type="checkbox" id="colorize-traces" checked="checked"/></div><div>Timestamp scale:<div><input type="radio" id="setting-time-logical" name="time-scale-selector" value="logical" checked="checked"/> <label for="setting-time-logical">Readable time scale</label></div><div><input type="radio" id="setting-time-real" name="time-scale-selector" value="real"/> <label for="setting-time-real">Realtime scale</label></div></div><div><button id="button-apply-settings" type="submit">Save</button></div></div><div id="container"></div></body></html>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style/main.css" />
+    <title>message-sequence</title>
+  <script defer src="bundle.js"></script></head>
+  <body>
+    <div id="tooltip-container"></div>
+    <div
+      id="container-buttons"
+      style="display: inline; position: absolute; left: 10px; top: 10px"
+    >
+      <button id="settings-button">Open Settings</button>
+      <button id="clear-button">Clear</button>
+      <input id="file-selector" type="file" />
+    </div>
+
+    <div
+      id="settings"
+      class="settings"
+      style="left: 60px; top: 45px"
+      show="false"
+    >
+      <div>
+        <label for="colorize-traces">Colorize Traces</label>
+        <input type="checkbox" id="colorize-traces" checked />
+      </div>
+
+      <div>
+        Timestamp scale:
+        <div>
+          <input
+            type="radio"
+            id="setting-time-logical"
+            name="time-scale-selector"
+            value="logical"
+            checked
+          />
+          <label for="setting-time-logical">Readable time scale</label>
+        </div>
+        <div>
+          <input
+            type="radio"
+            id="setting-time-real"
+            name="time-scale-selector"
+            value="real"
+          />
+          <label for="setting-time-real">Realtime scale</label>
+        </div>
+      </div>
+
+      <div>
+        <button id="button-apply-settings" type="submit">Save</button>
+      </div>
+    </div>
+    <div id="container"></div>
+  </body>
+</html>
