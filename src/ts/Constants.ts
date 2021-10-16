@@ -20,7 +20,8 @@ export enum TimeScale {
 }
 
 // default settings
-export const DEFAULT_COLORIZE_TRACES = true
-export const DEFAULT_TIME_SCALE = TimeScale.LOGICAL
-export const DEFAULT_TRACE = "dataSample/traceSample.json";
-export const DEFAULT_TRACE_FILENAME = "traceSample.json"
+export const DEFAULT_COLORIZE_TRACES = true;
+export const DEFAULT_TIME_SCALE = TimeScale.LOGICAL;
+export const DEFAULT_TRACE = "dataSample/traceSampleUser.json";
+export const DEFAULT_TRACE_FILENAME = "traceSampleUser.json";
+export const DEFAULT_SHOW_USER_EVENTS = true;

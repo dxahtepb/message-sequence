@@ -66,15 +66,14 @@ function transformTraceData(rawData: Array<any>) {
           payloadType: d.payload.type,
           original: d,
         } as MessageData;
-      } else if (d.event_type === "user") {
+      } else if (settings.showUserEvents && d.event_type === "user") {
         return {
           tag: "UserEventData",
           sender: d.source_host,
-          receiver: d.source_host,
           label: "",
           traceId: d.payload.trace_id || "",
           tooltipMessage: replaceNewlineWithBr(escapeHtml(tooltip)),
-          ts: d.time,
+          ts: d.send_time,
           original: d
         } as UserEventData;
       } else {
@@ -97,7 +96,9 @@ function transformTraceData(rawData: Array<any>) {
 function processData(data: Array<TraceEvent>) {
   // Get unique classes
   const senders = d3.set(data.map((d) => d.sender)).values();
-  const receivers = d3.set(data.map((d) => d.receiver)).values();
+  const receivers = d3
+    .set(data.filter((d): d is MessageData => isMessageData(d))
+      .map((d) => d.receiver)).values();
   const classes = [...new Set([...senders, ...receivers])].sort((a, b) => {
     if (a.startsWith("Client") && b.startsWith("Server")) {
       return -1;
@@ -182,8 +183,8 @@ function processData(data: Array<TraceEvent>) {
   const arrowColoredMarker = arrowColoredMarkerClosure(defs);
   const timeScaleModel = createTimeScaleModel(settings)
 
-  data.forEach((m) => {
-    if (isMessageData(m)) {
+  data.filter((m): m is MessageData => isMessageData(m))
+    .forEach((m) => {
       const xStart = X_PAD + classes.indexOf(m.sender) * VERT_SPACE;
       const xEnd = X_PAD + classes.indexOf(m.receiver) * VERT_SPACE;
       const yCoords = timeScaleModel(m)
@@ -214,10 +215,23 @@ function processData(data: Array<TraceEvent>) {
         .style("cursor", "pointer")
         .text(() => m.label)
         .on("click", showTooltipClosure(m, path));
-    } else if (isUserEventData(m)) {
+    });
 
-    }
-  });
+  data.filter((m): m is UserEventData => isUserEventData(m))
+    .forEach((m) => {
+      const xPos = X_PAD + classes.indexOf(m.sender) * VERT_SPACE;
+      const yPos = timeScaleModel(m);
+      const color = colorSelector(m);
+
+      const path = svg.append("circle")
+        .attr("cx", xPos)
+        .attr("cy", yPos.start)
+        .attr("r", 7)
+        .attr("stroke", color)
+        .attr("fill", color)
+        .style("cursor", "pointer");
+      path.on("click", showTooltipClosure(m, path));
+    });
 
   // Draw message timestamps
   const renderedTimestamps = new Set<number>();

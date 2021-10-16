@@ -1,5 +1,7 @@
 import * as d3 from "d3-selection";
 import {DEFAULT_STROKE_WIDTH, SELECTED_STROKE_WIDTH} from "./Constants";
+import {isMessageData} from "./Types/MessageData";
+import {isUserEventData} from "./Types/UserEventData";
 
 /**
  * @return {function(*, *): function(): void}
@@ -23,11 +25,9 @@ export function createTooltipClosure() {
 
   return (message: any, line: any) => {
     function show() {
-      tooltipDiv
-        .attr("show", true)
-        .style("pointer-events", "auto")
-        .html(
-          `<div class='tooltip-info'>
+      let text;
+      if (isMessageData(message)) {
+        text = `<div class='tooltip-info'>
               from: ${message.sender}
               <br/>to: ${message.receiver}
               <br/>started: ${message.startTs}
@@ -35,8 +35,20 @@ export function createTooltipClosure() {
               <br/>trace-id: ${message.traceId}
               <br/>
               </div>
-              <pre class='tooltip-message'>${message.tooltipMessage}</pre>`
-        )
+              <pre class='tooltip-message'> ${message.tooltipMessage}</pre>`
+      } else if (isUserEventData(message)) {
+        text = `<div class='tooltip-info'>
+              from: ${message.sender}
+              <br/>timestamp: ${message.ts}
+              <br/>trace-id: ${message.traceId}
+              <br/>
+              </div>
+              <pre class='tooltip-message'> ${message.tooltipMessage}</pre>`
+      }
+      tooltipDiv
+        .attr("show", true)
+        .style("pointer-events", "auto")
+        .html(text)
         .style("left", `${d3.event.pageX}px`)
         .style("top", `${d3.event.pageY - 28}px`)
         .transition()

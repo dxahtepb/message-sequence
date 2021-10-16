@@ -39,8 +39,8 @@ module.exports = {
           to: 'style'
         },
         {
-          from: 'dataSample/traceSample.json',
-          to: 'dataSample/traceSample.json'
+          from: 'dataSample/traceSampleUser.json',
+          to: 'dataSample/traceSampleUser.json'
         }
       ]
     }),
