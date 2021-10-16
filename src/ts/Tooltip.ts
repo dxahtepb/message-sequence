@@ -35,7 +35,7 @@ export function createTooltipClosure() {
               <br/>trace-id: ${message.traceId}
               <br/>
               </div>
-              <pre class='tooltip-message'> ${message.tooltipMessage}</pre>`
+              <pre class='tooltip-message'>${message.tooltipMessage}</pre>`
       } else if (isUserEventData(message)) {
         text = `<div class='tooltip-info'>
               from: ${message.sender}
@@ -43,7 +43,7 @@ export function createTooltipClosure() {
               <br/>trace-id: ${message.traceId}
               <br/>
               </div>
-              <pre class='tooltip-message'> ${message.tooltipMessage}</pre>`
+              <pre class='tooltip-message'>${message.tooltipMessage}</pre>`
       }
       tooltipDiv
         .attr("show", true)
