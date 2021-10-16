@@ -1,6 +1,4 @@
-import {MessageData} from "../Types/MessageData";
-
-export function drawTimestamp(svg: any, xPos: number, yPos: number, m: MessageData, renderedTimestamps: Set<number>) {
+export function drawTimestamp(svg: any, xPos: number, yPos: number, m: string, renderedTimestamps: Set<number>) {
   if (!renderedTimestamps.has(yPos)) {
     renderedTimestamps.add(yPos)
     svg
@@ -10,6 +8,6 @@ export function drawTimestamp(svg: any, xPos: number, yPos: number, m: MessageDa
       .attr("text-anchor", "middle")
       .append("text")
       .style("font-size", "10px")
-      .text(() => m.endTs);
+      .text(() => m);
   }
 }

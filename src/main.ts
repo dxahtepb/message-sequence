@@ -193,8 +193,8 @@ function processData(data: Array<MessageData>) {
   data.forEach((m) => {
     const xPos = X_PAD + MESSAGE_LABEL_X_OFFSET;
     const yCoords = timeScaleModel(m)
-    drawTimestamp(svg, xPos, yCoords.start, m, renderedTimestamps);
-    drawTimestamp(svg, xPos, yCoords.end, m, renderedTimestamps);
+    drawTimestamp(svg, xPos, yCoords.start, m.startTs.toString(), renderedTimestamps);
+    drawTimestamp(svg, xPos, yCoords.end, m.endTs.toString(), renderedTimestamps);
   });
 
   // Draw classes
