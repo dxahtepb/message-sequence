@@ -16,4 +16,5 @@ After a trace is recorded you can open it with the visualizer. Just select the t
 
 ![Choose file](docs/FileSelect.png)
 
-Arrows and message labels are clickable!
+Click on an arrow or message label to see the raw trace object.
+Alt+click on the arrow to select all trace's arrows.
