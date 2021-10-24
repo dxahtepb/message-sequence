@@ -1,10 +1,10 @@
 import * as d3 from "d3-selection";
-import {DEFAULT_STROKE_WIDTH, SELECTED_STROKE_WIDTH} from "./Constants";
+import { DEFAULT_STROKE_WIDTH, SELECTED_STROKE_WIDTH } from "./Constants";
 
 /**
  * @return {function(*, *): function(): void}
  */
-export function createTooltipClosure() {
+export function bindLineOnClick() {
   const container = d3.select("#tooltip-container");
 
   let tooltipDiv: any = d3.select("div[class='tooltip']");
@@ -66,8 +66,24 @@ export function createTooltipClosure() {
       fakeBox.on("click", null).style("display", "none");
     }
 
+    function selectWholeTraceOnAltClick() {
+      const traceId = line.attr("trace-id");
+      const allArrows = d3.selectAll(`path[trace-id='${traceId}']`);
+      fakeBox.on("click", () => {
+        allArrows
+          .transition()
+          .style("stroke-width", DEFAULT_STROKE_WIDTH);
+        fakeBox.on("click", null).style("display", "none");
+      }).style("display", "block");
+      allArrows
+        .transition()
+        .style("stroke-width", SELECTED_STROKE_WIDTH);
+    }
+
     return () => {
-      if (tooltipDiv.attr("show") === "true") {
+      if ((d3.event as MouseEvent).altKey) {
+        selectWholeTraceOnAltClick();
+      } else if (tooltipDiv.attr("show") === "true") {
         hide();
       } else {
         show();
