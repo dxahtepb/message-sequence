@@ -17,9 +17,23 @@ div.settings {
   text-align: left;
   padding: 4px;
   font: 14px sans-serif;
-  background: lightsteelblue;
+  background: rgba(176, 196, 222, 0.9);
   border: 0;
-  border-radius: 6px;
+  box-shadow: 4px 4px 14px 1px;
+  border-radius: 8px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+div.help-container {
+  position: absolute;
+  text-align: left;
+  padding: 4px;
+  font: 14px sans-serif;
+  background: rgba(176, 196, 222, 0.9);
+  border: 0;
+  box-shadow: 4px 4px 14px 1px;
+  border-radius: 8px;
   opacity: 0;
   pointer-events: none;
 }

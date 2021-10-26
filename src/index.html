@@ -17,12 +17,13 @@
       <button id="clear-button">Clear</button>
       <button id="select-file-button">Select file</button>
       <input id="file-selector" type="file" style="display: none;" />
+      <button id="toggle-help-button">Show help</button>
     </div>
 
     <div
       id="settings"
       class="settings"
-      style="left: 60px; top: 45px"
+      style="top: 45px"
       show="false"
     >
       <div>
@@ -57,6 +58,17 @@
         <button id="button-apply-settings" type="submit">Save</button>
       </div>
     </div>
+
+    <div
+      id="help-container"
+      class="help-container"
+      show="false"
+    >
+      Click on an arrow or a message label to see the raw trace object.
+      <br/>
+      Alt/⌥+click on the arrow to select all trace's arrows.
+    </div>
+
     <div id="container"></div>
   </body>
 </html>

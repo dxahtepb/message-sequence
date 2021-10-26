@@ -22,6 +22,7 @@ import {arrowColoredMarkerClosure, makeArrowLine} from "./ts/Svg/MessageArrow";
 import {drawTimestamp} from "./ts/Svg/Timestamp";
 import {UpdateEvent} from "./ts/Events/Update";
 import {initTraceSelectors} from "./ts/TraceSelector";
+import {initHelpButton} from "./ts/Help";
 
 console.log(d3.version);
 
@@ -243,6 +244,7 @@ function showError(error: any) {
 function main() {
   applyStickyScrollForClass(window, "sticky-trace-header");
   initTraceSelectors(document);
+  initHelpButton(document);
   settings.apply();
   window.dispatchEvent(new UpdateEvent(settings));
 }
