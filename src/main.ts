@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import {createTooltipClosure} from "./ts/Tooltip";
+import {bindLineOnClick as createLineClickHandlerFactory} from "./ts/Tooltip";
 import {MessageData} from "./ts/Types/MessageData";
 import {
   CLASS_WIDTH,
@@ -148,7 +148,7 @@ function processData(data: Array<MessageData>) {
   });
 
   // Append div with tooltip
-  const showTooltipClosure = createTooltipClosure();
+  const lineClickHandlerFactory = createLineClickHandlerFactory();
 
   // Draw message arrows
   const colorSelector = arrowColorSelector(settings, data);
@@ -170,7 +170,7 @@ function processData(data: Array<MessageData>) {
       .style("stroke", "rgba(0,0,0,0)")
       .style("cursor", "pointer")
       .style("stroke-width", "5px");
-    clickPath.on("click", showTooltipClosure(m, path));
+    clickPath.on("click", lineClickHandlerFactory(m, path));
     if (m.payloadType === RESPONSE_TYPE) {
       path.style("stroke-dasharray", "5, 3");
     }
@@ -185,7 +185,7 @@ function processData(data: Array<MessageData>) {
       .style("font-size", "13px")
       .style("cursor", "pointer")
       .text(() => m.label)
-      .on("click", showTooltipClosure(m, path));
+      .on("click", lineClickHandlerFactory(m, path));
   });
 
   // Draw message timestamps
