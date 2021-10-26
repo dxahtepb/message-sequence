@@ -72,6 +72,3 @@ document.querySelector<HTMLButtonElement>("#button-apply-settings")
     settings.apply();
     window.dispatchEvent(new UpdateEvent(settings))
   });
-
-document.getElementById("select-file-button")
-  ?.addEventListener("click", () => document.getElementById('file-selector')?.click());

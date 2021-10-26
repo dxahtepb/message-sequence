@@ -22,4 +22,7 @@ export function initTraceSelectors(document: Document) {
         (e.target as HTMLInputElement).value = '';
       }
     });
+
+  document.getElementById("select-file-button")
+    ?.addEventListener("click", () => document.getElementById('file-selector')?.click());
 }
